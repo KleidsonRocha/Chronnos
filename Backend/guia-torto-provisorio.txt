@@ -1,0 +1,16 @@
+git remote add origin https://github.com/KleidsonRocha/Chronnos.git
+
+instalar o node
+
+
+node install mysql
+
+node install express
+
+
+para rodar o servidor:
+npm server.js
+
+endpoints http criados:
+
+http://localhost:3000/adicionarUsuario
