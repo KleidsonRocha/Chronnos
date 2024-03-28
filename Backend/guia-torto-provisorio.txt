@@ -1,5 +1,13 @@
 git remote add origin https://github.com/KleidsonRocha/Chronnos.git
 
+git branch -M main (main define em que arvore voce comita) 
+
+git add . 
+
+git commit -m "Decrição do que voce fez"
+
+git push -u origin main
+
 instalar o node
 
 
