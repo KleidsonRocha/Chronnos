@@ -59,10 +59,11 @@ router.get('/listarCursosDoUsuario', (req, res) => {
       return;
     }
     // Retorna os cursos do usuário como resposta
-    const cursos = results[0].cursos;
+    const cursos = JSON.parse(results[0].cursos); // Convertendo para objeto JavaScript
     res.json(cursos);
   });
 });
+
 
 
 // Exporte o roteador

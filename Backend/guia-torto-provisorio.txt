@@ -12,8 +12,8 @@ instalar o node
 
 
 node install mysql
-
 node install express
+npm install cors
 
 
 para rodar o servidor:
