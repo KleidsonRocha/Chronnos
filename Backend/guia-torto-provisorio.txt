@@ -17,8 +17,12 @@ node install express
 
 
 para rodar o servidor:
-npm server.js
+node server.js | npm start
 
 endpoints http criados:
 
-http://localhost:3000/adicionarUsuario
+Para adicionar um usuário: 
+http://localhost:3000/usuarios/adicionarUsuario?nome=NomeUsuario&email=email@example.com&senha=senha123
+Para listar os cursos de um usuário com o ID 1: 
+http://localhost:3000/usuarios/listarCursosDoUsuario?usuario_id=1
+
