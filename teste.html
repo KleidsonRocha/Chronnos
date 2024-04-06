@@ -29,6 +29,7 @@
         const cursos = data; // Os dados retornados já são um array de objetos JSON
 
         const cursosHTML = cursos.map(curso => {
+
           return `
         <div>
           <h2>${curso.NOME}</h2>
@@ -37,10 +38,10 @@
           <p><strong>Valor:</strong> ${curso.VALOR}</p>
           <p><strong>Duração:</strong> ${curso.DURACAO}</p>
           <p><strong>Data de Início:</strong> ${curso.DATA_INI}</p>
-          <p><strong>Data de Término:</strong> ${curso.DATA_FINI}</p>
+          <p><strong>Data de Término:</strong> ${curso.DATA_FINI}</p> 
           <p><strong>Modalidade:</strong> ${curso.MODALIDADE}</p>
           <p><strong>Anotações:</strong> ${curso.ANOTACOES}</p>
-          <p><strong>Arquivo:</strong> ${curso.ARQUIVO}</p>
+          <img src=${curso.ARQUIVO}>
         </div>
       `;
         }).join('');
@@ -48,12 +49,12 @@
         // Insere os cursos na página
         cursosContainer.innerHTML = cursosHTML;
 
-       
+
       })
       .catch(error => {
         console.error('Erro:', error);
         // Trate o erro, exiba uma mensagem de erro na interface do usuário, etc.
-    });
+      });
   </script>
 </body>
 

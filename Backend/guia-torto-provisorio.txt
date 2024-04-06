@@ -10,10 +10,14 @@ git push -u origin main
 
 instalar o node
 
+No banco : ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';
+
 
 node install mysql
 node install express
 npm install cors
+
+
 
 
 para rodar o servidor:
@@ -26,3 +30,14 @@ http://localhost:3000/usuarios/adicionarUsuario?nome=NomeUsuario&email=email@exa
 Para listar os cursos de um usuário com o ID 1: 
 http://localhost:3000/usuarios/listarCursosDoUsuario?usuario_id=1
 
+
+use pi_3;
+
+SELECT  adicionarUsuario("Kleidson","Kleidsonmr@gmail.com" ,"123");
+-- INSERT INTO usuario (NOME, EMAIL, SENHA) VALUES (nome, email, senha);
+
+SELECT adicionarArea(11, "Ciencias da Computaria", "LightBlue");
+-- INSERT INTO area (ID_USUARIO, NOME_AREA, COR) VALUES (idUsuario, nomeArea, cor);
+
+SELECT adicionarmateria(9, "Front-End", 11);
+--  INSERT INTO materia (ATERIA_AREA, NOME_AREA, MATERIA_USUARIO) VALUES (IdArea, nomeArea, materiaUsuario);
