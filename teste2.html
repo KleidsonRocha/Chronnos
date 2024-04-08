@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Curso</title>
+</head>
+<body>
+  <h1>Editar Curso</h1>
+  <div id="curso-form">
+    <!-- Formulário preenchido com os dados do curso -->
+  </div>
+  <button id="editar-curso-btn">Salvar Alterações</button>
+
+  <script>
+    function preencherFormulario(curso) {
+      const formulario = `
+        <form id="curso-formulario">
+          <input type="hidden" id="cursoId" name="cursoId" value="${curso.ID_CURSO}">
+          <label for="nome">Nome:</label>
+          <input type="text" id="nome" name="nome" value="${curso.NOME}"><br>
+          <label for="modalidade">Modalidade:</label>
+          <input type="text" id="modalidade" name="modalidade" value="${curso.MODALIDADE}"><br>
+          <label for="anotacoes">Anotações:</label>
+          <textarea id="anotacoes" name="anotacoes">${curso.ANOTACOES}</textarea><br>
+          <label for="valor">Valor:</label>
+          <input type="number" id="valor" name="valor" value="${curso.VALOR}"><br>
+          <label for="Area">Area:</label>
+          <input type="text" id="Area" value="${curso.CURSO_ID_AREA}"><br>
+          <label for="Area">Pagamento:</label>
+          <input type="text" id="Pagamento" value="${curso.CURSO_ID_PAGAMENTO}"><br>
+          <label for="Area">Materia:</label>
+          <input type="text" id="Materia" value="${curso.CURSO_ID_MATERIA}"><br>
+          <label for="data_ini">Data de Início:</label>
+          <input type="date" id="data_ini" name="data_ini" value="${curso.DATA_INI}"><br>
+          <label for="data_fini">Data de Término:</label>
+          <input type="date" id="data_fini" name="data_fini" value="${curso.DATA_FINI}"><br>
+          <label for="duracao">Duração:</label>
+          <input type="text" id="duracao" name="duracao" value="${curso.DURACAO}"><br>
+          <label for="media">Média:</label>
+          <input type="number" id="media" name="media" value="${curso.MEDIA}"><br>
+          <label for="imagem">Imagem:</label>
+          <input type="file" id="imagem" name="imagem"><br>
+        </form>
+      `;
+      document.getElementById('curso-form').innerHTML = formulario;
+    }
+
+    function salvarAlteracoes() {
+      const formData = new FormData();
+      formData.append('cursoId', document.getElementById('cursoId').value);
+      formData.append('nome', document.getElementById('nome').value);
+      formData.append('modalidade', document.getElementById('modalidade').value);
+      formData.append('anotacoes', document.getElementById('anotacoes').value);
+      formData.append('valor', document.getElementById('valor').value);
+      formData.append('cursoIdArea', document.getElementById('Area').value);
+      formData.append('cursoIdMateria', document.getElementById('Materia').value);
+      formData.append('cursoIdPagamento', document.getElementById('Pagamento').value);
+      formData.append('dataIni', document.getElementById('data_ini').value);
+      formData.append('dataFini', document.getElementById('data_fini').value);
+      formData.append('duracao', document.getElementById('duracao').value);
+      formData.append('media', document.getElementById('media').value);
+
+      // Obter o arquivo de imagem
+      const imagemInput = document.getElementById('imagem');
+      if (imagemInput.files.length > 0) {
+        formData.append('imagem', imagemInput.files[0]);
+      }
+
+      // Fazer a solicitação POST
+      fetch('http://localhost:3000/curso/editarCurso', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao editar o curso');
+        }
+        alert('Curso atualizado com sucesso!');
+        window.location.reload(); // Recarregar a página após a atualização
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+      });
+    }
+
+
+    document.getElementById('editar-curso-btn').addEventListener('click', salvarAlteracoes);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('http://localhost:3000/curso/listarCursoEspecifico?cursoId=11')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao obter os detalhes do curso');
+          }
+          return response.json();
+        })
+        .then(curso => {
+          preencherFormulario(curso);
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+        });
+    });
+
+  </script>
+</body>
+</html>

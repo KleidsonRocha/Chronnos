@@ -11,11 +11,11 @@
   <h1>Lista de Cursos</h1>
   <h1>Cursos do Usuário</h1>
   <div id="cursos-container">
-    <!-- Aqui os cursos serão inseridos dinamicamente -->
+  <img src="./Backend/Images/comp.jpeg"
   </div>
 
   <script>
-    fetch(`http://localhost:3000/usuarios/listarCursosDoUsuario?usuario_id=1`)
+    fetch(`http://localhost:3000/usuarios/listarCursosDoUsuario?usuario_id=11`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Erro ao obter os cursos do usuário');
@@ -34,6 +34,8 @@
         <div>
           <h2>${curso.NOME}</h2>
           <p><strong>ID do Curso:</strong> ${curso.ID_CURSO}</p>
+          <p><strong>Area</strong> ${curso.AREA}</p>
+          <p><strong>materia</strong> ${curso.MATERIA}</p>
           <p><strong>Média:</strong> ${curso.MEDIA}</p>
           <p><strong>Valor:</strong> ${curso.VALOR}</p>
           <p><strong>Duração:</strong> ${curso.DURACAO}</p>
@@ -41,7 +43,7 @@
           <p><strong>Data de Término:</strong> ${curso.DATA_FINI}</p> 
           <p><strong>Modalidade:</strong> ${curso.MODALIDADE}</p>
           <p><strong>Anotações:</strong> ${curso.ANOTACOES}</p>
-          <img src=${curso.ARQUIVO}>
+          <img src=./Backend/Images/${curso.ARQUIVO}>
         </div>
       `;
         }).join('');

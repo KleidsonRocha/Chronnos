@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const usuariosRoutes = require('./usuarios');
+const cursoRoutes = require('./curso');
+
 
 const app = express();
 
@@ -9,6 +11,8 @@ app.use(cors());
 
 //Roteador para lidar com as rotas relacionadas aos usuários
 app.use('/usuarios', usuariosRoutes);
+
+app.use('/curso', cursoRoutes);
 
 
 // Inicializar o servidor

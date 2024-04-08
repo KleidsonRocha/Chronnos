@@ -1,8 +1,7 @@
 const express = require('express');
-const mysql = require('mysql');
 const router = express.Router();
-const connection = require('./connection')
-
+const upload = require('./multer')
+const connection = require('./connection');
 
 router.get('/adicionarUsuario', (req, res) => {
   const { nome, email, senha } = req.query;
@@ -63,6 +62,7 @@ router.get('/listarCursosDoUsuario', (req, res) => {
     res.json(cursos);
   });
 });
+
 
 
 

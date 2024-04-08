@@ -1,24 +1,22 @@
+** Adicionar a origin do projeto e dar pull/commitar no projeto **
+
+* Comitar no projeto *
 git remote add origin https://github.com/KleidsonRocha/Chronnos.git
+git branch -M main 
 
-git branch -M main (main define em que arvore voce comita) 
+* Pull necessário antes do commit *
+git pull
 
-git add . 
 
-git commit -m "Decrição do que voce fez"
-
-git push -u origin main
-
+** Instalação dos requisitos do projeto **
 instalar o node
 
-No banco : ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';
-
-
+na pasta do projeto
+npm install
 node install mysql
 node install express
 npm install cors
-
-
-
+npm install multer
 
 para rodar o servidor:
 node server.js | npm start
@@ -30,7 +28,6 @@ http://localhost:3000/usuarios/adicionarUsuario?nome=NomeUsuario&email=email@exa
 Para listar os cursos de um usuário com o ID 1: 
 http://localhost:3000/usuarios/listarCursosDoUsuario?usuario_id=1
 
-
 use pi_3;
 
 SELECT  adicionarUsuario("Kleidson","Kleidsonmr@gmail.com" ,"123");
@@ -41,3 +38,6 @@ SELECT adicionarArea(11, "Ciencias da Computaria", "LightBlue");
 
 SELECT adicionarmateria(9, "Front-End", 11);
 --  INSERT INTO materia (ATERIA_AREA, NOME_AREA, MATERIA_USUARIO) VALUES (IdArea, nomeArea, materiaUsuario);
+
+SELECT adicionarCurso("PHP", "EAD", "Curso legal", 250, 9, 4, 3, '2024-04-01', '2024-04-08', 15, 9.5, 1, NULL);
+-- INSERT INTO curso (NOME, MODALIDADE, ANOTACOES, VALOR, CURSO_ID_AREA, CURSO_ID_MATERIA, CURSO_ID_PAGAMENTO, DATA_INI, DATA_FINI, DURACAO, MEDIA, ARQUIVO)
