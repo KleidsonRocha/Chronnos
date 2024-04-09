@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar Curso</title>
 </head>
+
 <body>
   <h1>Editar Curso</h1>
   <div id="curso-form">
@@ -26,11 +28,11 @@
           <label for="valor">Valor:</label>
           <input type="number" id="valor" name="valor" value="${curso.VALOR}"><br>
           <label for="Area">Area:</label>
-          <input type="text" id="Area" value="${curso.CURSO_ID_AREA}"><br>
+          <input type="text" id="area" value="${curso.AREA}"><br>
           <label for="Area">Pagamento:</label>
-          <input type="text" id="Pagamento" value="${curso.CURSO_ID_PAGAMENTO}"><br>
+          <input type="text" id="pagamento" value="${curso.PAGAMENTO}"><br>
           <label for="Area">Materia:</label>
-          <input type="text" id="Materia" value="${curso.CURSO_ID_MATERIA}"><br>
+          <input type="text" id="materia" value="${curso.MATERIA}"><br>
           <label for="data_ini">Data de Início:</label>
           <input type="date" id="data_ini" name="data_ini" value="${curso.DATA_INI}"><br>
           <label for="data_fini">Data de Término:</label>
@@ -53,36 +55,31 @@
       formData.append('modalidade', document.getElementById('modalidade').value);
       formData.append('anotacoes', document.getElementById('anotacoes').value);
       formData.append('valor', document.getElementById('valor').value);
-      formData.append('cursoIdArea', document.getElementById('Area').value);
-      formData.append('cursoIdMateria', document.getElementById('Materia').value);
-      formData.append('cursoIdPagamento', document.getElementById('Pagamento').value);
+      formData.append('area', document.getElementById('area').value);
+      formData.append('pagamento', document.getElementById('pagamento').value);
+      formData.append('materia', document.getElementById('materia').value);
       formData.append('dataIni', document.getElementById('data_ini').value);
       formData.append('dataFini', document.getElementById('data_fini').value);
       formData.append('duracao', document.getElementById('duracao').value);
       formData.append('media', document.getElementById('media').value);
+      formData.append('imagem', document.getElementById('imagem').value);
 
-      // Obter o arquivo de imagem
-      const imagemInput = document.getElementById('imagem');
-      if (imagemInput.files.length > 0) {
-        formData.append('imagem', imagemInput.files[0]);
-      }
 
-      // Fazer a solicitação POST
+      // Use fetch ou XMLHttpRequest para enviar os dados para o backend
       fetch('http://localhost:3000/curso/editarCurso', {
-        method: 'POST',
-        body: formData
+        method: 'POST', // ou 'PUT'
+        body: formData,
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao editar o curso');
-        }
-        alert('Curso atualizado com sucesso!');
-        window.location.reload(); // Recarregar a página após a atualização
-      })
-      .catch(error => {
-        console.error('Erro:', error);
-      });
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          // Faça qualquer manipulação adicional necessária após o envio bem-sucedido
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
     }
+
 
 
     document.getElementById('editar-curso-btn').addEventListener('click', salvarAlteracoes);
@@ -105,4 +102,5 @@
 
   </script>
 </body>
+
 </html>

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer'); // Importe o multer corretamente
 
-// Configure o multer para definir a pasta de destino para o upload de arquivos
 const upload = multer({ dest: './Images' });
 
 const connection = require('./connection');
@@ -32,56 +31,54 @@ router.get('/listarCursoEspecifico', (req, res) => {
   });
 });
 
+router.post('/editarCurso', upload.single('imagem'), (req, res) => {
+  const { cursoId, nome, modalidade, anotacoes, valor, area, pagamento, materia, dataIni, dataFini, duracao, media, imagem} = req.body;
 
-router.get('/editarCurso', upload.single('imagem'), (req, res) => {
-  const { cursoId, nome, modalidade, anotacoes, valor, cursoIdArea, cursoIdMateria, cursoIdPagamento, dataIni, dataFini, duracao, media } = req.query;
+    // Verifica se algum dos dados está vazio
+    if (!cursoId || !nome || !modalidade || !valor || !area || !pagamento || !materia || !dataIni || !dataFini || !duracao) {
+      res.status(400).json({ error: 'Todos os campos devem ser preenchidos' });
+      return;
+    }
+    if(!media) {
+      media = 'NULL';
+    }
 
-  // Verificar se todos os parâmetros necessários foram fornecidos
-  const parametrosFaltantes = [];
-  if (!cursoId) parametrosFaltantes.push('cursoId');
-  if (!nome) parametrosFaltantes.push('nome');
-  if (!modalidade) parametrosFaltantes.push('modalidade');
-  if (!anotacoes) parametrosFaltantes.push('anotacoes');
-  if (!valor) parametrosFaltantes.push('valor');
-  if (!cursoIdArea) parametrosFaltantes.push('cursoIdArea');
-  if (!cursoIdMateria) parametrosFaltantes.push('cursoIdMateria');
-  if (!cursoIdPagamento) parametrosFaltantes.push('cursoIdPagamento');
-  if (!dataIni) parametrosFaltantes.push('dataIni');
-  if (!dataFini) parametrosFaltantes.push('dataFini');
-  if (!duracao) parametrosFaltantes.push('duracao');
-  if (!media) parametrosFaltantes.push('media');
 
-  // Se houver parâmetros faltando, retorna um erro
-  if (parametrosFaltantes.length > 0) {
-    res.status(400).json({ error: `Os seguintes parâmetros são obrigatórios: ${parametrosFaltantes.join(', ')}` });
-    return;
-  }
+  const query = `
+    SELECT editarCurso(
+      ${cursoId},
+      "${nome}",
+      '${modalidade}',
+      '${anotacoes}',
+      ${valor},
+      ${area},
+      ${materia},
+      ${pagamento},
+      '${dataIni}',
+      '${dataFini}',
+     '${duracao}',
+      ${media},
+      '${imagem}'
+    );
+  `;
 
-  let imagemNome = ''; 
-  if (req.file) {
-    imagemNome = req.file.filename; 
-    // Faça o que for necessário com o nome da imagem, como salvá-lo no banco de dados
-  }
+  console.log(query);
 
- 
-  const query = `CALL editarCurso(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-
-  // Executar a consulta SQL
-  connection.query(query, [cursoId, nome, modalidade, anotacoes, valor, cursoIdArea, cursoIdMateria, cursoIdPagamento, dataIni, dataFini, duracao, media, NomeImg], (err, results) => {
-    if (err) {
-      console.error('Erro ao editar curso:', err);
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Erro ao atualizar curso:', error);
       res.status(500).json({ error: 'Erro interno do servidor' });
       return;
     }
-    // Verificar se o curso foi editado com sucesso
-    if (results.affectedRows > 0) {
-      // Retorna o ID do curso editado como resposta
+
+    if (results) {
       res.json({ cursoId: cursoId });
     } else {
-      res.status(404).json({ error: 'Curso não encontrado ou não foi possível editar.' });
+      res.status(404).json({ 'Curso não encontrado ou não foi possível atualizar: ' : cursoId });
     }
   });
 });
+
 
 
 

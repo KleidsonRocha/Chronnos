@@ -17,6 +17,7 @@ node install mysql
 node install express
 npm install cors
 npm install multer
+npm install body-parser
 
 para rodar o servidor:
 node server.js | npm start
