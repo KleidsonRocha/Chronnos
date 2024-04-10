@@ -19,6 +19,7 @@ router.get('/listarCursoEspecifico', (req, res) => {
   // Chama a função do banco de dados para listar o curso específico
   const query = `SELECT listarCursoEspecifico(${cursoId}) AS curso`;
 
+
   connection.query(query, (err, results) => {
     if (err) {
       console.error('Erro ao listar curso específico:', err);
@@ -32,34 +33,17 @@ router.get('/listarCursoEspecifico', (req, res) => {
 });
 
 router.post('/editarCurso', upload.single('imagem'), (req, res) => {
-  const { cursoId, nome, modalidade, anotacoes, valor, area, pagamento, materia, dataIni, dataFini, duracao, media, imagem} = req.body;
+  const { cursoId, nome, modalidade, anotacoes, valor, area, pagamento, materia, dataIni, dataFini, duracao, media} = req.body;
+  const imagem = req.file.filename;
 
-    // Verifica se algum dos dados está vazio
-    if (!cursoId || !nome || !modalidade || !valor || !area || !pagamento || !materia || !dataIni || !dataFini || !duracao) {
-      res.status(400).json({ error: 'Todos os campos devem ser preenchidos' });
-      return;
-    }
-    if(!media) {
-      media = 'NULL';
-    }
-
+  // Verifica se algum dos dados está vazio
+  if (!cursoId || !nome || !modalidade || !valor || !area || !pagamento || !materia || !dataIni || !dataFini || !duracao || !imagem) {
+    res.status(400).json({ error: 'Todos os campos devem ser preenchidos' });
+    return;
+  }
 
   const query = `
-    SELECT editarCurso(
-      ${cursoId},
-      "${nome}",
-      '${modalidade}',
-      '${anotacoes}',
-      ${valor},
-      ${area},
-      ${materia},
-      ${pagamento},
-      '${dataIni}',
-      '${dataFini}',
-     '${duracao}',
-      ${media},
-      '${imagem}'
-    );
+    SELECT editarCurso(${cursoId}, "${nome}", '${modalidade}', '${anotacoes}', ${valor}, ${area}, ${materia}, ${pagamento}, '${dataIni}', '${dataFini}', '${duracao}', ${media}, '${imagem}');
   `;
 
   console.log(query);
@@ -67,7 +51,7 @@ router.post('/editarCurso', upload.single('imagem'), (req, res) => {
   connection.query(query, (error, results) => {
     if (error) {
       console.error('Erro ao atualizar curso:', error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).json({ error: 'Erro interno do servidor' + error});
       return;
     }
 
@@ -78,6 +62,7 @@ router.post('/editarCurso', upload.single('imagem'), (req, res) => {
     }
   });
 });
+
 
 
 
