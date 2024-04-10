@@ -9,6 +9,7 @@
 /__pycache__
 /venv
 /chats_people
+/Backend/Images/*
 data.pth
 # Packages #
 ############

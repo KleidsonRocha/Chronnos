@@ -70,6 +70,7 @@
 
 
       //Consegui fazer a verificação de parametros vazios e preencher com algo que a call do mysql aceite
+      //Excluir o arquivo caso tenha ja algo atrelado no curso
       if(imagemFile == null) {
         console.log("é vazio a imagem");
         formData.append('imagem', 'NULL');
