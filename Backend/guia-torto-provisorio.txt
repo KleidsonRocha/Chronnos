@@ -24,10 +24,6 @@ node server.js | npm start
 
 endpoints http criados:
 
-Para adicionar um usuário: 
-http://localhost:3000/usuarios/adicionarUsuario?nome=NomeUsuario&email=email@example.com&senha=senha123
-Para listar os cursos de um usuário com o ID 1: 
-http://localhost:3000/usuarios/listarCursosDoUsuario?usuario_id=1
 
 use pi_3;
 
@@ -42,3 +38,4 @@ SELECT adicionarmateria(9, "Front-End", 11);
 
 SELECT adicionarCurso("PHP", "EAD", "Curso legal", 250, 9, 4, 3, '2024-04-01', '2024-04-08', 15, 9.5, 1, NULL);
 -- INSERT INTO curso (NOME, MODALIDADE, ANOTACOES, VALOR, CURSO_ID_AREA, CURSO_ID_MATERIA, CURSO_ID_PAGAMENTO, DATA_INI, DATA_FINI, DURACAO, MEDIA, ARQUIVO)
+SELECT editarCurso(11, "computaria", 'EAD', 'Curso bau', 200, 9, 4, 3, '2024-04-01', '2024-04-05', '00:25:00.000000', 7, 'null');
