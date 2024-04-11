@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('./multer')
+const upload = require('./multer');
 const connection = require('./connection');
 
 router.get('/adicionarUsuario', (req, res) => {
@@ -62,8 +62,6 @@ router.get('/listarCursosDoUsuario', (req, res) => {
     res.json(cursos);
   });
 });
-
-
 
 
 // Exporte o roteador

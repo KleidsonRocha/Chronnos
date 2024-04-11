@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer'); // Importe o multer corretamente
+const multer = require('multer');
 
 const upload = multer({ dest: './Images' });
 
@@ -34,10 +34,16 @@ router.get('/listarCursoEspecifico', (req, res) => {
 
 router.post('/editarCurso', upload.single('imagem'), (req, res) => {
   const { cursoId, nome, modalidade, anotacoes, valor, area, pagamento, materia, dataIni, dataFini, duracao, media} = req.body;
-  const imagem = req.file.filename;
+  let imagem;
+
+  if(req.file == undefined) {
+    imagem = "kleidson";
+  } else {
+    imagem = req.file.filename;
+  }
 
   // Verifica se algum dos dados está vazio
-  if (!cursoId || !nome || !modalidade || !valor || !area || !pagamento || !materia || !dataIni || !dataFini || !duracao || !imagem) {
+  if (!cursoId || !nome || !modalidade || !valor || !area || !pagamento || !materia || !dataIni || !dataFini || !duracao) {
     res.status(400).json({ error: 'Todos os campos devem ser preenchidos' });
     return;
   }
@@ -62,12 +68,5 @@ router.post('/editarCurso', upload.single('imagem'), (req, res) => {
     }
   });
 });
-
-
-
-
-
-
-
 
 module.exports = router;
