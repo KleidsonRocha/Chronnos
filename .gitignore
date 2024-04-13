@@ -10,6 +10,7 @@
 /venv
 /chats_people
 /Backend/Images/*
+/frontend/node_modules
 data.pth
 # Packages #
 ############

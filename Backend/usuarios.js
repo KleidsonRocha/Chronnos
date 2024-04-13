@@ -63,6 +63,33 @@ router.get('/listarCursosDoUsuario', (req, res) => {
   });
 });
 
+router.post('/adicionarUsuario', (req, res) => {
+  const { nome, email, senha } = req.body;
+
+  // Verifica se todos os campos obrigatórios foram fornecidos
+  if (!nome || !email || !senha) {
+    res.status(400).send('Todos os campos são obrigatórios.');
+    return;
+  }
+
+  // Chama a função do banco de dados para adicionar o usuário
+  const query = `SELECT adicionarUsuario('${nome}', '${email}', '${senha}') AS novo_id`;
+
+  console.log(query);
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao adicionar usuário:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+
+    // Retorna o ID do usuário recém-cadastrado como resposta
+    const novoId = results[0].novo_id;
+    res.json({ novoId });
+  });
+});
+
 
 // Exporte o roteador
 module.exports = router;
