@@ -90,6 +90,39 @@ router.post('/adicionarUsuario', (req, res) => {
   });
 });
 
+router.get('/obterUsuario', (req, res) => {
+  const { usuario_email, usuario_senha } = req.query;
+
+  // Verifica se os parâmetros necessários foram fornecidos
+  if (!usuario_email || !usuario_senha) {
+    res.status(400).json({ error: 'O email e a senha são obrigatórios.' });
+    return;
+  }
+
+  // Chama a função do banco de dados para obter o ID do usuário
+  const query = `SELECT obterIdUsuario('${usuario_email}', '${usuario_senha}')`;
+
+  console.log(query);
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao obter ID do usuário:', err);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+      return;
+    }
+
+    const usuarioJSON = JSON.parse(Object.values(results[0])[0]);
+
+    console.log(usuarioJSON);
+    if (usuarioJSON.error) {
+      res.status(404).json({ error: usuarioJSON.error });
+      return;
+    }
+    res.json(usuarioJSON);
+  });
+});
+
+
 
 // Exporte o roteador
 module.exports = router;
