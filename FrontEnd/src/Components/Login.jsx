@@ -39,6 +39,11 @@ function Login() {
         <input type="password" id="senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
       </div>
       <button onClick={handleLogin}>Login</button>
+      <div>
+        <h1>Não possui conta?</h1>
+        <a href="/Cadastro"><button>Cadastrar</button></a>
+
+      </div>
     </div>
   );
 }

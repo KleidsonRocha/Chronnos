@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 interface Curso {
   ID_CURSO: number;
   NOME: string;
@@ -26,7 +25,7 @@ const CursosUsuario = () => {
         const [cookieName, cookieValue] = cookie.split('=');
         if (cookieName === 'usuario') {
           const userData = JSON.parse(decodeURIComponent(cookieValue));
-          return userData.ID_USUARIO; // Supondo que o ID do usuário esteja presente nos dados do cookie
+          return userData.ID_USUARIO; 
         }
       }
       return null;
@@ -36,6 +35,7 @@ const CursosUsuario = () => {
       try {
         const usuarioId = getUsuarioIdFromCookie();
         if (!usuarioId) {
+          window.location.href = '/Login';
           throw new Error('ID do usuário não encontrado no cookie');
         }
 
@@ -57,6 +57,8 @@ const CursosUsuario = () => {
   return (
     <div>
       <h1>Cursos do Usuário</h1>
+      <a href="/Login"><button>Login</button></a>
+      <a href="/Cadastro"><button>Cadastro</button></a>
       {cursos.map(curso => (
         <div key={curso.ID_CURSO}>
           <h2>{curso.NOME}</h2>
