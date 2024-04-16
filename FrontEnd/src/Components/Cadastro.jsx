@@ -9,6 +9,7 @@ function CadastroUsuario() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -29,11 +30,17 @@ function CadastroUsuario() {
       .then(response => response.json())
       .then(data => {
         console.log('Usuário cadastrado:', data);
-        // Faça algo após o sucesso, como redirecionar ou exibir uma mensagem
+        setShowPopup(true); // Exibe o pop-up após o cadastro
       })
       .catch((error) => {
         console.error('Erro:', error);
       });
+  };
+
+  // Função para fechar o pop-up e redirecionar para a tela de login
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    window.location.href = '/Login';
   };
 
   return (
@@ -47,6 +54,16 @@ function CadastroUsuario() {
         <ChronnosButton type="submit" className={"button-default"}>Criar conta</ChronnosButton>
       </form>
       <p className="txt-footer">Já possui uma conta? Faça o Login apertando <a href="/Login">aqui</a>.</p>
+      
+      {/* Pop-up */}
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <p>Usuário cadastrado com sucesso!</p>
+            <button onClick={handleClosePopup}>OK</button>
+          </div>
+        </div>
+      )}
     </MainMobile>
   );
 }
