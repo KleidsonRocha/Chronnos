@@ -46,6 +46,7 @@ function CadastroUsuario() {
         <ChronnosInput type="password" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} required className="input-default" /><br />
         <ChronnosButton type="submit" className={"button-default"}>Criar conta</ChronnosButton>
       </form>
+      <p className="txt-footer">Já possui uma conta? Faça o Login apertando <a href="/Login">aqui</a>.</p>
     </MainMobile>
   );
 }
