@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ChronnosInput from './inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
 import MainMobile from './layouts/MainMobile/MainMobile';
-import '../pages/LoginCadastro/styles.css'
+import '../pages/LoginCadastro/styles.css';
 import '../Assets/utility.css';
 
 function CadastroUsuario() {
