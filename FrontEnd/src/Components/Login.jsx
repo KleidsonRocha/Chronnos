@@ -15,14 +15,13 @@ function Login() {
       if (userData.error) {
         setError(userData.error);
       } else {
-        // Armazene os dados do usuário em um cookie de sessão
+        // Armazena os dados do usuário em um cookie de sessão
         document.cookie = `usuario=${JSON.stringify(userData)}`;
-        // Redirecione para a página inicial
+        // Redireciona para a página inicial
         window.location.href = '/';
       }
     } catch (error) {
-      console.error('Erro ao fazer login:', error);
-      setError('Erro ao fazer login. Por favor, tente novamente.');
+      setError('Usuário ou Senha inválidos! Por Favor tente novamente.');
     }
   };
 
@@ -42,7 +41,6 @@ function Login() {
       <div>
         <h1>Não possui conta?</h1>
         <a href="/Cadastro"><button>Cadastrar</button></a>
-
       </div>
     </div>
   );
