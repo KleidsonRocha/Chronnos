@@ -1,0 +1,64 @@
+.button-default {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: #4400FF;
+
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-style: bold;
+    font-weight: 700;
+    text-align: center;
+    justify-content: center;
+}
+
+.button-default:active{
+    font-size: 1.1rem;
+}
+
+.button-insatisfaz{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: #808080;
+
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-style: bold;
+    font-weight: 700;
+    text-align: center;
+    justify-content: center;
+}
+
+.button-perigo{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: #ff0000;
+
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-style: bold;
+    font-weight: 700;
+    text-align: center;
+    justify-content: center;
+}
+
+.button-perigo:active{
+    font-size: 1.5rem;
+}

@@ -1,14 +1,24 @@
+import React, { useState } from 'react';
+import ChronnosInput from './inputs-buttons/ChronnosInput/ChronnosInput';
+import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
+import MainMobile from './layouts/MainMobile/MainMobile';
+import '../pages/LoginCadastro/styles.css'
+import '../Assets/utility.css';
+
 function CadastroUsuario() {
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+
     const formData = {
-      nome: document.getElementById('nome').value,
-      email: document.getElementById('email').value,
-      senha: document.getElementById('senha').value
+      nome: nome,
+      email: email,
+      senha: senha
     };
-  
+
     fetch('http://localhost:3000/usuarios/adicionarUsuario', {
       method: 'POST',
       headers: {
@@ -27,15 +37,16 @@ function CadastroUsuario() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="nome">Nome:</label>
-      <input type="text" id="nome"  required /><br />
-      <label htmlFor="email">Email:</label>
-      <input type="email" id="email"  required /><br />
-      <label htmlFor="senha">Senha:</label>
-      <input type="password" id="senha" required /><br />
-      <button type="submit">Cadastrar</button>
-    </form>
+    <MainMobile className="main-mob-cent">
+      <p className="txt-instrucao">CRIAÇÃO DA CONTA</p>
+      <h1 className="txt-titulo">Insira seus dados</h1>
+      <form onSubmit={handleSubmit}>
+        <ChronnosInput type="text" placeholder="Nome completo" value={nome} onChange={(e) => setNome(e.target.value)} required className="input-default" /><br />
+        <ChronnosInput type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} required className="input-default" /><br />
+        <ChronnosInput type="password" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} required className="input-default" /><br />
+        <ChronnosButton type="submit" className={"button-default"}>Criar conta</ChronnosButton>
+      </form>
+    </MainMobile>
   );
 }
 

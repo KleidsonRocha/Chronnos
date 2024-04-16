@@ -1,0 +1,37 @@
+.txt-titulo {
+    color: #000000;
+    font-size: 2rem;
+    font-style: bold;
+    text-align: center;
+    justify-content: center;
+}
+
+.txt-instrucao {
+    color: #cccccc;
+    font-size: 1rem;
+    font-style: bold;
+    font-weight: 700;
+    text-align: center;
+    justify-content: center;
+}
+
+.txt-footer {
+    color: #000000;
+    font-size: 1rem;
+    font-style: normal;
+    text-align: center;
+    justify-content: center;
+
+    a {
+        text-decoration: underline;
+        color: #000000;
+    }
+}
+
+.txt-error{
+    color: #ff0000;
+    font-size: 1rem;
+    font-style: normal;
+    text-align: center;
+    justify-content: center;
+}
