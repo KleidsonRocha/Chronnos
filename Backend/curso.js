@@ -32,6 +32,76 @@ router.get('/listarCursoEspecifico', (req, res) => {
   });
 });
 
+router.get('/listarAreaEspecifica', (req, res) => {
+  const areaId = req.query.areaId;
+
+  const query = `SELECT listarAreaEspecifica(${areaId}) AS area`;
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao obter área:', err);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+      return;
+    }
+
+    // Obtenha a área como uma string JSON do resultado do banco de dados
+    const areaString = results[0].area;
+
+    try {
+      const areaJSON = JSON.parse(areaString);
+
+      res.json(areaJSON);
+    } catch (error) {
+      console.error('Erro ao fazer parsing do JSON:', error);
+      res.status(500).json({ error: 'Erro interno do servidor ao fazer parsing do JSON' });
+    }
+  });
+});
+
+router.get('/listarMateriaEspecifica', (req, res) => {
+  const materiaId = req.query.materiaId;
+
+  const query = `SELECT listarMateriaEspecifica(${materiaId}) AS materia`;
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao obter área:', err);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+      return;
+    }
+
+    // Obtenha a área como uma string JSON do resultado do banco de dados
+    const materiaString = results[0].materia;
+
+    try {
+      const materiaJSON = JSON.parse(materiaString);
+
+      res.json(materiaJSON);
+    } catch (error) {
+      console.error('Erro ao fazer parsing do JSON:', error);
+      res.status(500).json({ error: 'Erro interno do servidor ao fazer parsing do JSON' });
+    }
+  });
+});
+
+router.get('/listarPagamentoEspecifico', (req, res) => {
+  const pagamentoId = req.query.pagamentoId;
+
+  const query = `SELECT listarPagamentoEspecifico(${pagamentoId}) AS pagamento`;
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao obter área:', err);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+      return;
+    }
+
+    try {
+      res.json(results);
+    } catch (error) {
+      console.error('Erro ao fazer parsing do JSON:', error);
+      res.status(500).json({ error: 'Erro interno do servidor ao fazer parsing do JSON' });
+    }
+  });
+});
+
 router.post('/editarCurso', upload.single('imagem'), (req, res) => {
   const { cursoId, nome, modalidade, anotacoes, valor, area, pagamento, materia, dataIni, dataFini, duracao, media} = req.body;
   let imagem;
@@ -68,5 +138,7 @@ router.post('/editarCurso', upload.single('imagem'), (req, res) => {
     }
   });
 });
+
+
 
 module.exports = router;

@@ -12,10 +12,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Roteador para lidar com as rotas relacionadas aos usuários
+
+
 app.use('/Images', (req, res, next) => {
   res.setHeader('Content-Disposition', 'inline');
   next();
 }, express.static('C:/Users/ere35/Documents/PI_3/Backend/Images'));
+
 
 app.use('/usuarios', usuariosRoutes);
 app.use('/curso', cursoRoutes);
