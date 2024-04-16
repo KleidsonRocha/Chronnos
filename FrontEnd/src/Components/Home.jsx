@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
-interface Curso {
-  ID_CURSO: number;
-  NOME: string;
-  AREA: string;
-  MATERIA: string;
-  MEDIA: number;
-  VALOR: number;
-  DURACAO: string;
-  DATA_INI: string;
-  DATA_FINI: string;
-  MODALIDADE: string;
-  ANOTACOES: string;
-  ARQUIVO: string;
-}
+
+// Definição do objeto Curso
+const Curso = {
+  ID_CURSO: 0,
+  NOME: "",
+  AREA: "",
+  MATERIA: "",
+  MEDIA: 0,
+  VALOR: 0,
+  DURACAO: "",
+  DATA_INI: "",
+  DATA_FINI: "",
+  MODALIDADE: "",
+  ANOTACOES: "",
+  ARQUIVO: ""
+};
 
 const CursosUsuario = () => {
-  const [cursos, setCursos] = useState<Curso[]>([]);
+  const [cursos, setCursos] = useState([]);
 
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
