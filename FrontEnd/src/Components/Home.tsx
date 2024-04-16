@@ -72,7 +72,7 @@ const CursosUsuario = () => {
           <p><strong>Data de Término:</strong> {curso.DATA_FINI}</p>
           <p><strong>Modalidade:</strong> {curso.MODALIDADE}</p>
           <p><strong>Anotações:</strong> {curso.ANOTACOES}</p>
-          <img src={`http://localhost:3000/Images/${curso.ARQUIVO}`} width="100%" height="100%" />
+          <embed src={`http://localhost:3000/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
         </div>
       ))}
     </div>
