@@ -1,0 +1,43 @@
+.dock {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    padding: 1rem 0;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+
+    border-radius: 2rem 2rem 0 0;
+    border-top: solid 1px #ffffff;
+    background-color: hsla(0, 0%, 100%, 0.75);
+    backdrop-filter: blur(1rem);
+}
+
+.dock-button {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 25%;
+    align-items: center;
+
+    border: none;
+    background-color: transparent;
+
+    p {
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 400;
+        text-align: center;
+    }
+}
+
+.dock-icon{
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
