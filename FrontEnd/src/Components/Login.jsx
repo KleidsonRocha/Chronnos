@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChronnosInput from './inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
 import MainMobile from './layouts/MainMobile/MainMobile';
@@ -10,7 +10,16 @@ function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [error, setError] = useState('');
+  const [btnLoginClass, setBtnLoginClass] = useState('');
   const { RotaBanco } = useGlobalContext();
+
+  useEffect(() => {
+    if(email === '' || senha === '') {
+      setBtnLoginClass('button-insatisfaz');
+    } else {
+      setBtnLoginClass('button-default');
+    }    
+  }, [email, senha]);
 
   const handleLogin = async () => {
     try {
@@ -38,7 +47,7 @@ function Login() {
       {error && <p className="txt-error">{error}</p>}
       <ChronnosInput type="email" id="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} className="input-default"></ChronnosInput>
       <ChronnosInput type="password" id="senha" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} className="input-default"></ChronnosInput>
-      <ChronnosButton onClick={handleLogin} className={"button-default"}>Efetuar o Login</ChronnosButton>
+      <ChronnosButton onClick={handleLogin} className={btnLoginClass}>Efetuar o Login</ChronnosButton>
       <p className="txt-footer">Ainda não possui uma conta? Crie a sua apertando <a href="/Cadastro">aqui</a>.</p>
     </MainMobile>
   );
