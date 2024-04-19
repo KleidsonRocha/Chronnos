@@ -4,6 +4,8 @@ import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
 import MainMobile from './layouts/MainMobile/MainMobile';
 import '../pages/LoginCadastro/styles.css';
 import '../Assets/utility.css';
+import { useGlobalContext } from '../App';
+
 
 function CadastroUsuario() {
   const [nome, setNome] = useState('');
@@ -22,14 +24,14 @@ function CadastroUsuario() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    
     const formData = {
       nome: nome,
       email: email,
       senha: senha
     };
 
-    fetch('http://localhost:3000/usuarios/adicionarUsuario', {
+    fetch( RotaBanco +'/usuarios/adicionarUsuario', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

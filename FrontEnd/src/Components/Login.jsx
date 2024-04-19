@@ -4,15 +4,17 @@ import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
 import MainMobile from './layouts/MainMobile/MainMobile';
 import '../pages/LoginCadastro/styles.css'
 import '../Assets/utility.css';
+import { useGlobalContext } from '../App';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [error, setError] = useState('');
+  const { RotaBanco } = useGlobalContext();
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/usuarios/obterUsuario?usuario_email=${encodeURIComponent(email)}&usuario_senha=${encodeURIComponent(senha)}`);
+      const response = await fetch(RotaBanco + `/usuarios/obterUsuario?usuario_email=${encodeURIComponent(email)}&usuario_senha=${encodeURIComponent(senha)}`);
       if (!response.ok) {
         throw new Error('Erro ao fazer login');
       }
