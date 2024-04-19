@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChronnosInput from './inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
 import MainMobile from './layouts/MainMobile/MainMobile';
@@ -9,7 +9,16 @@ function CadastroUsuario() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [btnCriarContaClass, setBtnCriarContaClass] = useState('');
   const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
+
+  useEffect(() => {
+    if(nome === '' || email === '' || senha === '') {
+      setBtnCriarContaClass('button-insatisfaz');
+    } else {
+      setBtnCriarContaClass('button-default');
+    }    
+  }, [nome, email, senha]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,7 +60,7 @@ function CadastroUsuario() {
         <ChronnosInput type="text" placeholder="Nome completo" value={nome} onChange={(e) => setNome(e.target.value)} required className="input-default" /><br />
         <ChronnosInput type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} required className="input-default" /><br />
         <ChronnosInput type="password" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} required className="input-default" /><br />
-        <ChronnosButton type="submit" className={"button-default"}>Criar conta</ChronnosButton>
+        <ChronnosButton type="submit" className={btnCriarContaClass}>Criar conta</ChronnosButton>
       </form>
       <p className="txt-footer">Já possui uma conta? Faça o Login apertando <a href="/Login">aqui</a>.</p>
       {/* Pop-up */}
