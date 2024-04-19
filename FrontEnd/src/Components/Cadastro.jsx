@@ -58,14 +58,11 @@ function CadastroUsuario() {
         <ChronnosButton type="submit" className={"button-default"}>Criar conta</ChronnosButton>
       </form>
       <p className="txt-footer">Já possui uma conta? Faça o Login apertando <a href="/Login">aqui</a>.</p>
-      
       {/* Pop-up */}
       {showPopup && (
         <div className="popup">
-          <div className="popup-content">
-            <p>Usuário cadastrado com sucesso!</p>
-            <button onClick={handleClosePopup}>OK</button>
-          </div>
+          <p className="txt-titulo">Usuário cadastrado com sucesso!</p>
+          <ChronnosButton type="submit" className={"button-default"} onClick={handleClosePopup}>Retornar ao Login</ChronnosButton>
         </div>
       )}
     </MainMobile>
