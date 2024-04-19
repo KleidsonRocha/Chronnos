@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "../Assets/utility.css";
-
+import MainMobile from './layouts/MainMobile/MainMobile';
+import Dock from './dock/Dock';
 // Definição do objeto Curso
 const Curso = {
   ID_CURSO: 0,
@@ -107,30 +108,6 @@ const CursosUsuario = () => {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div>
-      <h1>Cursos do Usuário</h1>
-      <a href="/Login"><button>Login</button></a>
-      <a href="/Cadastro"><button>Cadastro</button></a>
-      {cursos.map(curso => (
-        <div key={curso.ID_CURSO}>
-          <h2>{curso.NOME}</h2>
-          <p><strong>ID do Curso:</strong> {curso.ID_CURSO}</p>
-          <p><strong>Área:</strong> {curso.AREA_NOME}</p>
-          <p><strong>Cor Atrelada a Área:</strong> {curso.AREA_COR}</p>
-          <p><strong>Matéria:</strong> {curso.MATERIA_NOME}</p>
-          <p><strong>Média:</strong> {curso.MEDIA}</p>
-          <p><strong>Valor:</strong> {curso.VALOR}</p>
-          <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO}</p>
-          <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO_NOME}</p>
-          <p><strong>Duração:</strong> {curso.DURACAO}</p>
-          <p><strong>Data de Início:</strong> {curso.DATA_INI}</p>
-          <p><strong>Data de Término:</strong> {curso.DATA_FINI}</p>
-          <p><strong>Modalidade:</strong> {curso.MODALIDADE}</p>
-          <p><strong>Anotações:</strong> {curso.ANOTACOES}</p>
-          <p>{curso.ARQUIVO}</p>
-          <embed src={`Backend/Images/${curso.ARQUIVO}`}/>
-=======
     <>
       <MainMobile className={"main-mob"}>
         <div>
@@ -156,7 +133,6 @@ const CursosUsuario = () => {
               <embed src={`http://localhost:3000/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
             </div>
           ))}
->>>>>>> 649de0a77b1e9f8bfcea25cabd69afcad414281a
         </div>
       </MainMobile>
       <Dock></Dock>
