@@ -128,7 +128,8 @@ const CursosUsuario = () => {
           <p><strong>Data de Término:</strong> {curso.DATA_FINI}</p>
           <p><strong>Modalidade:</strong> {curso.MODALIDADE}</p>
           <p><strong>Anotações:</strong> {curso.ANOTACOES}</p>
-          <embed src={RotaBanco+`/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
+          <p>{curso.ARQUIVO}</p>
+          <embed src={`Backend/Images/${curso.ARQUIVO}`}/>
         </div>
       ))}
     </div>

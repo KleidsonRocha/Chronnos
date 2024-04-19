@@ -70,6 +70,7 @@
       const parts = orgimg.split('/');
       const img = parts[parts.length - 1];
       formData.append('imagem', img)
+      console.log(img);
 
       const imagemInput = document.getElementById('imagem');
       const imagemFile = imagemInput.files[0];
