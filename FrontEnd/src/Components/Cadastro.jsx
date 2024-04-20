@@ -13,7 +13,8 @@ function CadastroUsuario() {
   const [senha, setSenha] = useState('');
   const [btnCriarContaClass, setBtnCriarContaClass] = useState('');
   const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
-
+  const { RotaBanco } = useGlobalContext();
+  
   useEffect(() => {
     if(nome === '' || email === '' || senha === '') {
       setBtnCriarContaClass('button-insatisfaz');

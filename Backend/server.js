@@ -3,16 +3,17 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const usuariosRoutes = require('./usuarios');
 const cursoRoutes = require('./curso');
-const imagemRoutes = require('./imagem');
-
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use('/Images', (req, res, next) => {
+  res.setHeader('Content-Disposition', 'inline');
+  next();
+}, express.static('C:/Users/Profissional/Documents/Chronnos/Backend/Images'));
 
-app.use('/Foto', imagemRoutes)
 app.use('/usuarios', usuariosRoutes);
 app.use('/curso', cursoRoutes);
 
