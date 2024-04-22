@@ -66,7 +66,6 @@ function CadastroUsuario() {
         <ChronnosButton type="submit" className={btnCriarContaClass}>Criar conta</ChronnosButton>
       </form>
       <p className="txt-footer">Já possui uma conta? Faça o Login apertando <a href="/Login">aqui</a>.</p>
-      {/* Pop-up */}
       {showPopup && (
         <div className="popup">
           <p className="txt-titulo">Usuário cadastrado com sucesso!</p>

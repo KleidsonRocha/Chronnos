@@ -72,7 +72,6 @@ router.post('/adicionarUsuario', (req, res) => {
     return;
   }
 
-  // Chama a função do banco de dados para adicionar o usuário
   const query = `SELECT adicionarUsuario('${nome}', '${email}', '${senha}') AS novo_id`;
 
   console.log(query);
@@ -89,6 +88,52 @@ router.post('/adicionarUsuario', (req, res) => {
     res.json({ novoId });
   });
 });
+
+router.post('/adicionarArea', (req, res) => {
+  const {idUsuario, nomeArea, Cor} = req.body;
+
+  if (!idUsuario || !nomeArea || !Cor) {
+    res.status(400).send('Todos os campos são obrigatórios.');
+    return;
+  }
+
+  const query = `SELECT adicionarArea(${idUsuario}, '${nomeArea}', '${Cor}') AS novo_id`
+
+  console.log(query);
+
+  connection.query(query, (err, result) => {
+    if(err) {
+      console.log('Erro ao adicioar Area:', err);
+      res.status(500).send('Erro interno de servidor');
+      return
+    }
+
+    const novoId = result[0].novo_id
+    res.json({ novoId });
+  })
+})
+
+router.post('/adicionarMateria', (req, res) => {
+  const {IdArea, nomeArea, materiausuario} = req.body;
+
+  if(!IdArea || !nomeArea || !materiausuario) {
+    res.status(400).send('Todos os campos são obrigatórios.');
+    return;
+  }
+
+  const query = `SELECT adicionarMateria ${IdArea}, '${nomeArea}', ${materiausuario} AS novo_id`
+
+  connection.query(query, (err, result) => {
+    if(err) {
+      console.log('Erro ao adicioar Materia:', err);
+      res.status(500).send('Erro interno de servidor');
+      return
+    }
+
+    const novoId = result[0].novo_id
+    res.json({ novoId });
+  })
+})
 
 router.get('/obterUsuario', (req, res) => {
   const { usuario_email, usuario_senha } = req.query;
@@ -121,7 +166,6 @@ router.get('/obterUsuario', (req, res) => {
     res.json(usuarioJSON);
   });
 });
-
 
 
 // Exporte o roteador
