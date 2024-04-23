@@ -65,7 +65,7 @@ function CadastroUsuario() {
         <ChronnosInput type="password" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} required className="input-default" /><br />
         <ChronnosButton type="submit" className={btnCriarContaClass}>Criar conta</ChronnosButton>
       </form>
-      <p className="txt-footer">Já possui uma conta? Faça o Login apertando <a href="/Login">aqui</a>.</p>
+      <p className="txt-footer">Já possui uma conta? Faça o Login <a href="/Login">aqui</a>.</p>
       {showPopup && (
         <div className="popup">
           <p className="txt-titulo">Usuário cadastrado com sucesso!</p>

@@ -48,7 +48,7 @@ function Login() {
       <ChronnosInput type="email" id="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} className="input-default"></ChronnosInput>
       <ChronnosInput type="password" id="senha" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} className="input-default"></ChronnosInput>
       <ChronnosButton onClick={handleLogin} className={btnLoginClass}>Efetuar o Login</ChronnosButton>
-      <p className="txt-footer">Ainda não possui uma conta? Crie a sua apertando <a href="/Cadastro">aqui</a>.</p>
+      <p className="txt-footer">Ainda não possui uma conta? Crie <a href="/Cadastro">aqui</a>.</p>
     </MainMobile>
   );
 }
