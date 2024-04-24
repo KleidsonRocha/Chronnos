@@ -63,6 +63,29 @@ router.get('/listarCursosDoUsuario', (req, res) => {
   });
 });
 
+router.get('/listarAreasUsuario', (req, res) => {
+  const usuarioId = req.query.usuario_id;
+
+  if(!usuarioId) {
+    res.status(400).send('ID de usuário é obrigatorio.');
+    return;
+  }
+
+  // Função do banco para listar as Areas do usuário
+  const query = `SELECT listarAreasUsuario(${usuarioId}) AS cursos`;
+
+  connection.query(query, (err, results) => {
+    if(err) {
+      console.error('Erro ao listar areas do usuário', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+    //Retorna as áreas do usuário como resposta
+    const areas = JSON.parse(results[0].cursos);
+    res.json(areas)
+  });
+})
+
 router.post('/adicionarUsuario', (req, res) => {
   const { nome, email, senha } = req.body;
 
@@ -114,14 +137,14 @@ router.post('/adicionarArea', (req, res) => {
 })
 
 router.post('/adicionarMateria', (req, res) => {
-  const {IdArea, nomeArea, materiausuario} = req.body;
+  const {IdArea, nomeMateria, materiausuario} = req.body;
 
-  if(!IdArea || !nomeArea || !materiausuario) {
+  if(!IdArea || !nomeMateria || !materiausuario) {
     res.status(400).send('Todos os campos são obrigatórios.');
     return;
   }
 
-  const query = `SELECT adicionarMateria ${IdArea}, '${nomeArea}', ${materiausuario} AS novo_id`
+  const query = `SELECT adicionarMateria(${IdArea}, '${nomeMateria}', ${materiausuario}) AS novo_id`
 
   connection.query(query, (err, result) => {
     if(err) {

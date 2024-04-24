@@ -4,6 +4,7 @@ import Home from "./Components/Home";
 import Cadastro from "./Components/Cadastro";
 import Login from "./Components/Login";
 import CadastroArea from "./Components/CadastroArea";
+import CadastroMateria from "./Components/CadastroMateria";
 
 // Criar um contexto
 const GlobalContext = createContext();
@@ -20,6 +21,7 @@ const App = () => {
         <Route path='/Cadastro' element={ <Cadastro /> }/>
         <Route path="/Login" element={ <Login /> }/>
         <Route path='/CadastroArea' element={ <CadastroArea /> }/>
+        <Route path='/CadastroMateria' element={ < CadastroMateria />}/>
       </Routes>
     </GlobalContext.Provider>
   );
