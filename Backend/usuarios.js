@@ -158,7 +158,7 @@ router.post('/adicionarMateria', (req, res) => {
   })
 })
 
-router.get('/obterUsuario', (req, res) => {
+router.get('/verificaUsuario', (req, res) => {
   const { usuario_email, usuario_senha } = req.query;
 
   // Verifica se os parâmetros necessários foram fornecidos

@@ -11,7 +11,7 @@ const GlobalContext = createContext();
 
 const App = () => {
   // Definir o estado da variável global
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.10.35:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.136:3000");
 
   return (
     // Prover o contexto para os componentes

@@ -115,6 +115,8 @@ const CursosUsuario = () => {
           <h1 className="txt-titulo">Cursos</h1>
           <a href="/Login"><button>Login</button></a>
           <a href="/Cadastro"><button>Cadastro</button></a>
+          <a href="/CadastroArea"><button>Cadastro Area</button></a>
+          <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
           {cursos.map(curso => (
             <div key={curso.ID_CURSO}>
               <h2>{curso.NOME}</h2>

@@ -23,7 +23,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(RotaBanco + `/usuarios/obterUsuario?usuario_email=${encodeURIComponent(email)}&usuario_senha=${encodeURIComponent(senha)}`);
+      const response = await fetch(RotaBanco + `/usuarios/verificaUsuario?usuario_email=${encodeURIComponent(email)}&usuario_senha=${encodeURIComponent(senha)}`);
       if (!response.ok) {
         throw new Error('Erro ao fazer login');
       }

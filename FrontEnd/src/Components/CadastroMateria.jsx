@@ -51,8 +51,6 @@ const CadastroMateria = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log();
-    console.log();
 
     const formData = {
       IdArea: selectedArea,
