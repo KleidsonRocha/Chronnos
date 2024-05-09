@@ -12,7 +12,7 @@ const GlobalContext = createContext();
 
 const App = () => {
   // Definir o estado da variável global
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.194.196:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.127:3000");
   const navigate = useNavigate();
 
   useEffect(() => {

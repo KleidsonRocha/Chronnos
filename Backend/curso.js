@@ -139,6 +139,41 @@ router.post('/editarCurso', upload.single('imagem'), (req, res) => {
   });
 });
 
+router.post('/adicionarCurso', upload.single('certificado'), (req, res) => {
+  const { nome_curso, modalidade, anotacoes, valor, curso_id_area, curso_id_materia, curso_id_pagamento, data_ini, data_fini,
+          duracao, media, id_aluno} = req.body;
+
+  let certificado;
+  if(req.file == undefined) {
+    certificado = "NULL";
+  } else {
+    certificado = req.file.filename;
+  }
+
+  // Verifica se todos os campos obrigatórios foram fornecidos
+  if (!nome_curso || !modalidade || !valor || !curso_id_area || !curso_id_materia || !curso_id_pagamento || !data_ini|| !data_fini ||
+      !media || !id_aluno) {
+    res.status(400).send('Todos os campos são obrigatórios.');
+    return;
+  }
+
+  const query = `SELECT adicionarCurso("${nome_curso}", "${modalidade}", "${anotacoes}", ${valor}, ${curso_id_area}, ${curso_id_materia}, ${curso_id_pagamento}, '${data_ini}', '${data_fini}', ${duracao}, ${media}, ${id_aluno}, '${certificado}') AS novo_id`;
+
+  console.log(query);
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao adicionar curso:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+
+    // Retorna o ID do usuário recém-cadastrado como resposta
+    const novoId = results[0].novo_id;
+    res.json({ novoId });
+  });
+});
+
 
 
 module.exports = router;
