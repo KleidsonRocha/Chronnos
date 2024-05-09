@@ -41,14 +41,13 @@ const CadastroArea = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error('Erro ao cadastrar área');
-      }
+
 
       const data = await response.json();
-      console.log('Área cadastrada:', data);
+      //Necessário mensagem de sucesso
     } catch (error) {
-      console.error('Erro:', error);
+      console.error('kleidson:', error);
+      //transformar esse console num pop-up de erro
     }
   };
 

@@ -1,27 +1,53 @@
-import React, { createContext, useState, useContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Components/Home";
 import Cadastro from "./Components/Cadastro";
 import Login from "./Components/Login";
 import CadastroArea from "./Components/CadastroArea";
 import CadastroMateria from "./Components/CadastroMateria";
+import CadastroCurso from "./Components/CadastroCurso";
 
 // Criar um contexto
 const GlobalContext = createContext();
 
 const App = () => {
   // Definir o estado da variável global
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.136:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.194.196:3000");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUsuarioIdFromCookie = () => {
+      const cookieString = document.cookie;
+      const cookies = cookieString.split('; ');
+
+      for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.split('=');
+        if (cookieName === 'usuario') {
+          return; // Se o usuário estiver logado, não faz nada
+        }
+      }
+
+      // Se o usuário não estiver logado e tentar acessar uma rota diferente de Cadastro e Login, redireciona para o Login
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/Cadastro' && currentPath !== '/Login') {
+        navigate('/Login');
+      }
+    };
+
+    getUsuarioIdFromCookie();
+  }, [navigate]);
 
   return (
     // Prover o contexto para os componentes
     <GlobalContext.Provider value={{ RotaBanco, setGlobalVariable }}>
       <Routes>
-        <Route path='/' element={ <Home/> }/>
-        <Route path='/Cadastro' element={ <Cadastro /> }/>
-        <Route path="/Login" element={ <Login /> }/>
-        <Route path='/CadastroArea' element={ <CadastroArea /> }/>
-        <Route path='/CadastroMateria' element={ < CadastroMateria />}/>
+        <Route path='/' element={<Home />} />
+        <Route path='/Cadastro' element={<Cadastro />} />
+        <Route path='/Login' element={<Login />} />
+        <Route path='/CadastroArea' element={<CadastroArea />} />
+        <Route path='/CadastroMateria' element={<CadastroMateria />} />
+        <Route path='/CadastroCurso' element={<CadastroCurso />} />
+        <Route path='/*' element={<Home />} />
       </Routes>
     </GlobalContext.Provider>
   );

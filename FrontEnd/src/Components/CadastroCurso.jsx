@@ -6,6 +6,8 @@ const CadastroMateria = () => {
   const [idUsuario, setIdUsuario] = useState(null);
   const [areasDoUsuario, setAreasDoUsuario] = useState([]);
   const [selectedArea, setSelectedArea] = useState('');
+  const [selectedMateria, setSelectedMateria] = useState('');
+  const [materiasDoUsuario, setMateriasDoUsuario] = useState([]);
   const [Nome, setNome] = useState('');
 
   useEffect(() => {
@@ -13,7 +15,7 @@ const CadastroMateria = () => {
     const cookies = cookieString.split('; ');
 
     let idUsuarioFromCookie = null;
-  
+
     for (const cookie of cookies) {
       const [cookieName, cookieValue] = cookie.split('=');
       if (cookieName === 'usuario') {
@@ -22,11 +24,12 @@ const CadastroMateria = () => {
         break;
       }
     }
-  
+
     if (idUsuarioFromCookie !== null) {
-      const url = RotaBanco + `/usuarios/listarAreasUsuario?usuario_id=${idUsuarioFromCookie}`;
-  
-      fetch(url)
+      const urlAreas = RotaBanco + `/usuarios/listarAreasUsuario?usuario_id=${idUsuarioFromCookie}`;
+      const urlMateria = RotaBanco + `/usuarios/listarMateriaUsuario?usuario_id=${idUsuarioFromCookie}`;
+
+      fetch(urlAreas)
         .then(response => {
           if (!response.ok) {
             throw new Error('Erro ao carregar áreas do usuário');
@@ -34,15 +37,24 @@ const CadastroMateria = () => {
           return response.json();
         })
         .then(data => {
-          if(data === null) {
-            //COLOCAR POP UP PARA AVISAR QUE NAO POSSUI AREA CADASTRADA
-
-            window.location.href = '/CadastroArea';
-          } else {
-            setIdUsuario(idUsuarioFromCookie);
-            setAreasDoUsuario(data);
-            console.log(data);
+          setIdUsuario(idUsuarioFromCookie);
+          setAreasDoUsuario(data);
+          console.log(data);
+        })
+        .catch(error => {
+          console.error('Erro na requisição:', error);
+        });
+      fetch(urlMateria)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao carregar matérias do usuário');
           }
+          return response.json();
+        })
+        .then(data => {
+          setIdUsuario(idUsuarioFromCookie);
+          setMateriasDoUsuario(data);
+          console.log(data);
         })
         .catch(error => {
           console.error('Erro na requisição:', error);
@@ -54,37 +66,32 @@ const CadastroMateria = () => {
     setSelectedArea(event.target.value);
   };
 
+  const handleMateriaChange = event => {
+    setSelectedMateria(event.target.value); // Alteração aqui
+  };
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
 
     const formData = {
+      materiausuario: idUsuario,
       IdArea: selectedArea,
-      nomeMateria: Nome,
-      materiausuario: idUsuario
+      IdMateria: selectedMateria
     };
 
     try {
-      const response = await fetch( RotaBanco +'/usuarios/adicionarMateria', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-      //necessário pop-up de cadastro
-      
+     console.log("area:" + selectedArea);
+     console.log("materia:" + selectedMateria);
     } catch (error) {
       console.error('Erro:', error);
-      //necessário pop-up de erro
     }
   };
 
   return (
     <div>
-      <h1>Adicionar nova Materia:</h1>
+      <h1>Adicionar novo Curso:</h1>
       <select id="area" value={selectedArea} onChange={handleAreaChange}>
         <option value="">Selecione a área</option>
         {areasDoUsuario.map(area => (
@@ -93,25 +100,20 @@ const CadastroMateria = () => {
           </option>
         ))}
       </select>
-      <input
-        type="text"
-        placeholder="Nome"
-        value={Nome}
-        onChange={(e) => setNome(e.target.value)}
-      />
-      <button onClick={handleSubmit}>Adicionar Materia</button>
+      <select id="materia" value={selectedMateria} onChange={handleMateriaChange}>
+        <option value="">Selecione a matéria</option>
+        {materiasDoUsuario.map(materia => (
+          <option key={materia.ID_MATERIA} value={materia.ID_MATERIA}>
+            {materia.NOME_MATERIA}
+          </option>
+        ))}
+      </select>
+      { /*
+      -- VALUES (nome_curso, modalidade, anotacoes, valor, curso_id_area(selectedArea), curso_id_materia(selectedMateria), curso_id_pagamento, data_ini, data_fini, duracao, media,usuario_id(idUsuario), foto);
+      */ }
+      <button onClick={handleSubmit}>Adicionar Matéria</button>
     </div>
-    /*
-    USAR O MESMO POP UP JA EXISTENTE
-          {showPopup && (
-            <div className="popup">
-              <p className="txt-titulo">Usuário cadastrado com sucesso!</p>
-              <ChronnosButton type="submit" className={"button-default"} onClick={handleClosePopup}>Retornar ao Login</ChronnosButton>
-            </div>
-          )}
-    */
   );
 };
 
 export default CadastroMateria;
-

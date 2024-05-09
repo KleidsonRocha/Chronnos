@@ -86,6 +86,28 @@ router.get('/listarAreasUsuario', (req, res) => {
   });
 })
 
+router.get('/listarMateriaUsuario', (req, res) => {
+  const usuarioId = req.query.usuario_id;
+
+  if(!usuarioId) {
+    res.status(400).send('ID de usuário é obrigatorio.');
+    return;
+  }
+
+  // Função do banco para listar as materia do usuário
+  const query = `SELECT listarMateriasUsuario(${usuarioId}) AS cursos`;
+
+  connection.query(query, (err, results) => {
+    if(err) {
+      console.error('Erro ao listar materias do usuário', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+    const areas = JSON.parse(results[0].cursos);
+    res.json(areas)
+  });
+})
+
 router.post('/adicionarUsuario', (req, res) => {
   const { nome, email, senha } = req.body;
 

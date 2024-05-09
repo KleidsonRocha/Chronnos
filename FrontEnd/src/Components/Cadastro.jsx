@@ -46,6 +46,7 @@ function CadastroUsuario() {
       })
       .catch((error) => {
         console.error('Erro:', error);
+        //Pop-up para mensagem de erro necessário
       });
   };
 

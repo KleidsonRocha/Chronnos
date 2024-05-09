@@ -26,6 +26,7 @@ function Login() {
       const response = await fetch(RotaBanco + `/usuarios/verificaUsuario?usuario_email=${encodeURIComponent(email)}&usuario_senha=${encodeURIComponent(senha)}`);
       if (!response.ok) {
         throw new Error('Erro ao fazer login');
+        //pop-up de erro necessário
       }
       const userData = await response.json();
       if (userData.error) {
@@ -38,6 +39,7 @@ function Login() {
       }
     } catch (error) {
       setError('Usuário ou Senha inválidos! Por Favor tente novamente.');
+      //pop-up de erro necessário
     }
   };
 
