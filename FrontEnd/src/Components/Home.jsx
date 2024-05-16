@@ -121,7 +121,7 @@ const CursosUsuario = () => {
         <h1 className="titulo1">Cursos</h1>
         {cursos.map(curso => (
           <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
-            <button key={curso.ID_CURSO} className="tab-curso">
+            <button key={curso.ID_CURSO} className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
               <h1>{curso.NOME}</h1>
               <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
               {
@@ -160,6 +160,7 @@ const CursosUsuario = () => {
         <a href="/CadastroArea"><button>Cadastro Area</button></a>
         <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
         <a href="/CadastroCurso"><button>Cadastro Curso</button></a>
+        <a href="/CadastroDesejo"><button>Cadastro Desejo</button></a>
       </MainMobile>
       <Dock></Dock>
     </>
