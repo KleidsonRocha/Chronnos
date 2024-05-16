@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobalContext } from '../App';
+import { useGlobalContext } from '../../App';
 
 const CadastroArea = () => {
   const { RotaBanco } = useGlobalContext();

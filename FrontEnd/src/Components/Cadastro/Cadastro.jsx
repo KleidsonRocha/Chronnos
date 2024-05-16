@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import ChronnosInput from './inputs-buttons/ChronnosInput/ChronnosInput';
-import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
-import MainMobile from './layouts/MainMobile/MainMobile';
-import '../pages/LoginCadastro/styles.css';
-import '../Assets/utility.css';
-import { useGlobalContext } from '../App';
+import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
+import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
+import MainMobile from '../layouts/MainMobile/MainMobile';
+import '../../pages/LoginCadastro/styles.css';
+import '../../Assets/utility.css';
+import { useGlobalContext } from '../../App';
 
 
 function CadastroUsuario() {

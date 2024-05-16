@@ -6,13 +6,14 @@ const Dock = () => {
 
     const handleClick = (pagina) => {
         setActiveButton(pagina);
+        window.location.href = pagina;
         /*if(pagina==="1") -> manda pra pagina dos cursos, etc, falta implementar isso ainda pois ainda nao decidimos como ira funcionar a paginacao do sistema, minha sugestao, mandamos um href q nem o sistema de login esta fazendo atualmente e ele alterna os componentes de cada pag no fundo -vinicius*/
         if ("vibrate" in navigator) navigator.vibrate(30);
     };
 
     return (
         <div className="dock">
-            <button className="dock-button" onClick={() => handleClick("1")}>
+            <button className="dock-button" onClick={() => handleClick("/Home")}>
                 <div className="dock-icon">
                     <svg width={"2rem"} height={"2rem"}>
                         <path fill={activeButton==="1"?"#000000":"#808080"} d="M9 29.333q-1.5 0-2.583-1.016T5.333 25.8V7.2q0-1.266.784-2.267a3.42 3.42 0 0 1 2.05-1.266l10-1.967q1.233-.267 2.2.533.966.801.966 2.067v15.9q0 .966-.6 1.717-.6.75-1.533.916l-10.5 2.1a.87.87 0 0 0-.5.317.86.86 0 0 0-.2.55q0 .366.3.617.3.25.7.25h15v-20q0-.567.383-.95a1.3 1.3 0 0 1 .95-.384q.567 0 .95.384.384.383.384.95v20q0 1.099-.784 1.883a2.57 2.57 0 0 1-1.883.783zm3-7.766 6.667-1.3V4.333L12 5.633zm-2.667.533V6.167l-.5.1q-.366.067-.6.316A.87.87 0 0 0 8 7.2v15.233q.167-.066.35-.116t.35-.084z"/>

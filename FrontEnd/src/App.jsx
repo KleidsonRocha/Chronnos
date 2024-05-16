@@ -1,18 +1,20 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Components/Home";
-import Cadastro from "./Components/Cadastro";
+import Cadastro from "./Components/Cadastro/Cadastro";
 import Login from "./Components/Login";
-import CadastroArea from "./Components/CadastroArea";
-import CadastroMateria from "./Components/CadastroMateria";
-import CadastroCurso from "./Components/CadastroCurso";
+import CadastroArea from "./Components/Cadastro/CadastroArea";
+import CadastroMateria from "./Components/Cadastro/CadastroMateria";
+import CadastroCurso from "./Components/Cadastro/CadastroCurso";
+import CadastroDesejo from "./Components/Cadastro/CadastroDesejo";
+import VisuaizarCursoEspecifico from "./Components/Visualizadores/VisualizarCursoEspecifico"
 
 // Criar um contexto
 const GlobalContext = createContext();
 
 const App = () => {
   // Definir o estado da variável global
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.127:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.0.17:3000");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +49,8 @@ const App = () => {
         <Route path='/CadastroArea' element={<CadastroArea />} />
         <Route path='/CadastroMateria' element={<CadastroMateria />} />
         <Route path='/CadastroCurso' element={<CadastroCurso />} />
+        <Route path='/CadastroDesejo' element={<CadastroDesejo />} />
+        <Route path='/VisuaizarCursoEspecifico' element={<VisuaizarCursoEspecifico />} />
         <Route path='/*' element={<Home />} />
       </Routes>
     </GlobalContext.Provider>

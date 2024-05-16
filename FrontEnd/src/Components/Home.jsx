@@ -124,9 +124,11 @@ const CursosUsuario = () => {
           <a href="/CadastroArea"><button>Cadastro Area</button></a>
           <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
           <a href="/CadastroCurso"><button>Cadastro Curso</button></a>
+          <a href="/CadastroDesejo"><button>Cadastro Desejo</button></a>
           {cursos.map(curso => (
             <div key={curso.ID_CURSO}>
               <h2>{curso.NOME}</h2>
+              <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}><button>Visualizar curso</button></a>
               <p><strong>ID do Curso:</strong> {curso.ID_CURSO}</p>
               <p><strong>Área:</strong> {curso.AREA_NOME}</p>
               <p><strong>Cor Atrelada a Área:</strong> {curso.AREA_COR}</p>
