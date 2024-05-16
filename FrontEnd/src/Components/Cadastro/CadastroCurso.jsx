@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobalContext } from '../App';
+import { useGlobalContext } from '../../App';
 
-const CadastroMateria = () => {
+const CadastroCurso = () => {
   const { RotaBanco } = useGlobalContext();
   const [idUsuario, setIdUsuario] = useState(null);
   const [areasDoUsuario, setAreasDoUsuario] = useState([]);
@@ -152,4 +152,4 @@ const CadastroMateria = () => {
   );
 };
 
-export default CadastroMateria;
+export default CadastroCurso;
