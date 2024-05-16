@@ -44,6 +44,6 @@ Thumbs.db
 # Ignore do Projeto #
 
 /Backend/node_modules
-./Backend/package-lock.json
-./Backend/package.json
-./Backend/connection.js
+/Backend/package-lock.json
+/Backend/package.json
+/Backend/connection.js
