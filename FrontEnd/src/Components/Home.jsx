@@ -120,35 +120,39 @@ const CursosUsuario = () => {
       <MainMobile className={"main-mob"}>
         <h1 className="titulo1">Cursos</h1>
         {cursos.map(curso => (
-          <div key={curso.ID_CURSO} className="tab-curso">
-            <h1>{curso.NOME}</h1>
-            <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
-            {
-              /*
-                <h2>{curso.NOME}</h2>
-
-                <p><strong>ID do Curso:</strong> {curso.ID_CURSO}</p>
-                <p><strong>Área:</strong> {curso.AREA_NOME}</p>
-                <p><strong>Cor Atrelada a Área:</strong> {curso.AREA_COR}</p>
-                <p><strong>Matéria:</strong> {curso.MATERIA_NOME}</p>
-                <p><strong>Média:</strong> {curso.MEDIA}</p>
-                <p><strong>Valor:</strong> {curso.VALOR}</p>
-                <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO}</p>
-                <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO_NOME}</p>
-                <p><strong>Duração:</strong> {curso.DURACAO}</p>
-                <p><strong>Data de Início:</strong> {curso.DATA_INI}</p>
-                <p><strong>Data de Término:</strong> {curso.DATA_FINI}</p>
-                <p><strong>Modalidade:</strong> {curso.MODALIDADE}</p>
-                <p><strong>Anotações:</strong> {curso.ANOTACOES}</p>
-                
-                {curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
-                  <embed src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
-                ) : (
-                  <img src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="100%" />
-                )}
-              */
-            }
-          </div>
+          <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
+            <button key={curso.ID_CURSO} className="tab-curso">
+              <h1>{curso.NOME}</h1>
+              <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
+              {
+                /*
+                  <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}><button>Visualizar curso</button></a>
+  
+                  <h2>{curso.NOME}</h2>
+  
+                  <p><strong>ID do Curso:</strong> {curso.ID_CURSO}</p>
+                  <p><strong>Área:</strong> {curso.AREA_NOME}</p>
+                  <p><strong>Cor Atrelada a Área:</strong> {curso.AREA_COR}</p>
+                  <p><strong>Matéria:</strong> {curso.MATERIA_NOME}</p>
+                  <p><strong>Média:</strong> {curso.MEDIA}</p>
+                  <p><strong>Valor:</strong> {curso.VALOR}</p>
+                  <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO}</p>
+                  <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO_NOME}</p>
+                  <p><strong>Duração:</strong> {curso.DURACAO}</p>
+                  <p><strong>Data de Início:</strong> {curso.DATA_INI}</p>
+                  <p><strong>Data de Término:</strong> {curso.DATA_FINI}</p>
+                  <p><strong>Modalidade:</strong> {curso.MODALIDADE}</p>
+                  <p><strong>Anotações:</strong> {curso.ANOTACOES}</p>
+                  
+                  {curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
+                    <embed src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
+                  ) : (
+                    <img src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="100%" />
+                  )}
+                */
+              }
+            </button>
+          </a>          
         ))}
         <h2>Desejos</h2>
         <a href="/Login"><button>Login</button></a>

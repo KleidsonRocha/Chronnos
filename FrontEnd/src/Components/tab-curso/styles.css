@@ -8,14 +8,17 @@
     gap: 0.125rem;
     border-radius: 1rem;
     background-color: #404040;
+    border: none;
 
     h1 {
         font-size: 1.5rem;
+        text-align: left;
         color: #ffffff;
     }
 
     p {
         font-size: 1.25rem;
+        text-align: left;
         color: #ffffff;
     }
 }
