@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../Assets/utility.css";
+import "../Components/tab-curso/styles.css"
 import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
@@ -65,7 +66,7 @@ const CursosUsuario = () => {
             .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes da área'))
             .then(areaData => ({ ...curso, AREA_NOME: areaData.NOME_AREA, AREA_COR: areaData.COR }))
             .catch(error => ({ ...curso, AREA_NOME: 'Erro ao obter detalhes da área', AREA_COR: 'Erro' }))
-            //pop-up de erro necessário
+          //pop-up de erro necessário
         );
 
         // Promessas para obter detalhes da matéria de cada curso
@@ -74,7 +75,7 @@ const CursosUsuario = () => {
             .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes da matéria'))
             .then(materiaData => ({ ...curso, MATERIA_NOME: materiaData.NOME_MATERIA }))
             .catch(error => ({ ...curso, MATERIA_NOME: 'Erro ao obter detalhes da matéria' }))
-            //pop-up de erro necessário
+          //pop-up de erro necessário
         );
 
         const pagamentoPromises = cursos.map(curso =>
@@ -85,7 +86,7 @@ const CursosUsuario = () => {
               return { ...curso, PAGAMENTO_NOME: pagamento.TIPO };
             })
             .catch(error => ({ ...curso, PAGAMENTO_NOME: 'Erro ao obter detalhes de pagamento' }))
-            //pop-up de erro necessário
+          //pop-up de erro necessário
         );
 
 
@@ -117,44 +118,44 @@ const CursosUsuario = () => {
   return (
     <>
       <MainMobile className={"main-mob"}>
-        <div>
-          <h1 className="txt-titulo">Cursos</h1>
-          <a href="/Login"><button>Login</button></a>
-          <a href="/Cadastro"><button>Cadastro</button></a>
-          <a href="/CadastroArea"><button>Cadastro Area</button></a>
-          <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
-          <a href="/CadastroCurso"><button>Cadastro Curso</button></a>
-          <a href="/CadastroDesejo"><button>Cadastro Desejo</button></a>
-          {cursos.map(curso => (
-            <div key={curso.ID_CURSO}>
-              <h2>{curso.NOME}</h2>
-              <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}><button>Visualizar curso</button></a>
-              <p><strong>ID do Curso:</strong> {curso.ID_CURSO}</p>
-              <p><strong>Área:</strong> {curso.AREA_NOME}</p>
-              <p><strong>Cor Atrelada a Área:</strong> {curso.AREA_COR}</p>
-              <p><strong>Matéria:</strong> {curso.MATERIA_NOME}</p>
-              <p><strong>Média:</strong> {curso.MEDIA}</p>
-              <p><strong>Valor:</strong> {curso.VALOR}</p>
-              <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO}</p>
-              <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO_NOME}</p>
-              <p><strong>Duração:</strong> {curso.DURACAO}</p>
-              <p><strong>Data de Início:</strong> {curso.DATA_INI}</p>
-              <p><strong>Data de Término:</strong> {curso.DATA_FINI}</p>
-              <p><strong>Modalidade:</strong> {curso.MODALIDADE}</p>
-              <p><strong>Anotações:</strong> {curso.ANOTACOES}</p>
-              {curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
-                <embed src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
-              ) : (
-                <img src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="100%" />
-              )}
-            </div>
-          ))}
-        </div>
-        <div>
-          <h1>desejos</h1>
-          <br />
-        </div>
+        <h1 className="titulo1">Cursos</h1>
+        {cursos.map(curso => (
+          <div key={curso.ID_CURSO} className="tab-curso">
+            <h1>{curso.NOME}</h1>
+            <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
+            {
+              /*
+                <h2>{curso.NOME}</h2>
 
+                <p><strong>ID do Curso:</strong> {curso.ID_CURSO}</p>
+                <p><strong>Área:</strong> {curso.AREA_NOME}</p>
+                <p><strong>Cor Atrelada a Área:</strong> {curso.AREA_COR}</p>
+                <p><strong>Matéria:</strong> {curso.MATERIA_NOME}</p>
+                <p><strong>Média:</strong> {curso.MEDIA}</p>
+                <p><strong>Valor:</strong> {curso.VALOR}</p>
+                <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO}</p>
+                <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO_NOME}</p>
+                <p><strong>Duração:</strong> {curso.DURACAO}</p>
+                <p><strong>Data de Início:</strong> {curso.DATA_INI}</p>
+                <p><strong>Data de Término:</strong> {curso.DATA_FINI}</p>
+                <p><strong>Modalidade:</strong> {curso.MODALIDADE}</p>
+                <p><strong>Anotações:</strong> {curso.ANOTACOES}</p>
+                
+                {curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
+                  <embed src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
+                ) : (
+                  <img src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="100%" />
+                )}
+              */
+            }
+          </div>
+        ))}
+        <h2>Desejos</h2>
+        <a href="/Login"><button>Login</button></a>
+        <a href="/Cadastro"><button>Cadastro</button></a>
+        <a href="/CadastroArea"><button>Cadastro Area</button></a>
+        <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
+        <a href="/CadastroCurso"><button>Cadastro Curso</button></a>
       </MainMobile>
       <Dock></Dock>
     </>

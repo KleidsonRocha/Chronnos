@@ -6,7 +6,7 @@ body {
 
 * {
     font-family: 'Inter', sans-serif;
-    letter-spacing: -0.075rem;
+    letter-spacing: -0.05rem;
     line-height: normal;
     color: #000000;
     transition: 0.35s cubic-bezier(0, 1, 1, 1);
@@ -17,9 +17,30 @@ body {
         font-weight: 700;
     }
 
+    h2 {
+        margin: 0;
+        font-style: normal;
+        font-weight: 400;
+    }
+
     p {
         margin: 0;
         font-style: normal;
         font-weight: 400;
     }
+}
+
+.titulo1{
+    display: flex;
+    width: 100%;
+    font-size: 2rem;
+    line-height: 90%;
+    align-items: left;
+}
+
+.titulo2{
+    font-size: 1.5rem;
+    line-height: 90%;
+    display: flex;
+    align-items: left;
 }
