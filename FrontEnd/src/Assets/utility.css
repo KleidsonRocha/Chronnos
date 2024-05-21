@@ -10,24 +10,29 @@ body {
     line-height: normal;
     color: #000000;
     transition: 0.35s cubic-bezier(0, 1, 1, 1);
+}
 
-    h1 {
-        margin: 0;
-        font-style: bold;
-        font-weight: 700;
-    }
+h1 {
+    margin: 0;
+    font-style: bold;
+    font-weight: 700;
+}
 
-    h2 {
-        margin: 0;
-        font-style: normal;
-        font-weight: 400;
-    }
+h2 {
+    margin: 0;
+    font-style: normal;
+    font-weight: 400;
+}
 
-    p {
-        margin: 0;
-        font-style: normal;
-        font-weight: 400;
-    }
+p {
+    margin: 0;
+    font-style: normal;
+    font-weight: 400;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
 }
 
 .titulo1{

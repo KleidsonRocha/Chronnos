@@ -4,6 +4,7 @@ import "../Components/tab-curso/styles.css"
 import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
+import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 // Definição do objeto Curso
 const Curso = {
   ID_CURSO: 0,
@@ -118,7 +119,7 @@ const CursosUsuario = () => {
   return (
     <>
       <MainMobile className={"main-mob"}>
-        <h1 className="titulo1">Cursos</h1>
+        <ChronnosTitleInput title="Cursos" ></ChronnosTitleInput>
         {cursos.map(curso => (
           <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
             <button key={curso.ID_CURSO} className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
@@ -152,7 +153,7 @@ const CursosUsuario = () => {
                 */
               }
             </button>
-          </a>          
+          </a>
         ))}
         <h2>Desejos</h2>
         <a href="/Login"><button>Login</button></a>

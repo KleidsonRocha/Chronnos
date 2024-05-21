@@ -1,0 +1,12 @@
+.title-input{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    gap: 1rem;
+    justify-content: space-between;  
+    h1{
+        font-size: 2rem;
+        line-height: 90%;
+    }
+}
