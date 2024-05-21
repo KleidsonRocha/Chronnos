@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('./multer');
 const connection = require('./connection');
 
 router.get('/adicionarUsuario', (req, res) => {
@@ -60,6 +59,30 @@ router.get('/listarCursosDoUsuario', (req, res) => {
     // Retorna os cursos do usuário como resposta
     const cursos = JSON.parse(results[0].cursos); // Convertendo para objeto JavaScript
     res.json(cursos);
+  });
+});
+
+router.get('/listarDesejoDoUsuario', (req, res) => {
+  const usuarioId = req.query.usuario_id;
+
+  // Verifica se os parâmetros necessários foram fornecidos
+  if (!usuarioId) {
+    res.status(400).send('ID do usuário é obrigatório.');
+    return;
+  }
+
+  // Chama a função do banco de dados para listar os cursos do usuário
+  const query = `SELECT listarDesejoDoUsuario(${usuarioId}) AS desejo`;
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao listar desejo do usuário:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+    // Retorna os cursos do usuário como resposta
+    const desejo = JSON.parse(results[0].desejo); // Convertendo para objeto JavaScript
+    res.json(desejo);
   });
 });
 

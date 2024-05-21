@@ -8,13 +8,17 @@ import CadastroMateria from "./Components/Cadastro/CadastroMateria";
 import CadastroCurso from "./Components/Cadastro/CadastroCurso";
 import CadastroDesejo from "./Components/Cadastro/CadastroDesejo";
 import VisuaizarCursoEspecifico from "./Components/Visualizadores/VisualizarCursoEspecifico"
+import EditarCurso from "./Components/Editores/EditarCurso"
+import Anotacoes from "./Components/Anotacoes"
+import Timeline from "./Components/Timeline"
+import Ajustes from "./Components/Ajustes"
 
 // Criar um contexto
 const GlobalContext = createContext();
 
 const App = () => {
   // Definir o estado da variável global
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.0.17:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.0.15:3000");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,6 +55,10 @@ const App = () => {
         <Route path='/CadastroCurso' element={<CadastroCurso />} />
         <Route path='/CadastroDesejo' element={<CadastroDesejo />} />
         <Route path='/VisuaizarCursoEspecifico' element={<VisuaizarCursoEspecifico />} />
+        <Route path='/EditarCurso' element={<EditarCurso />} />
+        <Route path='/Anotacoes' element={<Anotacoes />} />
+        <Route path='/Timeline' element={<Timeline />} />
+        <Route path="/Ajustes" element={<Ajustes />} />
         <Route path='/*' element={<Home />} />
       </Routes>
     </GlobalContext.Provider>
