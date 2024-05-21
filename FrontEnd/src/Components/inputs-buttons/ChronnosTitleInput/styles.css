@@ -4,9 +4,30 @@
     width: 100%;
     height: auto;
     gap: 1rem;
-    justify-content: space-between;  
+    justify-content: space-between;
+    align-items: center;
     h1{
-        font-size: 2rem;
         line-height: 90%;
     }
+    img{
+        width: 2rem;
+        height: 2rem;
+    }
+    button{
+        display: flex;
+        width: 2rem;
+        height: 2rem;
+        background-color: transparent;
+        border: none;
+    }
+}
+
+.bold{
+    font-size: 2rem;
+    font-weight: 700;  
+}
+
+.regular{
+    font-size: 1.5rem;
+    font-weight: 400;
 }

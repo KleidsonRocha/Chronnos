@@ -8,7 +8,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use('/Images', (req, res, next) => {
   res.setHeader('Content-Disposition', 'inline');
   next();

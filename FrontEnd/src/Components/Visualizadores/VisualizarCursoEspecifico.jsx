@@ -3,12 +3,15 @@ import { useGlobalContext } from '../../App';
 
 const CadastroCursoEspecifico = () => {
   const { RotaBanco } = useGlobalContext();
+  const [cursosCompleto, setCursosCompleto] = useState(null);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const cursoId = urlParams.get('ID_CURSO');
 
     const url = RotaBanco + `/curso/listarCursoEspecifico?cursoId=${cursoId}`;
+
+
 
     fetch(url)
       .then(response => {
@@ -47,7 +50,7 @@ const CadastroCursoEspecifico = () => {
 
         Promise.all([...areasPromises, ...materiasPromises, ...pagamentoPromises])
           .then(results => {
-            const cursosCompleto = cursos.map(curso => {
+            const cursoCompleto = cursos.map(curso => {
               const areaResult = results.find(result => result.AREA);
               const materiaResult = results.find(result => result.MATERIA_NOME);
               const pagamentoResult = results.find(result => result.PAGAMENTO_NOME);
@@ -59,7 +62,7 @@ const CadastroCursoEspecifico = () => {
                 PAGAMENTO_NOME: pagamentoResult ? pagamentoResult.PAGAMENTO_NOME : 'Erro ao obter detalhes de pagamento',
               };
             });
-            console.log(cursosCompleto);
+            setCursosCompleto(cursoCompleto)
           })
           .catch(error => {
             console.error('Erro:', error);
@@ -70,9 +73,41 @@ const CadastroCursoEspecifico = () => {
       });
   }, [RotaBanco]);
 
+  // Verifica se os cursos estão carregando
+  if (!cursosCompleto) {
+    return <p>Carregando...</p>;
+  }
+
+  const handleEditor = event => {
+    console.log(event);
+  };
+
+  // Retorna o componente com os cursos completos
   return (
     <>
-      {/* Seu JSX aqui */}
+      {cursosCompleto.map(curso => (
+        <div key={curso.ID_CURSO} className="tab-curso">
+          <h1>{curso.NOME}</h1>
+          <a href={`/EditarCurso?ID_CURSO=${curso.ID_CURSO}`}><button>Editar Curso</button></a>
+          <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
+          <p><strong>Data de Início:</strong> {curso.DATA_INI}</p>
+          <p><strong>Data de Término:</strong> {curso.DATA_FINI}</p>
+
+          <p><strong>Cor Atrelada a Área:</strong> {curso.AREA_COR}</p>
+          <p><strong>Valor:</strong> R${curso.VALOR}</p>
+          <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO_NOME}</p>
+          <p><strong>Modalidade:</strong> {curso.MODALIDADE}</p>
+
+          {curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
+            <embed src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
+          ) : (
+            <img src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="100%" />
+          )}
+        </div>
+      ))}
+      {/*
+        <p><strong>ID do Curso:</strong> {curso.ID_CURSO}</p>
+       */}
     </>
   );
 }

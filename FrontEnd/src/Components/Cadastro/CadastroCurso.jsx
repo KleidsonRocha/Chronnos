@@ -35,8 +35,8 @@ const CadastroCurso = () => {
     }
 
     if (idUsuarioFromCookie !== null) {
-      const urlAreas = RotaBanco + `/usuarios/listarAreasUsuario?usuario_id=${idUsuarioFromCookie}`;
-      const urlMateria = RotaBanco + `/usuarios/listarMateriaUsuario?usuario_id=${idUsuarioFromCookie}`;
+      const urlAreas = `${RotaBanco}/usuarios/listarAreasUsuario?usuario_id=${idUsuarioFromCookie}`;
+      const urlMateria = `${RotaBanco}/usuarios/listarMateriaUsuario?usuario_id=${idUsuarioFromCookie}`;
 
       fetch(urlAreas)
         .then(response => {
@@ -48,11 +48,11 @@ const CadastroCurso = () => {
         .then(data => {
           setIdUsuario(idUsuarioFromCookie);
           setAreasDoUsuario(data);
-
         })
         .catch(error => {
           console.error('Erro na requisição:', error);
         });
+
       fetch(urlMateria)
         .then(response => {
           if (!response.ok) {
@@ -63,7 +63,6 @@ const CadastroCurso = () => {
         .then(data => {
           setIdUsuario(idUsuarioFromCookie);
           setMateriasDoUsuario(data);
-
         })
         .catch(error => {
           console.error('Erro na requisição:', error);
@@ -80,11 +79,11 @@ const CadastroCurso = () => {
   };
 
   const handleFileChange = event => {
-    const file = event.target.files[0]; // Obtém o arquivo selecionado
+    const file = event.target.files[0];
     if (file) {
-      setFoto(file); // Define o arquivo como o estado da foto
+      setFoto(file);
     }
-  }
+  };
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -102,14 +101,19 @@ const CadastroCurso = () => {
     formData.append('data_fini', dataFini);
     formData.append('duracao', duracao);
     formData.append('media', media);
-    formData.append('certificado', foto);
+    if (foto) {
+      formData.append('certificado', foto);
+    }
 
     try {
-      const response = await fetch(RotaBanco + '/curso/adicionarCurso', {
+      const response = await fetch(`${RotaBanco}/curso/adicionarCurso`, {
         method: 'POST',
         body: formData
       });
 
+      if (!response.ok) {
+        throw new Error('Erro ao adicionar curso');
+      }
     } catch (error) {
       console.error('Erro:', error);
     }
@@ -118,36 +122,38 @@ const CadastroCurso = () => {
   return (
     <div>
       <h1>Adicionar novo Curso:</h1>
-      <select id="area" value={selectedArea} onChange={handleAreaChange}>
-        <option value="">Selecione a área</option>
-        {areasDoUsuario.map(area => (
-          <option key={area.ID_AREA} value={area.ID_AREA}>
-            {area.NOME_AREA}
-          </option>
-        ))}
-      </select>
-      <select id="materia" value={selectedMateria} onChange={handleMateriaChange}>
-        <option value="">Selecione a matéria</option>
-        {materiasDoUsuario.map(materia => (
-          <option key={materia.ID_MATERIA} value={materia.ID_MATERIA}>
-            {materia.NOME_MATERIA}
-          </option>
-        ))}
-      </select>
-      <select value={cursoIdPagamento} onChange={e => setCursoIdPagamento(e.target.value)}>
-        <option value="">Selecione o ID de pagamento</option>
-        <option value="3">Pix</option>
-      </select>
-      <input type="text" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} />
-      <input type="text" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} />
-      <input type="text" placeholder="Anotações" value={anotacoes} onChange={e => setAnotacoes(e.target.value)} />
-      <input type="text" placeholder="Valor" value={valor} onChange={e => setValor(e.target.value)} />
-      <input type="date" placeholder="Data de início" value={dataIni} onChange={e => setDataIni(e.target.value)} />
-      <input type="date" placeholder="Data de término" value={dataFini} onChange={e => setDataFini(e.target.value)} />
-      <input type="text" placeholder="Duração" value={duracao} onChange={e => setDuracao(e.target.value)} />
-      <input type="text" placeholder="Média" value={media} onChange={e => setMedia(e.target.value)} />
-      <input id="imagem" name="imagem" type="file" onChange={handleFileChange} />
-      <button onClick={handleSubmit}>Adicionar Matéria</button>
+      <form onSubmit={handleSubmit}>
+        <select id="area" value={selectedArea} onChange={handleAreaChange}>
+          <option value="">Selecione a área</option>
+          {areasDoUsuario.map(area => (
+            <option key={area.ID_AREA} value={area.ID_AREA}>
+              {area.NOME_AREA}
+            </option>
+          ))}
+        </select>
+        <select id="materia" value={selectedMateria} onChange={handleMateriaChange}>
+          <option value="">Selecione a matéria</option>
+          {materiasDoUsuario.map(materia => (
+            <option key={materia.ID_MATERIA} value={materia.ID_MATERIA}>
+              {materia.NOME_MATERIA}
+            </option>
+          ))}
+        </select>
+        <select value={cursoIdPagamento} onChange={e => setCursoIdPagamento(e.target.value)}>
+          <option value="">Selecione o ID de pagamento</option>
+          <option value="3">Pix</option>
+        </select>
+        <input type="text" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} />
+        <input type="text" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} />
+        <input type="text" placeholder="Anotações" value={anotacoes} onChange={e => setAnotacoes(e.target.value)} />
+        <input type="text" placeholder="Valor" value={valor} onChange={e => setValor(e.target.value)} />
+        <input type="date" placeholder="Data de início" value={dataIni} onChange={e => setDataIni(e.target.value)} />
+        <input type="date" placeholder="Data de término" value={dataFini} onChange={e => setDataFini(e.target.value)} />
+        <input type="text" placeholder="Duração" value={duracao} onChange={e => setDuracao(e.target.value)} />
+        <input type="text" placeholder="Média" value={media} onChange={e => setMedia(e.target.value)} />
+        <input id="imagem" name="imagem" type="file" onChange={handleFileChange} />
+        <button type="submit">Adicionar Matéria</button>
+      </form>
     </div>
   );
 };
