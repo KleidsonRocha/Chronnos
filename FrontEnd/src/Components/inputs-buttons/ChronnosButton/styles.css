@@ -62,3 +62,25 @@
 .button-perigo:active{
     font-size: 1.5rem;
 }
+
+.button-color-picker{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: auto;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    
+    color: #ffffff;
+    font-size: 1rem;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    &:focus{
+        font-weight: 700;
+        font-size: 1.25rem;
+        padding: 0.75rem;        
+    }
+}

@@ -209,7 +209,7 @@ const CursosUsuario = () => {
   return (
     <>
       <MainMobile className={"main-mob"}>
-        <ChronnosTitleInput title="Cursos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
+        <ChronnosTitleInput title="Cursos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroCurso" }}></ChronnosTitleInput>
         {cursos.slice(0, showMoreCursos ? cursos.length : 5).map(curso => (
           <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
             <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>

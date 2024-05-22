@@ -54,12 +54,37 @@ const CadastroArea = () => {
     }
   };
 
+  const cores = [
+    { nome: 'HIT ME HARD AND SOFT', hex: '#0B2943' },
+    { nome: 'Weezer', hex: '#0091C4' },
+    { nome: 'ALL MY FELLAS!!', hex: '#67B2B5' },
+    { nome: 'Not askin 4 much', hex: '#7A3889' },
+    { nome: 'IGOR', hex: '#F5ADC3' },
+    { nome: 'Oppenheimer', hex: '#FB5E06' },
+    { nome: 'Flower boy', hex: '#EA963C' },
+    { nome: 'miranha', hex: '#F11867' },
+    { nome: 'Loki', hex: '#6F8E82' },
+    { nome: 'MONTERO', hex: '#8CA252' },
+    { nome: 'J CHRIST', hex: '#57522D' },
+  ];
+
+  const corFeedback = () => {
+    if ("vibrate" in navigator) {
+      navigator.vibrate([30, 50, 15]);
+    }
+  };
+
   return (
     <MainMobile className="main-mob-cent">
       <h1>Cadastro de área</h1>
       <ChronnosInput className="input-default" type="text" placeholder="Nome da Área" value={nomeArea} onChange={(e) => setNomeArea(e.target.value)}></ChronnosInput>
-      <ChronnosInput className="input-default" type="text" placeholder="Cor" value={cor} onChange={(e) => setCor(e.target.value)}></ChronnosInput>
-      <ChronnosButton className="button-default" onClick={handleSubmit}>Adicionar Área</ChronnosButton> 
+      <div>
+      <p style={{marginBottom: '0.25rem'}}>Selecione uma cor</p>
+      <div className="no-scrollbar" style={{ display: 'flex', direction: 'row', width: '100%', overflowY: 'scroll', gap: '0.5rem', borderRadius: '1rem' }}>
+        {cores.map((cor, index) => (<button style={{ backgroundColor: cor.hex }} className="button-color-picker" key={index} onClick={() => { setCor(cor.hex); corFeedback(); }}>{cor.nome}</button>))}
+      </div>
+      </div>
+      <ChronnosButton className="button-default" onClick={handleSubmit}>Adicionar Área</ChronnosButton>
     </MainMobile>
   );
 };

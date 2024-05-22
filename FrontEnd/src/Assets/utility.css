@@ -30,12 +30,12 @@ p {
     font-weight: 400;
 }
 
-a{
+a {
     text-decoration: none;
     color: inherit;
 }
 
-.titulo1{
+.titulo1 {
     display: flex;
     width: 100%;
     font-size: 2rem;
@@ -43,18 +43,27 @@ a{
     align-items: left;
 }
 
-.titulo2{
+.titulo2 {
     font-size: 1.5rem;
     line-height: 90%;
     display: flex;
     align-items: left;
 }
 
-.layout-vertical{
+.layout-vertical {
     display: flex;
     flex-direction: column;
     height: auto;
     width: 100%;
     gap: 1rem;
     box-sizing: border-box;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
