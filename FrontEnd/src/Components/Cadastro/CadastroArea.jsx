@@ -55,17 +55,18 @@ const CadastroArea = () => {
   };
 
   const cores = [
-    { nome: 'HIT ME HARD AND SOFT', hex: '#0B2943' },
-    { nome: 'Weezer', hex: '#0091C4' },
-    { nome: 'ALL MY FELLAS!!', hex: '#67B2B5' },
-    { nome: 'Not askin 4 much', hex: '#7A3889' },
-    { nome: 'IGOR', hex: '#F5ADC3' },
-    { nome: 'Oppenheimer', hex: '#FB5E06' },
-    { nome: 'Flower boy', hex: '#EA963C' },
-    { nome: 'miranha', hex: '#F11867' },
-    { nome: 'Loki', hex: '#6F8E82' },
-    { nome: 'MONTERO', hex: '#8CA252' },
-    { nome: 'J CHRIST', hex: '#57522D' },
+    { nome: 'Azul Neptuno', hex: '#0B2943' },
+    { nome: 'Céu Mercúrio', hex: '#0091C4' },
+    { nome: 'Ciano Júpiter', hex: '#67B2B5' },
+    { nome: 'Vinho Baco', hex: '#7A3889' },
+    { nome: 'Pêssego Juno', hex: '#F5ADC3' },
+    { nome: 'Laranja Vulcano', hex: '#FB5E06' },
+    { nome: 'Girassol Diana', hex: '#EA963C' },
+    { nome: 'Amarelo Minerva', hex: '#F0C300' },
+    { nome: 'Magenta Vénus', hex: '#F11867' },
+    { nome: 'Musgo Marte', hex: '#6F8E82' },
+    { nome: 'Limão Febo', hex: '#8CA252' },
+    { nome: 'Erva Ceres', hex: '#57522D' },
   ];
 
   const corFeedback = () => {
