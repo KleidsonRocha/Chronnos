@@ -26,7 +26,7 @@ const CadastroArea = () => {
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+
 
 
     const formData = {

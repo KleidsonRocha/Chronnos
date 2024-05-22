@@ -210,6 +210,7 @@ const Timeline = () => {
           ))}
         </div>
       </MainMobile>
+      <Dock></Dock>
     </>
   );
 };
