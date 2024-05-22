@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../../App';
+import MainMobile from '../layouts/MainMobile/MainMobile';
+import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
+import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 
 const CadastroMateria = () => {
   const { RotaBanco } = useGlobalContext();
@@ -82,8 +85,8 @@ const CadastroMateria = () => {
   };
 
   return (
-    <div>
-      <h1>Adicionar nova Materia:</h1>
+    <MainMobile className="main-mob-cent">
+      <h1>Cadastro de matéria</h1>
       <select id="area" value={selectedArea} onChange={handleAreaChange}>
         <option value="">Selecione a área</option>
         {areasDoUsuario.map(area => (
@@ -92,14 +95,9 @@ const CadastroMateria = () => {
           </option>
         ))}
       </select>
-      <input
-        type="text"
-        placeholder="Nome"
-        value={Nome}
-        onChange={(e) => setNome(e.target.value)}
-      />
-      <button onClick={handleSubmit}>Adicionar Materia</button>
-    </div>
+      <ChronnosInput className="input-default" type="text" placeholder="Nome da matéria" value={Nome} onChange={(e) => setNome(e.target.value)}></ChronnosInput>
+      <ChronnosButton className="button-default" onClick={handleSubmit}> Adicionar matéria</ChronnosButton>
+    </MainMobile>
     /*
     USAR O MESMO POP UP JA EXISTENTE
           {showPopup && (
