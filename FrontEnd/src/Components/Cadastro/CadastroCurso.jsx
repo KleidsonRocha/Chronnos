@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../../App';
+import MainMobile from '../layouts/MainMobile/MainMobile';
+import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
+import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 
 const CadastroCurso = () => {
   const { RotaBanco } = useGlobalContext();
@@ -120,9 +123,9 @@ const CadastroCurso = () => {
   };
 
   return (
-    <div>
-      <h1>Adicionar novo Curso:</h1>
-      <form onSubmit={handleSubmit}>
+    <MainMobile className="main-mob">
+      <h1>Registrar um curso</h1>
+      <form onSubmit={handleSubmit} className="layout-vertical">
         <select id="area" value={selectedArea} onChange={handleAreaChange}>
           <option value="">Selecione a área</option>
           {areasDoUsuario.map(area => (
@@ -143,18 +146,18 @@ const CadastroCurso = () => {
           <option value="">Selecione o ID de pagamento</option>
           <option value="3">Pix</option>
         </select>
-        <input type="text" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} />
-        <input type="text" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} />
-        <input type="text" placeholder="Anotações" value={anotacoes} onChange={e => setAnotacoes(e.target.value)} />
-        <input type="text" placeholder="Valor" value={valor} onChange={e => setValor(e.target.value)} />
+        <ChronnosInput className="input-default" type="text" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} ></ChronnosInput>
+        <ChronnosInput className="input-default" type="text" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} ></ChronnosInput>
+        <ChronnosInput className="input-default" type="text" placeholder="Anotações" value={anotacoes} onChange={e => setAnotacoes(e.target.value)} ></ChronnosInput>
+        <ChronnosInput className="input-default" type="text" placeholder="Valor" value={valor} onChange={e => setValor(e.target.value)} ></ChronnosInput>
         <input type="date" placeholder="Data de início" value={dataIni} onChange={e => setDataIni(e.target.value)} />
         <input type="date" placeholder="Data de término" value={dataFini} onChange={e => setDataFini(e.target.value)} />
-        <input type="text" placeholder="Duração" value={duracao} onChange={e => setDuracao(e.target.value)} />
+        <ChronnosInput className="input-default" type="text" placeholder="Duração" value={duracao} onChange={e => setDuracao(e.target.value)} ></ChronnosInput>
         <input type="text" placeholder="Média" value={media} onChange={e => setMedia(e.target.value)} />
         <input id="imagem" name="imagem" type="file" onChange={handleFileChange} />
-        <button type="submit">Adicionar Matéria</button>
+        <ChronnosButton type="submit" className="button-default">Registrar curso</ChronnosButton>
       </form>
-    </div>
+    </MainMobile>
   );
 };
 
