@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import "../Assets/utility.css";
-import "../Components/tab-curso/styles.css"
+import "../Components/timeline/styles.css"
 import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
+import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 // Definição do objeto Curso
 const Curso = {
   ID_CURSO: 0,
@@ -25,7 +26,7 @@ const Curso = {
   ARQUIVO: ""
 };
 
-const CursosUsuario = () => {
+const Timeline = () => {
   const [cursos, setCursos] = useState([]);
   const [desejos, setDesejos] = useState([]);
   const [showMoreCursos, setShowMoreCursos] = useState(false);
@@ -122,15 +123,15 @@ const CursosUsuario = () => {
           throw new Error('ID do usuário não encontrado no cookie');
           // Pop-up de erro necessário
         }
-    
+
         const response = await fetch(RotaBanco + `/usuarios/listarDesejoDoUsuario?usuario_id=${usuarioId}`);
         if (!response.ok) {
           throw new Error('Erro ao obter os desejos do usuário');
           // Pop-up de erro necessário
         }
-    
+
         const desejos = await response.json();
-    
+
         // Promessas para obter detalhes de cada desejo
         const desejosPromises = desejos.map(desejo =>
           Promise.all([
@@ -142,12 +143,12 @@ const CursosUsuario = () => {
                 throw new Error('Erro ao obter detalhes do desejo');
                 // Pop-up de erro necessário
               }
-    
+
               const [areaData, materiaData] = await Promise.all([
                 areaResponse.json(),
                 materiaResponse.json(),
               ]);
-    
+
               return {
                 ...desejo,
                 AREA_NOME: areaData.NOME_AREA,
@@ -162,10 +163,10 @@ const CursosUsuario = () => {
               MATERIA_NOME: 'Erro ao obter detalhes da matéria',
             }))
         );
-    
+
         // Esperar todas as promessas de detalhes de desejo serem resolvidas ou rejeitadas
         const desejosResultados = await Promise.allSettled(desejosPromises);
-    
+
         // Consolidar os resultados
         const desejosCompletos = desejosResultados.map((resultado, index) => {
           if (resultado.status === 'fulfilled') {
@@ -181,9 +182,9 @@ const CursosUsuario = () => {
             };
           }
         });
-    
+
         setDesejos(desejosCompletos);
-      }catch (error) {
+      } catch (error) {
         console.error('Erro:', error);
         //pop-up de erro necessário
       }
@@ -193,54 +194,24 @@ const CursosUsuario = () => {
     fetchDesejoDousuario();
   }, []);
 
-  const handleShowMoreCursos = () => {
-    setShowMoreCursos(true);
-  };
-
-  const handleShowMoreDesejos = () => {
-    setShowMoreDesejos(true);
-  };
-
   return (
     <>
       <MainMobile className={"main-mob"}>
-        <h1 className="titulo1">Cursos</h1>
-        <div>
-          <a href="/CadastroArea"><button>Cadastro Area</button></a>
-          <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
-          <a href="/CadastroCurso"><button>Cadastro Curso</button></a>
+        <ChronnosTitleInput title="Timeline" format="bold"></ChronnosTitleInput>
+        {/*precisa adicionar icon="comp" type="button" e cmd={{}} pra quando for montada a pag de view da timeline compartilhada*/}
+        <div className="frame-timeline">
+          {cursos.map(curso => (
+            <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
+              <button key={curso.ID_CURSO} className="tab-timline" style={{ borderLeft: `2px solid ${curso.AREA_COR}` }}>
+                <h1>{curso.NOME}</h1>
+                <p>{curso.DATA_FINI}</p>
+              </button>
+            </a>
+          ))}
         </div>
-        {cursos.slice(0, showMoreCursos ? cursos.length : 5).map(curso => (
-          <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
-            <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
-              <h1>{curso.NOME}</h1>
-              <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
-            </button>
-          </a>          
-        ))}
-        {cursos.length > 5 && !showMoreCursos && <button onClick={handleShowMoreCursos}>Mostrar mais</button>}
-        <h1 className="titulo1">Desejos</h1>
-        <div>
-          <a href="/CadastroArea"><button>Cadastro Area</button></a>
-          <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
-          <a href="/CadastroDesejo"><button>Cadastro Desejo</button></a>
-        </div>
-        {desejos.slice(0, showMoreDesejos ? desejos.length : 5).map(desejo => (
-          <a key={desejo.ID_DESEJO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${desejo.ID_DESEJO}`}>
-            <button className="tab-curso" style={{ backgroundColor: desejo.AREA_COR }}>
-              <h1>{desejo.NOME}</h1>
-              <p>{desejo.AREA_NOME} • {desejo.MATERIA_NOME}</p>
-            </button>
-          </a>          
-        ))}
-        {desejos.length > 5 && !showMoreDesejos && <button onClick={handleShowMoreDesejos}>Mostrar mais</button>}
-        <a href="/Login"><button>Login</button></a>
-        <a href="/Cadastro"><button>Cadastro</button></a>
-
       </MainMobile>
-      <Dock></Dock>
     </>
   );
 };
 
-export default CursosUsuario;
+export default Timeline;
