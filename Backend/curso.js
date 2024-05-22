@@ -97,6 +97,7 @@ router.post('/editarCurso', upload.single('imagem'), (req, res) => {
   let imagem;
 
   if (req.file == undefined) {
+    console.log(imagem);
     imagem = "NULL";
   } else {
     imagem = req.file.filename;

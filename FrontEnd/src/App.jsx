@@ -9,6 +9,7 @@ import CadastroCurso from "./Components/Cadastro/CadastroCurso";
 import CadastroDesejo from "./Components/Cadastro/CadastroDesejo";
 import VisuaizarCursoEspecifico from "./Components/Visualizadores/VisualizarCursoEspecifico"
 import EditarCurso from "./Components/Editores/EditarCurso"
+import EditarAnotacoes from "./Components/Editores/EditarAnotacoes"
 import Anotacoes from "./Components/Anotacoes"
 import Timeline from "./Components/Timeline"
 import Ajustes from "./Components/Ajustes"
@@ -56,6 +57,7 @@ const App = () => {
         <Route path='/CadastroDesejo' element={<CadastroDesejo />} />
         <Route path='/VisuaizarCursoEspecifico' element={<VisuaizarCursoEspecifico />} />
         <Route path='/EditarCurso' element={<EditarCurso />} />
+        <Route path='/EditarAnotacoes' element={<EditarAnotacoes />} />       
         <Route path='/Anotacoes' element={<Anotacoes />} />
         <Route path='/Timeline' element={<Timeline />} />
         <Route path="/Ajustes" element={<Ajustes />} />

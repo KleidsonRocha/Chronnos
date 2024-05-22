@@ -36,12 +36,11 @@ const CadastroMateria = () => {
         .then(data => {
           if(data === null) {
             //COLOCAR POP UP PARA AVISAR QUE NAO POSSUI AREA CADASTRADA
-
+            //ver o console do data para criar a verificação do curso - Matheus
             window.location.href = '/CadastroArea';
           } else {
             setIdUsuario(idUsuarioFromCookie);
             setAreasDoUsuario(data);
-            console.log(data);
           }
         })
         .catch(error => {

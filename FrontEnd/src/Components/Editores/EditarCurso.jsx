@@ -31,53 +31,80 @@ const EditarCurso = () => {
             <form id="curso-formulario">
                 <input type="hidden" id="cursoId" name="cursoId" value={curso.ID_CURSO} />
                 <label htmlFor="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value={curso.NOME} /><br />
+                <input type="text" id="nome" name="nome" value={curso.NOME} onChange={(e) => handleInputChange(e, 'NOME')} /><br />
                 <label htmlFor="modalidade">Modalidade:</label>
-                <input type="text" id="modalidade" name="modalidade" value={curso.MODALIDADE} /><br />
+                <input type="text" id="modalidade" name="modalidade" value={curso.MODALIDADE} onChange={(e) => handleInputChange(e, 'MODALIDADE')} /><br />
                 <label htmlFor="anotacoes">Anotações:</label>
-                <textarea id="anotacoes" name="anotacoes">{curso.ANOTACOES}</textarea><br />
+                <textarea id="anotacoes" name="anotacoes" onChange={(e) => handleInputChange(e, 'ANOTACOES')}>{curso.ANOTACOES}</textarea><br />
                 <label htmlFor="valor">Valor:</label>
-                <input type="number" id="valor" name="valor" value={curso.VALOR} /><br />
+                <input type="number" id="valor" name="valor" value={curso.VALOR} onChange={(e) => handleInputChange(e, 'VALOR')} /><br />
                 <label htmlFor="area">Area:</label>
-                <input type="text" id="area" value={curso.AREA} /><br />
+                <input type="text" id="area" value={curso.AREA} onChange={(e) => handleInputChange(e, 'AREA')} /><br />
                 <label htmlFor="materia">Materia:</label>
-                <input type="text" id="materia" value={curso.MATERIA} /><br />
+                <input type="text" id="materia" value={curso.MATERIA} onChange={(e) => handleInputChange(e, 'MATERIA')} /><br />
                 <label htmlFor="pagamento">Pagamento:</label>
-                <input type="text" id="pagamento" value={curso.PAGAMENTO} /><br />
+                <input type="text" id="pagamento" value={curso.PAGAMENTO} onChange={(e) => handleInputChange(e, 'PAGAMENTO')} /><br />
                 <label htmlFor="data_ini">Data de Início:</label>
-                <input type="date" id="data_ini" name="data_ini" value={curso.DATA_INI} /><br />
+                <input type="date" id="data_ini" name="data_ini" value={curso.DATA_INI} onChange={(e) => handleInputChange(e, 'DATA_INI')} /><br />
                 <label htmlFor="data_fini">Data de Término:</label>
-                <input type="date" id="data_fini" name="data_fini" value={curso.DATA_FINI} /><br />
+                <input type="date" id="data_fini" name="data_fini" value={curso.DATA_FINI} onChange={(e) => handleInputChange(e, 'DATA_FINI')} /><br />
                 <label htmlFor="duracao">Duração:</label>
-                <input type="text" id="duracao" name="duracao" value={curso.DURACAO} /><br />
+                <input type="text" id="duracao" name="duracao" value={curso.DURACAO} onChange={(e) => handleInputChange(e, 'DURACAO')} /><br />
                 <label htmlFor="media">Média:</label>
-                <input type="number" id="media" name="media" value={curso.MEDIA} /><br />
+                <input type="number" id="media" name="media" value={curso.MEDIA} onChange={(e) => handleInputChange(e, 'MEDIA')} /><br />
                 <label htmlFor="imagem">Imagem:</label>
-                <div>
-                    {curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
-                        <embed id="orgimg" src={`./Backend/Images/${curso.ARQUIVO}`} type="application/pdf" />
+                <input type="file" id="imagem" name="imagem" onChange={handleImagemChange} /><br />
+                <div >
+                    {curso && curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
+                        <embed id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
                     ) : (
-                        <img id="orgimg" src={`./Backend/Images/${curso.ARQUIVO}`} alt="Imagem do curso" />
+                        <img id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="auto" />
                     )}
                 </div>
-                <input type="file" id="imagem" name="imagem" onChange={handleImagemChange} /><br />
             </form>
         );
+    }
+    
+
+    function handleInputChange(event, field) {
+        const value = event.target.value;
+        setCurso(prevState => ({
+            ...prevState,
+            [field]: value
+        }));
     }
 
     function handleImagemChange(event) {
         const imagemInput = event.target;
         const imagemFile = imagemInput.files[0];
         const orgimg = document.getElementById('orgimg');
-
+    
         if (imagemFile) {
-            // Se uma nova imagem foi selecionada, exibe-a
-            orgimg.src = URL.createObjectURL(imagemFile);
+            if (imagemFile.type === 'application/pdf') {
+                // Se for um PDF, cria um elemento embed
+                const embedElement = document.createElement('embed');
+                embedElement.src = URL.createObjectURL(imagemFile);
+                embedElement.type = 'application/pdf';
+                embedElement.width = '100%';
+                embedElement.height = '500px';
+                orgimg.innerHTML = ''; // Limpa o conteúdo existente
+                orgimg.appendChild(embedElement); // Adiciona o elemento embed à div orgimg
+            } else {
+                // Se for uma imagem, cria um elemento img
+                const imgElement = document.createElement('img');
+                imgElement.src = URL.createObjectURL(imagemFile);
+                imgElement.width = '100%';
+                imgElement.height = 'auto'; // Ajusta a altura automaticamente
+                orgimg.innerHTML = ''; // Limpa o conteúdo existente
+                orgimg.appendChild(imgElement); // Adiciona o elemento img à div orgimg
+            }
         } else {
             // Se nenhum arquivo foi selecionado, restaura a imagem original
-            orgimg.src = `./Backend/Images/${curso.ARQUIVO}`;
+            orgimg.innerHTML = `<embed src="${RotaBanco}/Images/${curso.ARQUIVO}" type="application/pdf" width="100%" height="500px" />`;
         }
     }
+
+
 
     function salvarAlteracoes() {
         // Criação do formulário para passar como body da requisição do fetch 
@@ -94,22 +121,23 @@ const EditarCurso = () => {
         formData.append('dataFini', document.getElementById('data_fini').value);
         formData.append('duracao', document.getElementById('duracao').value);
         formData.append('media', document.getElementById('media').value);
-        
+
         const orgimg = document.getElementById('orgimg').src;
         const parts = orgimg.split('/');
         const img = parts[parts.length - 1];
         formData.append('imagem', img)
-        console.log(img);
-      
+
         const imagemInput = document.getElementById('imagem');
         const imagemFile = imagemInput.files[0];
-        if(imagemFile == null && img == null) {
+        if (imagemFile == null && img == null) {
             formData.append('imagem', null);
         } else {
             formData.append('imagem', imagemFile);
         }
-      
-        fetch('http://localhost:3000/curso/editarCurso', {
+
+
+
+        fetch(RotaBanco +'/curso/editarCurso', {
             method: 'POST',
             body: formData,
         })
@@ -123,10 +151,11 @@ const EditarCurso = () => {
     }
 
     return (
-        <>
+        <div>
             {curso && preencherFormulario(curso)}
             <button id="editar-curso-btn" onClick={salvarAlteracoes}>Salvar Alterações</button>
-        </>
+        </div>
+
     );
 };
 
