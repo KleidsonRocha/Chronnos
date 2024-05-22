@@ -49,3 +49,12 @@ a{
     display: flex;
     align-items: left;
 }
+
+.layout-vertical{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    gap: 1rem;
+    box-sizing: border-box;
+}

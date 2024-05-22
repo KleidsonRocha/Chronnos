@@ -210,11 +210,6 @@ const CursosUsuario = () => {
     <>
       <MainMobile className={"main-mob"}>
         <ChronnosTitleInput title="Cursos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
-        <div>
-          <a href="/CadastroArea"><button>Cadastro Area</button></a>
-          <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
-          <a href="/CadastroCurso"><button>Cadastro Curso</button></a>
-        </div>
         {cursos.slice(0, showMoreCursos ? cursos.length : 5).map(curso => (
           <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
             <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
@@ -224,12 +219,7 @@ const CursosUsuario = () => {
           </a>
         ))}
         {cursos.length > 5 && !showMoreCursos && <button onClick={handleShowMoreCursos}>Mostrar mais</button>}
-        <h1 className="titulo1">Desejos</h1>
-        <div>
-          <a href="/CadastroArea"><button>Cadastro Area</button></a>
-          <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
-          <a href="/CadastroDesejo"><button>Cadastro Desejo</button></a>
-        </div>
+        <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
         {desejos.slice(0, showMoreDesejos ? desejos.length : 5).map(desejo => (
           <a key={desejo.ID_DESEJO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${desejo.ID_DESEJO}`}>
             <button className="tab-curso" style={{ backgroundColor: desejo.AREA_COR }}>
@@ -239,9 +229,10 @@ const CursosUsuario = () => {
           </a>          
         ))}
         {desejos.length > 5 && !showMoreDesejos && <button onClick={handleShowMoreDesejos}>Mostrar mais</button>}
+        <ChronnosTitleInput title="Áreas" format="regular" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
+        <ChronnosTitleInput title="Matérias" format="regular" icon="add" type="a" cmd={{ href: "/CadastroMateria" }}></ChronnosTitleInput>
         <a href="/Login"><button>Login</button></a>
         <a href="/Cadastro"><button>Cadastro</button></a>
-
       </MainMobile>
       <Dock></Dock>
     </>
