@@ -4,6 +4,7 @@ import "../Components/tab-curso/styles.css"
 import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
+import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 // Definição do objeto Curso
 const Curso = {
   ID_CURSO: 0,
@@ -201,10 +202,14 @@ const CursosUsuario = () => {
     setShowMoreDesejos(true);
   };
 
+  const testeAlert = () => {
+    alert("Teste!");
+  }
+
   return (
     <>
       <MainMobile className={"main-mob"}>
-        <h1 className="titulo1">Cursos</h1>
+        <ChronnosTitleInput title="Cursos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
         <div>
           <a href="/CadastroArea"><button>Cadastro Area</button></a>
           <a href="/CadastroMateria"><button>Cadastro Materia</button></a>
@@ -216,7 +221,7 @@ const CursosUsuario = () => {
               <h1>{curso.NOME}</h1>
               <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
             </button>
-          </a>          
+          </a>
         ))}
         {cursos.length > 5 && !showMoreCursos && <button onClick={handleShowMoreCursos}>Mostrar mais</button>}
         <h1 className="titulo1">Desejos</h1>
