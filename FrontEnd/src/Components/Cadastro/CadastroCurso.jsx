@@ -89,7 +89,6 @@ const CadastroCurso = () => {
   };
 
   const handleSubmit = async event => {
-    event.preventDefault();
 
     const formData = new FormData();
     formData.append('id_aluno', idUsuario);

@@ -57,7 +57,7 @@ const CadastroMateria = () => {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    
 
 
     const formData = {
