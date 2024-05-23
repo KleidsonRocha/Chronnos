@@ -86,7 +86,7 @@ const CadastroCursoEspecifico = () => {
   return (
     <>
       {cursosCompleto.map(curso => (
-        <div key={curso.ID_CURSO} className="tab-curso">
+        <div key={curso.ID_CURSO} className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
           <h1>{curso.NOME}</h1>
           <a href={`/EditarCurso?ID_CURSO=${curso.ID_CURSO}`}><button>Editar Curso</button></a>
           <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>

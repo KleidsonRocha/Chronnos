@@ -28,9 +28,7 @@ const Curso = {
 
 const Timeline = () => {
   const [cursos, setCursos] = useState([]);
-  const [desejos, setDesejos] = useState([]);
-  const [showMoreCursos, setShowMoreCursos] = useState(false);
-  const [showMoreDesejos, setShowMoreDesejos] = useState(false);
+
   const { RotaBanco } = useGlobalContext();
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
@@ -114,85 +112,16 @@ const Timeline = () => {
         //pop-up de erro necessário
       }
     };
-
-    const fetchDesejoDousuario = async () => {
-      try {
-        const usuarioId = getUsuarioIdFromCookie();
-        if (!usuarioId) {
-          window.location.href = '/Login';
-          throw new Error('ID do usuário não encontrado no cookie');
-          // Pop-up de erro necessário
-        }
-
-        const response = await fetch(RotaBanco + `/usuarios/listarDesejoDoUsuario?usuario_id=${usuarioId}`);
-        if (!response.ok) {
-          throw new Error('Erro ao obter os desejos do usuário');
-          // Pop-up de erro necessário
-        }
-
-        const desejos = await response.json();
-
-        // Promessas para obter detalhes de cada desejo
-        const desejosPromises = desejos.map(desejo =>
-          Promise.all([
-            fetch(RotaBanco + `/curso/listarAreaEspecifica?areaId=${desejo.DESEJO_ID_AREA}`),
-            fetch(RotaBanco + `/curso/listarMateriaEspecifica?materiaId=${desejo.DESEJO_ID_MATERIA}`),
-          ])
-            .then(async ([areaResponse, materiaResponse]) => {
-              if (!areaResponse.ok || !materiaResponse.ok) {
-                throw new Error('Erro ao obter detalhes do desejo');
-                // Pop-up de erro necessário
-              }
-
-              const [areaData, materiaData] = await Promise.all([
-                areaResponse.json(),
-                materiaResponse.json(),
-              ]);
-
-              return {
-                ...desejo,
-                AREA_NOME: areaData.NOME_AREA,
-                AREA_COR: areaData.COR,
-                MATERIA_NOME: materiaData.NOME_MATERIA,
-              };
-            })
-            .catch(error => ({
-              ...desejo,
-              AREA_NOME: 'Erro ao obter detalhes da área',
-              AREA_COR: 'Erro',
-              MATERIA_NOME: 'Erro ao obter detalhes da matéria',
-            }))
-        );
-
-        // Esperar todas as promessas de detalhes de desejo serem resolvidas ou rejeitadas
-        const desejosResultados = await Promise.allSettled(desejosPromises);
-
-        // Consolidar os resultados
-        const desejosCompletos = desejosResultados.map((resultado, index) => {
-          if (resultado.status === 'fulfilled') {
-            return resultado.value;
-          } else {
-            // Lida com o caso em que a promessa foi rejeitada
-            return {
-              ...desejos[index],
-              AREA_NOME: resultado.reason.AREA_NOME,
-              AREA_COR: resultado.reason.AREA_COR,
-              MATERIA_NOME: resultado.reason.MATERIA_NOME,
-              PAGAMENTO_NOME: resultado.reason.PAGAMENTO_NOME
-            };
-          }
-        });
-
-        setDesejos(desejosCompletos);
-      } catch (error) {
-        console.error('Erro:', error);
-        //pop-up de erro necessário
-      }
-    };
+ 
 
     fetchCursosDoUsuario();
-    fetchDesejoDousuario();
   }, []);
+  
+  const cursosOrdenados = cursos.sort((cursoA, cursoB) => {
+    const dataA = new Date(cursoA.DATA_FINI);
+    const dataB = new Date(cursoB.DATA_FINI);
+    return dataA - dataB;
+  });
 
   return (
     <>
@@ -200,7 +129,7 @@ const Timeline = () => {
         <ChronnosTitleInput title="Timeline" format="bold"></ChronnosTitleInput>
         {/*precisa adicionar icon="comp" type="button" e cmd={{}} pra quando for montada a pag de view da timeline compartilhada*/}
         <div className="frame-timeline">
-          {cursos.map(curso => (
+          {cursosOrdenados.map(curso => (
             <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
               <button key={curso.ID_CURSO} className="tab-timline" style={{ borderLeft: `2px solid ${curso.AREA_COR}` }}>
                 <h1>{curso.NOME}</h1>
