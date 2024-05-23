@@ -154,7 +154,7 @@ const CadastroCurso = () => {
         <ChronnosInput className="input-default" type="text" placeholder="Duração" value={duracao} onChange={e => setDuracao(e.target.value)} ></ChronnosInput>
         <input type="text" placeholder="Média" value={media} onChange={e => setMedia(e.target.value)} />
         <input id="imagem" name="imagem" type="file" onChange={handleFileChange} />
-        <ChronnosButton type="submit" className="button-default">Registrar curso</ChronnosButton>
+        <ChronnosButton className="button-default" onClick={handleSubmit}>Registrar curso</ChronnosButton>
       </form>
     </MainMobile>
   );
