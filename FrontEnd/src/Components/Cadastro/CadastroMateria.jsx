@@ -96,7 +96,7 @@ const CadastroMateria = () => {
         ))}
       </select>
       <ChronnosInput className="input-default" type="text" placeholder="Nome da matéria" value={Nome} onChange={(e) => setNome(e.target.value)}></ChronnosInput>
-      <ChronnosButton className="button-default" onClick={handleSubmit}> Adicionar matéria</ChronnosButton>
+      <ChronnosButton className="button-default" onClick={handleSubmit} type="submit"> Adicionar matéria</ChronnosButton>
     </MainMobile>
     /*
     USAR O MESMO POP UP JA EXISTENTE
