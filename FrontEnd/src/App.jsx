@@ -10,6 +10,7 @@ import CadastroDesejo from "./Components/Cadastro/CadastroDesejo";
 import VisuaizarCursoEspecifico from "./Components/Visualizadores/VisualizarCursoEspecifico"
 import EditarCurso from "./Components/Editores/EditarCurso"
 import EditarAnotacoes from "./Components/Editores/EditarAnotacoes"
+import EditarUsuario from "./Components/Editores/EditarUsuario"
 import Anotacoes from "./Components/Anotacoes"
 import Timeline from "./Components/Timeline"
 import Ajustes from "./Components/Ajustes"
@@ -19,7 +20,7 @@ const GlobalContext = createContext();
 
 const App = () => {
   // Definir o estado da variável global
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.194.62:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.0.17:3000");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,6 +62,7 @@ const App = () => {
         <Route path='/Anotacoes' element={<Anotacoes />} />
         <Route path='/Timeline' element={<Timeline />} />
         <Route path="/Ajustes" element={<Ajustes />} />
+        <Route path="/EditarUsuario" element={<EditarUsuario />} />
         <Route path='/*' element={<Home />} />
       </Routes>
     </GlobalContext.Provider>

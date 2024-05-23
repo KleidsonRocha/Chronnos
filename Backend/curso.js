@@ -129,6 +129,35 @@ router.post('/editarCurso', upload.single('imagem'), (req, res) => {
   });
 });
 
+router.post('/editarAnotacoes', (req, res) => {
+  const { cursoId, anotacoes } = req.body;
+
+  if (!cursoId) {
+    res.status(400).json({ error: 'Todos os campos devem ser preenchidos' });
+    return;
+  }
+
+  const query = `
+    SELECT editarAnotacoesCurso(${cursoId}, "${anotacoes}");
+  `;
+
+  console.log(query);
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Erro ao atualizar curso:', error);
+      res.status(500).json({ error: 'Erro interno do servidor' + error });
+      return;
+    }
+
+    if (results) {
+      res.json({ cursoId: cursoId });
+    } else {
+      res.status(404).json({ 'Curso não encontrado ou não foi possível atualizar: ': cursoId });
+    }
+  });
+});
+
 router.post('/adicionarCurso', upload.single('certificado'), (req, res) => {
   const { nome_curso, modalidade, anotacoes, valor, curso_id_area, curso_id_materia, curso_id_pagamento, data_ini, data_fini, duracao, media, id_aluno } = req.body;
 

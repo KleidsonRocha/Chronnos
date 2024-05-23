@@ -29,13 +29,12 @@ const EditarCurso = () => {
     function preencherFormulario(curso) {
         return (
             <form id="curso-formulario">
-                <input type="hidden" id="cursoId" name="cursoId" value={curso.ID_CURSO} />
                 <label htmlFor="nome">Nome:</label>
                 <input type="text" id="nome" name="nome" value={curso.NOME} onChange={(e) => handleInputChange(e, 'NOME')} /><br />
                 <label htmlFor="modalidade">Modalidade:</label>
                 <input type="text" id="modalidade" name="modalidade" value={curso.MODALIDADE} onChange={(e) => handleInputChange(e, 'MODALIDADE')} /><br />
                 <label htmlFor="anotacoes">Anotações:</label>
-                <textarea id="anotacoes" name="anotacoes" onChange={(e) => handleInputChange(e, 'ANOTACOES')}>{curso.ANOTACOES}</textarea><br />
+                <textarea id="anotacoes" name="anotacoes" value={curso.ANOTACOES} onChange={(e) => handleInputChange(e, 'ANOTACOES')} /><br />
                 <label htmlFor="valor">Valor:</label>
                 <input type="number" id="valor" name="valor" value={curso.VALOR} onChange={(e) => handleInputChange(e, 'VALOR')} /><br />
                 <label htmlFor="area">Area:</label>
@@ -109,7 +108,7 @@ const EditarCurso = () => {
     function salvarAlteracoes() {
         // Criação do formulário para passar como body da requisição do fetch 
         const formData = new FormData();
-        formData.append('cursoId', document.getElementById('cursoId').value);
+        formData.append('cursoId', curso.ID_CURSO);
         formData.append('nome', document.getElementById('nome').value);
         formData.append('modalidade', document.getElementById('modalidade').value);
         formData.append('anotacoes', document.getElementById('anotacoes').value);

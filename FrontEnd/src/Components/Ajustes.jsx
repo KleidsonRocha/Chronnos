@@ -1,103 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import "../Assets/utility.css";
-import "../Components/tab-curso/styles.css"
+import Chart from 'chart.js/auto';
 import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
-// Definição do objeto Curso
-const Curso = {
-  ID_CURSO: 0,
-  NOME: "",
-  AREA: "",
-  AREA_NOME: "",
-  AREA_COR: "",
-  MATERIA: "",
-  MATERIA_NOME: "",
-  MEDIA: 0,
-  VALOR: 0,
-  PAGAMENTO: "",
-  PAGAMENTO_NOME: "",
-  DURACAO: "",
-  DATA_INI: "",
-  DATA_FINI: "",
-  MODALIDADE: "",
-  ANOTACOES: "",
-  ARQUIVO: ""
-};
+import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 
-const CursosUsuario = () => {
+const Ajustes = () => {
   const [cursos, setCursos] = useState([]);
-  const [desejos, setDesejos] = useState([]);
-  const [showMoreCursos, setShowMoreCursos] = useState(false);
-  const [showMoreDesejos, setShowMoreDesejos] = useState(false);
   const { RotaBanco } = useGlobalContext();
+  const [userData, setUserData] = useState(null);
+
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
       const cookieString = document.cookie;
-      const cookies = cookieString.split('; ');
-
+      const cookies = cookieString.split(';');
+    
       for (const cookie of cookies) {
         const [cookieName, cookieValue] = cookie.split('=');
-        if (cookieName === 'usuario') {
-          const userData = JSON.parse(decodeURIComponent(cookieValue));
-          return userData.ID_USUARIO;
+        const trimmedName = cookieName.trim();
+        if (trimmedName === 'usuario') {
+          const usuarioString = cookieValue.replace(/[()]/g, '');
+          const usuarioObjeto = JSON.parse(usuarioString);
+          return usuarioObjeto;
         }
       }
       return null;
     };
-
+  
     const fetchCursosDoUsuario = async () => {
       try {
-        const usuarioId = getUsuarioIdFromCookie();
-        if (!usuarioId) {
+        const usuario = getUsuarioIdFromCookie();
+        setUserData(usuario);
+  
+        if (!usuario) {
           window.location.href = '/Login';
           throw new Error('ID do usuário não encontrado no cookie');
-          //pop-up de erro necessário
         }
-
-        const response = await fetch(RotaBanco + `/usuarios/listarCursosDoUsuario?usuario_id=${usuarioId}`);
+  
+        const response = await fetch(RotaBanco + `/usuarios/listarCursosDoUsuario?usuario_id=${usuario.ID_USUARIO}`);
+  
         if (!response.ok) {
           throw new Error('Erro ao obter os cursos do usuário');
-          //pop-up de erro necessário
         }
-
+  
         const cursos = await response.json();
-
+  
         // Promessas para obter detalhes da área de cada curso
         const areasPromises = cursos.map(curso =>
           fetch(RotaBanco + `/curso/listarAreaEspecifica?areaId=${curso.AREA}`)
             .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes da área'))
             .then(areaData => ({ ...curso, AREA_NOME: areaData.NOME_AREA, AREA_COR: areaData.COR }))
             .catch(error => ({ ...curso, AREA_NOME: 'Erro ao obter detalhes da área', AREA_COR: 'Erro' }))
-          //pop-up de erro necessário
         );
-
+  
         // Promessas para obter detalhes da matéria de cada curso
         const materiasPromises = cursos.map(curso =>
           fetch(RotaBanco + `/curso/listarMateriaEspecifica?materiaId=${curso.MATERIA}`)
             .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes da matéria'))
             .then(materiaData => ({ ...curso, MATERIA_NOME: materiaData.NOME_MATERIA }))
             .catch(error => ({ ...curso, MATERIA_NOME: 'Erro ao obter detalhes da matéria' }))
-          //pop-up de erro necessário
         );
-
+  
         const pagamentoPromises = cursos.map(curso =>
           fetch(RotaBanco + `/curso/listarPagamentoEspecifico?pagamentoId=${curso.PAGAMENTO}`)
-            .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes do pagamento'))//pop-up de erro necessário
+            .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes do pagamento'))
             .then(pagamentoData => {
               const pagamento = JSON.parse(pagamentoData[0].pagamento);
               return { ...curso, PAGAMENTO_NOME: pagamento.TIPO };
             })
             .catch(error => ({ ...curso, PAGAMENTO_NOME: 'Erro ao obter detalhes de pagamento' }))
-          //pop-up de erro necessário
         );
-
-
-        // Esperar todas as promessas de área e matéria serem resolvidas ou rejeitadas
+  
+        // Esperar todas as promessas de área, matéria e pagamento serem resolvidas ou rejeitadas
         const areasResultados = await Promise.allSettled(areasPromises);
         const materiasResultados = await Promise.allSettled(materiasPromises);
         const pagamentoResultados = await Promise.allSettled(pagamentoPromises);
-
+  
         // Consolidar os resultados
         const cursosCompleto = cursos.map((curso, index) => ({
           ...curso,
@@ -106,108 +84,80 @@ const CursosUsuario = () => {
           MATERIA_NOME: materiasResultados[index].status === 'fulfilled' ? materiasResultados[index].value.MATERIA_NOME : materiasResultados[index].reason,
           PAGAMENTO_NOME: pagamentoResultados[index].status === 'fulfilled' ? pagamentoResultados[index].value.PAGAMENTO_NOME : pagamentoResultados[index].reason,
         }));
-
+  
         setCursos(cursosCompleto);
       } catch (error) {
         console.error('Erro:', error);
         //pop-up de erro necessário
       }
     };
-
-    const fetchDesejoDousuario = async () => {
-      try {
-        const usuarioId = getUsuarioIdFromCookie();
-        if (!usuarioId) {
-          window.location.href = '/Login';
-          throw new Error('ID do usuário não encontrado no cookie');
-          // Pop-up de erro necessário
-        }
-    
-        const response = await fetch(RotaBanco + `/usuarios/listarDesejoDoUsuario?usuario_id=${usuarioId}`);
-        if (!response.ok) {
-          throw new Error('Erro ao obter os desejos do usuário');
-          // Pop-up de erro necessário
-        }
-    
-        const desejos = await response.json();
-    
-        // Promessas para obter detalhes de cada desejo
-        const desejosPromises = desejos.map(desejo =>
-          Promise.all([
-            fetch(RotaBanco + `/curso/listarAreaEspecifica?areaId=${desejo.DESEJO_ID_AREA}`),
-            fetch(RotaBanco + `/curso/listarMateriaEspecifica?materiaId=${desejo.DESEJO_ID_MATERIA}`),
-          ])
-            .then(async ([areaResponse, materiaResponse]) => {
-              if (!areaResponse.ok || !materiaResponse.ok) {
-                throw new Error('Erro ao obter detalhes do desejo');
-                // Pop-up de erro necessário
-              }
-    
-              const [areaData, materiaData] = await Promise.all([
-                areaResponse.json(),
-                materiaResponse.json(),
-              ]);
-    
-              return {
-                ...desejo,
-                AREA_NOME: areaData.NOME_AREA,
-                AREA_COR: areaData.COR,
-                MATERIA_NOME: materiaData.NOME_MATERIA,
-              };
-            })
-            .catch(error => ({
-              ...desejo,
-              AREA_NOME: 'Erro ao obter detalhes da área',
-              AREA_COR: 'Erro',
-              MATERIA_NOME: 'Erro ao obter detalhes da matéria',
-            }))
-        );
-    
-        // Esperar todas as promessas de detalhes de desejo serem resolvidas ou rejeitadas
-        const desejosResultados = await Promise.allSettled(desejosPromises);
-    
-        // Consolidar os resultados
-        const desejosCompletos = desejosResultados.map((resultado, index) => {
-          if (resultado.status === 'fulfilled') {
-            return resultado.value;
-          } else {
-            // Lida com o caso em que a promessa foi rejeitada
-            return {
-              ...desejos[index],
-              AREA_NOME: resultado.reason.AREA_NOME,
-              AREA_COR: resultado.reason.AREA_COR,
-              MATERIA_NOME: resultado.reason.MATERIA_NOME,
-              PAGAMENTO_NOME: resultado.reason.PAGAMENTO_NOME
-            };
-          }
-        });
-    
-        setDesejos(desejosCompletos);
-      }catch (error) {
-        console.error('Erro:', error);
-        //pop-up de erro necessário
-      }
-    };
-
+  
     fetchCursosDoUsuario();
-    fetchDesejoDousuario();
   }, []);
-
-  const handleShowMoreCursos = () => {
-    setShowMoreCursos(true);
+  
+  useEffect(() => {
+    if (cursos.length > 0) {
+      renderizarGrafico();
+    }
+  }, [cursos]);
+  
+  const renderizarGrafico = () => {
+    const ctx = document.getElementById('graficoPizza');
+    console.log(cursos);
+    const valores = cursos.map(curso => curso.VALOR);
+    const nomes = cursos.map(curso => curso.NOME);
+  
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: nomes,
+        datasets: [{
+          label: 'Valor dos Cursos',
+          data: valores,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)'
+          ],
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Valor dos Cursos'
+          }
+        }
+      }
+    });
   };
 
-  const handleShowMoreDesejos = () => {
-    setShowMoreDesejos(true);
-  };
 
-  return (
-    <>
-    <MainMobile>
-    </MainMobile>
-      <Dock></Dock>
-    </>
-  );
+return (
+  <>
+    <MainMobile />
+    <ChronnosTitleInput title="Ajustes" format="bold" icon="add" type="a" cmd={{ href: "/EditarUsuario" }}></ChronnosTitleInput>
+    {userData && (
+      <div>
+        <p>Nome: {userData.NOME}</p>
+        <p>Email: {userData.EMAIL}</p>
+        <p>Senha: {userData.SENHA}</p>
+        <p>ID: {userData.ID_USUARIO}</p>
+      </div>
+    )}
+    <div>
+      <canvas id="graficoPizza"></canvas>
+    </div>
+    <Dock />
+  </>
+);
 };
 
-export default CursosUsuario;
+export default Ajustes;

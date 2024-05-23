@@ -75,7 +75,6 @@ const CadastroDesejo = () => {
   };
 
   const handleSubmit = async event => {
-    event.preventDefault();
 
     const formData = {
       id_aluno: idUsuario,

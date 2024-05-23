@@ -25,7 +25,7 @@ const Curso = {
   ARQUIVO: ""
 };
 
-const CursosUsuario = () => {
+const Anotacoes = () => {
   const [cursos, setCursos] = useState([]);
   const [showMoreCursos, setShowMoreCursos] = useState(false);
 
@@ -141,4 +141,4 @@ const CursosUsuario = () => {
   );
 };
 
-export default CursosUsuario;
+export default Anotacoes;

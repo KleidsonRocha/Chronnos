@@ -32,6 +32,7 @@ const CursosUsuario = () => {
   const [showMoreCursos, setShowMoreCursos] = useState(false);
   const [showMoreDesejos, setShowMoreDesejos] = useState(false);
   const { RotaBanco } = useGlobalContext();
+  
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
       const cookieString = document.cookie;

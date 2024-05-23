@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../../App';
 
-const EditarCurso = () => {
+const EditarAnotacoes = () => {
     const { RotaBanco } = useGlobalContext();
     const [curso, setCurso] = useState(null);
 
@@ -35,15 +35,17 @@ const EditarCurso = () => {
     }
 
     function salvarAlteracoes() {
-        const formData = new FormData();
-        formData.append('cursoId', curso.ID_CURSO);
-        formData.append('anotacoes', curso.ANOTACOES);
+        const dados = {
+            cursoId: curso.ID_CURSO,
+            anotacoes: curso.ANOTACOES,
+        };
 
-
-        // fazer rota para editar anotações
-        fetch(RotaBanco +'/curso/', {
+        fetch(RotaBanco + '/curso/editarAnotacoes', {
             method: 'POST',
-            body: formData,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dados),
         })
             .then(response => response.json())
             .then(data => {
@@ -60,13 +62,6 @@ const EditarCurso = () => {
                 <form id="curso-formulario">
                     <label htmlFor="anotacoes">Anotações:</label>
                     <textarea id="anotacoes" name="anotacoes" value={curso.ANOTACOES} onChange={(e) => handleInputChange(e, 'ANOTACOES')}></textarea><br />
-                    <div >
-                    {curso && curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
-                        <embed id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
-                    ) : (
-                        <img id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="auto" />
-                    )}
-                </div>
                     <br />
                 </form>
             )}
@@ -75,4 +70,4 @@ const EditarCurso = () => {
     );
 };
 
-export default EditarCurso;
+export default EditarAnotacoes;
