@@ -135,7 +135,7 @@ const CadastroDesejo = () => {
           ))}
         </select>
         <ChronnosInput type="text" className="input-default" placeholder="Link do Curso" value={linkCurso} onChange={e => setLinkCurso(e.target.value)}></ChronnosInput>
-        <ChronnosButton type="submit" className="button-default">Adicionar à lista</ChronnosButton>
+        <ChronnosButton className="button-default" onClick={handleSubmit}>Adicionar à lista</ChronnosButton>
       </form>
     </MainMobile>
   );
