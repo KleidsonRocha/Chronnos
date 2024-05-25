@@ -230,7 +230,7 @@ const CursosUsuario = () => {
             </button>
           </a>          
         ))}
-        {desejos.length > 5 && !showMoreDesejos && <button onClick={handleShowMoreDesejos}>Mostrar mais</button>}
+        {desejos.length > 5 && !showMoreDesejos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
         <ChronnosTitleInput title="Áreas" format="regular" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
         <ChronnosTitleInput title="Matérias" format="regular" icon="add" type="a" cmd={{ href: "/CadastroMateria" }}></ChronnosTitleInput>
       </MainMobile>
