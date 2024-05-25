@@ -232,8 +232,7 @@ const CursosUsuario = () => {
         {desejos.length > 5 && !showMoreDesejos && <button onClick={handleShowMoreDesejos}>Mostrar mais</button>}
         <ChronnosTitleInput title="Áreas" format="regular" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
         <ChronnosTitleInput title="Matérias" format="regular" icon="add" type="a" cmd={{ href: "/CadastroMateria" }}></ChronnosTitleInput>
-        <a href="/Login"><button>Login</button></a>
-        <a href="/Cadastro"><button>Cadastro</button></a>
+
       </MainMobile>
       <Dock></Dock>
     </>

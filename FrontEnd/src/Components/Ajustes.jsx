@@ -103,12 +103,11 @@ const Ajustes = () => {
   
   const renderizarGrafico = () => {
     const ctx = document.getElementById('graficoPizza');
-    console.log(cursos);
     const valores = cursos.map(curso => curso.VALOR);
     const nomes = cursos.map(curso => curso.NOME);
   
     new Chart(ctx, {
-      type: 'pie',
+      type: 'doughnut',
       data: {
         labels: nomes,
         datasets: [{
