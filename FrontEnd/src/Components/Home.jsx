@@ -5,6 +5,7 @@ import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
 import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
+import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
 // Definição do objeto Curso
 const Curso = {
   ID_CURSO: 0,
@@ -219,7 +220,7 @@ const CursosUsuario = () => {
             </button>
           </a>
         ))}
-        {cursos.length > 5 && !showMoreCursos && <button onClick={handleShowMoreCursos}>Mostrar mais</button>}
+        {cursos.length > 5 && !showMoreCursos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
         <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
         {desejos.slice(0, showMoreDesejos ? desejos.length : 5).map(desejo => (
           <a key={desejo.ID_DESEJO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${desejo.ID_DESEJO}`}>
@@ -232,7 +233,6 @@ const CursosUsuario = () => {
         {desejos.length > 5 && !showMoreDesejos && <button onClick={handleShowMoreDesejos}>Mostrar mais</button>}
         <ChronnosTitleInput title="Áreas" format="regular" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
         <ChronnosTitleInput title="Matérias" format="regular" icon="add" type="a" cmd={{ href: "/CadastroMateria" }}></ChronnosTitleInput>
-
       </MainMobile>
       <Dock></Dock>
     </>

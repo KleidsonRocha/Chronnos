@@ -17,11 +17,27 @@
     justify-content: center;
 }
 
-.button-default:active{
+.button-default:active {
     font-size: 1.1rem;
 }
 
-.button-insatisfaz{
+.button-tiny {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    background-color: transparent;
+    border: none;
+
+    color: #808080;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: -0.05em;
+}
+
+.button-insatisfaz {
     display: flex;
     flex-direction: row;
     height: auto;
@@ -40,7 +56,7 @@
     justify-content: center;
 }
 
-.button-perigo{
+.button-perigo {
     display: flex;
     flex-direction: row;
     height: auto;
@@ -59,11 +75,11 @@
     justify-content: center;
 }
 
-.button-perigo:active{
+.button-perigo:active {
     font-size: 1.5rem;
 }
 
-.button-color-picker{
+.button-color-picker {
     display: flex;
     flex-direction: row;
     height: auto;
@@ -72,15 +88,16 @@
     padding: 1rem;
     border: none;
     border-radius: 1rem;
-    
+
     color: #ffffff;
     font-size: 1rem;
     justify-content: center;
     align-items: center;
     white-space: nowrap;
-    &:focus{
+
+    &:focus {
         font-weight: 700;
         font-size: 1.25rem;
-        padding: 0.75rem;        
+        padding: 0.75rem;
     }
 }
