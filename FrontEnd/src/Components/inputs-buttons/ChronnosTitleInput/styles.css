@@ -35,6 +35,12 @@
     font-weight: 400;
 }
 
+.delete{
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #ff0000;
+}
+
 .icon{
     display: flex;
     flex-direction: column;

@@ -4,6 +4,9 @@ import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
 import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
+import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
+import ChronnosInput from './inputs-buttons/ChronnosInput/ChronnosInput';
+import "../Assets/utility.css";
 
 const Ajustes = () => {
   const [cursos, setCursos] = useState([]);
@@ -14,7 +17,7 @@ const Ajustes = () => {
     const getUsuarioIdFromCookie = () => {
       const cookieString = document.cookie;
       const cookies = cookieString.split(';');
-    
+
       for (const cookie of cookies) {
         const [cookieName, cookieValue] = cookie.split('=');
         const trimmedName = cookieName.trim();
@@ -26,25 +29,25 @@ const Ajustes = () => {
       }
       return null;
     };
-  
+
     const fetchCursosDoUsuario = async () => {
       try {
         const usuario = getUsuarioIdFromCookie();
         setUserData(usuario);
-  
+
         if (!usuario) {
           window.location.href = '/Login';
           throw new Error('ID do usuário não encontrado no cookie');
         }
-  
+
         const response = await fetch(RotaBanco + `/usuarios/listarCursosDoUsuario?usuario_id=${usuario.ID_USUARIO}`);
-  
+
         if (!response.ok) {
           throw new Error('Erro ao obter os cursos do usuário');
         }
-  
+
         const cursos = await response.json();
-  
+
         // Promessas para obter detalhes da área de cada curso
         const areasPromises = cursos.map(curso =>
           fetch(RotaBanco + `/curso/listarAreaEspecifica?areaId=${curso.AREA}`)
@@ -52,7 +55,7 @@ const Ajustes = () => {
             .then(areaData => ({ ...curso, AREA_NOME: areaData.NOME_AREA, AREA_COR: areaData.COR }))
             .catch(error => ({ ...curso, AREA_NOME: 'Erro ao obter detalhes da área', AREA_COR: 'Erro' }))
         );
-  
+
         // Promessas para obter detalhes da matéria de cada curso
         const materiasPromises = cursos.map(curso =>
           fetch(RotaBanco + `/curso/listarMateriaEspecifica?materiaId=${curso.MATERIA}`)
@@ -60,7 +63,7 @@ const Ajustes = () => {
             .then(materiaData => ({ ...curso, MATERIA_NOME: materiaData.NOME_MATERIA }))
             .catch(error => ({ ...curso, MATERIA_NOME: 'Erro ao obter detalhes da matéria' }))
         );
-  
+
         const pagamentoPromises = cursos.map(curso =>
           fetch(RotaBanco + `/curso/listarPagamentoEspecifico?pagamentoId=${curso.PAGAMENTO}`)
             .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes do pagamento'))
@@ -70,12 +73,12 @@ const Ajustes = () => {
             })
             .catch(error => ({ ...curso, PAGAMENTO_NOME: 'Erro ao obter detalhes de pagamento' }))
         );
-  
+
         // Esperar todas as promessas de área, matéria e pagamento serem resolvidas ou rejeitadas
         const areasResultados = await Promise.allSettled(areasPromises);
         const materiasResultados = await Promise.allSettled(materiasPromises);
         const pagamentoResultados = await Promise.allSettled(pagamentoPromises);
-  
+
         // Consolidar os resultados
         const cursosCompleto = cursos.map((curso, index) => ({
           ...curso,
@@ -84,28 +87,28 @@ const Ajustes = () => {
           MATERIA_NOME: materiasResultados[index].status === 'fulfilled' ? materiasResultados[index].value.MATERIA_NOME : materiasResultados[index].reason,
           PAGAMENTO_NOME: pagamentoResultados[index].status === 'fulfilled' ? pagamentoResultados[index].value.PAGAMENTO_NOME : pagamentoResultados[index].reason,
         }));
-  
+
         setCursos(cursosCompleto);
       } catch (error) {
         console.error('Erro:', error);
         //pop-up de erro necessário
       }
     };
-  
+
     fetchCursosDoUsuario();
   }, []);
-  
+
   useEffect(() => {
     if (cursos.length > 0) {
       renderizarGrafico();
     }
   }, [cursos]);
-  
+
   const renderizarGrafico = () => {
     const ctx = document.getElementById('graficoPizza');
     const valores = cursos.map(curso => curso.VALOR);
     const nomes = cursos.map(curso => curso.NOME);
-  
+
     new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -139,24 +142,37 @@ const Ajustes = () => {
   };
 
 
-return (
-  <>
-    <MainMobile />
-    <ChronnosTitleInput title="Ajustes" format="bold" icon="add" type="a" cmd={{ href: "/EditarUsuario" }}></ChronnosTitleInput>
-    {userData && (
-      <div>
-        <p>Nome: {userData.NOME}</p>
-        <p>Email: {userData.EMAIL}</p>
-        <p>Senha: {userData.SENHA}</p>
-        <p>ID: {userData.ID_USUARIO}</p>
-      </div>
-    )}
-    <div>
-      <canvas id="graficoPizza"></canvas>
-    </div>
-    <Dock />
-  </>
-);
+  return (
+    <>
+      <MainMobile className="main-mob">
+        <ChronnosTitleInput title="Ajustes" format="bold" />
+        {userData && (
+          <div className="layout-vertical">
+            <div className="holder-dados">
+              <p>Nome</p>
+              <ChronnosInput className="input-default" placeholder={`${userData.NOME}`} />
+            </div>
+            <div className="holder-dados">
+              <p>E-mail</p>
+              <ChronnosInput className="input-default" placeholder={`${userData.EMAIL}`} />
+            </div>
+          </div>
+        )}
+        <div className="holder-dados">
+          <p>Alterar a senha</p>
+          <ChronnosInput className="input-default" placeholder="Digite aqui a sua senha atual" />
+        </div>
+        <ChronnosInput className="input-default" placeholder="Digite aqui a sua senha nova" />
+        <ChronnosInput className="input-default" placeholder="Confirme aqui a sua senha nova" />
+        <ChronnosButton className="button-default">Confirmar as mudanças</ChronnosButton>
+        <ChronnosTitleInput title="Apagar a conta" format="delete" icon="arrow-red" type="a" />
+        <div>
+          <canvas id="graficoPizza"></canvas>
+        </div>
+      </MainMobile>
+      <Dock />
+    </>
+  );
 };
 
 export default Ajustes;

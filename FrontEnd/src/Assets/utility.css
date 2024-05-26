@@ -92,3 +92,15 @@ select{
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+.holder-dados {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    gap: 0.25rem;
+    p {
+        font-size: 1.125rem;
+    }
+}
