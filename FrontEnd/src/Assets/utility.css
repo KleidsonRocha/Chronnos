@@ -35,6 +35,31 @@ a {
     color: inherit;
 }
 
+select{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: #f5f5f5;
+
+    appearance: none; /* Remove default arrow in most browsers */
+    -webkit-appearance: none; /* Remove default arrow in Safari */
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='15' height='10' viewBox='0 0 15 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.56663 9.36663C7.38886 9.36663 7.22219 9.33886 7.06663 9.2833C6.91108 9.22775 6.76663 9.1333 6.6333 8.99997L0.499967 2.86663C0.255523 2.62219 0.133301 2.31108 0.133301 1.9333C0.133301 1.55552 0.255523 1.24441 0.499967 0.999967C0.744412 0.755523 1.05552 0.633301 1.4333 0.633301C1.81108 0.633301 2.12219 0.755523 2.36663 0.999967L7.56663 6.19997L12.7666 0.999967C13.0111 0.755523 13.3222 0.633301 13.7 0.633301C14.0777 0.633301 14.3889 0.755523 14.6333 0.999967C14.8777 1.24441 15 1.55552 15 1.9333C15 2.31108 14.8777 2.62219 14.6333 2.86663L8.49997 8.99997C8.36663 9.1333 8.22219 9.22775 8.06663 9.2833C7.91108 9.33886 7.74441 9.36663 7.56663 9.36663Z' fill='black'/%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.8rem auto;
+
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+    text-align: left;
+}
+
 .titulo1 {
     display: flex;
     width: 100%;
