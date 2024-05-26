@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../../App';
+import MainMobile from '../layouts/MainMobile/MainMobile';
+import "./CursoEspecifico/styles.css"
+import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 
 const CadastroCursoEspecifico = () => {
   const { RotaBanco } = useGlobalContext();
@@ -86,24 +89,43 @@ const CadastroCursoEspecifico = () => {
   return (
     <>
       {cursosCompleto.map(curso => (
-        <div key={curso.ID_CURSO} className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
-          <h1>{curso.NOME}</h1>
-          <a href={`/EditarCurso?ID_CURSO=${curso.ID_CURSO}`}><button>Editar Curso</button></a>
-          <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
-          <p><strong>Data de Início:</strong> {curso.DATA_INI}</p>
-          <p><strong>Data de Término:</strong> {curso.DATA_FINI}</p>
-
-          <p><strong>Cor Atrelada a Área:</strong> {curso.AREA_COR}</p>
-          <p><strong>Valor:</strong> R${curso.VALOR}</p>
-          <p><strong>Pagamento usado:</strong> {curso.PAGAMENTO_NOME}</p>
-          <p><strong>Modalidade:</strong> {curso.MODALIDADE}</p>
-
+        <MainMobile className="main-mob">
+          <div key={curso.ID_CURSO} className="header-curso" style={{ backgroundColor: curso.AREA_COR }}>
+            <ChronnosTitleInput title={curso.NOME} format="bold" icon="edit" type="a" cmd={{ href: `/EditarCurso?ID_CURSO=${curso.ID_CURSO}` }}></ChronnosTitleInput>
+            <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
+          </div>
+          <div className="holder-split">
+            <div className="holder-dados">
+              <p>Início do curso</p>
+              <div className="campo-picker">
+                {curso.DATA_INI}
+              </div>
+            </div>
+            <div className="holder-dados">
+              <p>Fim do curso</p>
+              <div className="campo-picker">
+                {curso.DATA_FINI}
+              </div>
+            </div>
+          </div>
+          <div className="holder-dados">
+            <p>Modalidade</p>
+            <div className="campo">{curso.MODALIDADE}</div>
+          </div>
+          <div className="holder-dados">
+            <p>Pagamento via</p>
+            <div className="campo">{curso.PAGAMENTO_NOME}</div>
+          </div>
+          <div className="holder-dados">
+            <p>Valor</p>
+            <div className="campo">R${curso.VALOR}</div>
+          </div>
           {curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
             <embed src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
           ) : (
             <img src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="100%" />
           )}
-        </div>
+        </MainMobile>
       ))}
       {/*
         <p><strong>ID do Curso:</strong> {curso.ID_CURSO}</p>

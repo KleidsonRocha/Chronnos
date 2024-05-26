@@ -6,7 +6,7 @@
     box-sizing: border-box;
     position: fixed;
     z-index: 20;
-    background-color: #F2F2F2;
+    background-color: #f2f2f2d9;
     backdrop-filter: blur(1rem);
     justify-content: center;
     align-items: center;
