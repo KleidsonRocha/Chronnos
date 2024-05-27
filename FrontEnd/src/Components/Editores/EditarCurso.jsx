@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../../App';
+import MainMobile from '../layouts/MainMobile/MainMobile';
+import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
+import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
+import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
+import "../../Assets/utility.css";
+import "../../Components/Cadastro/CadastroCurso/styles.css"
 
 const EditarCurso = () => {
     const { RotaBanco } = useGlobalContext();
@@ -29,41 +35,132 @@ const EditarCurso = () => {
     function preencherFormulario(curso) {
         return (
             <form id="curso-formulario">
-                <label htmlFor="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value={curso.NOME} onChange={(e) => handleInputChange(e, 'NOME')} /><br />
-                <label htmlFor="modalidade">Modalidade:</label>
-                <input type="text" id="modalidade" name="modalidade" value={curso.MODALIDADE} onChange={(e) => handleInputChange(e, 'MODALIDADE')} /><br />
-                <label htmlFor="anotacoes">Anotações:</label>
-                <textarea id="anotacoes" name="anotacoes" value={curso.ANOTACOES} onChange={(e) => handleInputChange(e, 'ANOTACOES')} /><br />
-                <label htmlFor="valor">Valor:</label>
-                <input type="number" id="valor" name="valor" value={curso.VALOR} onChange={(e) => handleInputChange(e, 'VALOR')} /><br />
-                <label htmlFor="area">Area:</label>
-                <input type="text" id="area" value={curso.AREA} onChange={(e) => handleInputChange(e, 'AREA')} /><br />
-                <label htmlFor="materia">Materia:</label>
-                <input type="text" id="materia" value={curso.MATERIA} onChange={(e) => handleInputChange(e, 'MATERIA')} /><br />
-                <label htmlFor="pagamento">Pagamento:</label>
-                <input type="text" id="pagamento" value={curso.PAGAMENTO} onChange={(e) => handleInputChange(e, 'PAGAMENTO')} /><br />
-                <label htmlFor="data_ini">Data de Início:</label>
-                <input type="date" id="data_ini" name="data_ini" value={curso.DATA_INI} onChange={(e) => handleInputChange(e, 'DATA_INI')} /><br />
-                <label htmlFor="data_fini">Data de Término:</label>
-                <input type="date" id="data_fini" name="data_fini" value={curso.DATA_FINI} onChange={(e) => handleInputChange(e, 'DATA_FINI')} /><br />
-                <label htmlFor="duracao">Duração:</label>
-                <input type="text" id="duracao" name="duracao" value={curso.DURACAO} onChange={(e) => handleInputChange(e, 'DURACAO')} /><br />
-                <label htmlFor="media">Média:</label>
-                <input type="number" id="media" name="media" value={curso.MEDIA} onChange={(e) => handleInputChange(e, 'MEDIA')} /><br />
-                <label htmlFor="imagem">Imagem:</label>
-                <input type="file" id="imagem" name="imagem" onChange={handleImagemChange} /><br />
-                <div >
-                    {curso && curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
-                        <embed id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
-                    ) : (
-                        <img id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="auto" />
-                    )}
+                <div className="layout-vertical">
+                    <div className="holder-dados">
+                        <p>Nome do curso</p>
+                        <ChronnosInput
+                            type="text"
+                            id="nome"
+                            value={curso.NOME}
+                            className="input-default"
+                            onChange={(e) => handleInputChange(e, 'NOME')}
+                        />
+                    </div>
+                    <div className="holder-dados">
+                        <p>Area</p>
+                        <ChronnosInput
+                            type="text"
+                            id="area"
+                            value={curso.AREA}
+                            className="input-default"
+                            onChange={(e) => handleInputChange(e, 'AREA')}
+                        />
+                    </div>
+                    <div className="holder-dados">
+                        <p>Materia</p>
+                        <ChronnosInput
+                            type="text"
+                            id="materia"
+                            value={curso.MATERIA}
+                            className="input-default"
+                            onChange={(e) => handleInputChange(e, 'MATERIA')}
+                        />
+                    </div>
+                    <div className="holder-dados">
+                        <p>Formato de pagamento</p>
+                        <ChronnosInput
+                            type="text"
+                            id="pagamento"
+                            value={curso.PAGAMENTO}
+                            className="input-default"
+                            onChange={(e) => handleInputChange(e, 'PAGAMENTO')}
+                        />
+                    </div>
+                    <div className="holder-dados">
+                        <p>Valor</p>
+                        <ChronnosInput
+                            type="number"
+                            id="valor"
+                            value={curso.VALOR}
+                            className="input-default"
+                            onChange={(e) => handleInputChange(e, 'VALOR')}
+                        />
+                    </div>
+                    <div className="holder-dados">
+                        <p>Modalidade</p>
+                        <ChronnosInput
+                            type="text"
+                            id="modalidade"
+                            value={curso.MODALIDADE}
+                            className="input-default"
+                            onChange={(e) => handleInputChange(e, 'MODALIDADE')}
+                        />
+                    </div>
+                    <div className="holder-dados">
+                        <p>Média</p>
+                        <ChronnosInput
+                            type="number"
+                            id="media"
+                            value={curso.MEDIA}
+                            className="input-default"
+                            onChange={(e) => handleInputChange(e, 'MEDIA')}
+                        />
+                    </div>
+                    <div className="holder-dados">
+                        <p>Anotações</p>
+                        <textarea
+                            id="anotacoes"
+                            name="anotacoes"
+                            value={curso.ANOTACOES}
+                            className="input-default"
+                            onChange={(e) => handleInputChange(e, 'ANOTACOES')}
+                        />
+                    </div>
+                    <div className="holder-pickers">
+                        <div className="holder-pickers">
+                            <p>Início do curso</p>
+                            <ChronnosInput
+                                type="date"
+                                id="data_ini"
+                                value={curso.DATA_INI}
+                                className="picker-data"
+                                onChange={(e) => handleInputChange(e, 'DATA_INI')}
+                            />
+                        </div>
+                        <div className="holder-pickers">
+                            <p>Fim do curso</p>
+                            <ChronnosInput
+                                type="date"
+                                id="data_fini"
+                                value={curso.DATA_FINI}
+                                className="picker-data"
+                                onChange={(e) => handleInputChange(e, 'DATA_FINI')}
+                            />
+                        </div>
+                    </div>
+                    <div className="holder-dados">
+                        <p>Duração</p>
+                        <ChronnosInput
+                            type="text"
+                            id="duracao"
+                            value={curso.DURACAO}
+                            className="input-default"
+                            onChange={(e) => handleInputChange(e, 'DURACAO')}
+                        />
+                    </div>
+                    <input type="file" id="imagem" name="imagem" onChange={handleImagemChange} />
+                    <div >
+                        {curso && curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
+                            <embed id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
+                        ) : (
+                            <img id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="auto" />
+                        )}
+                    </div>
                 </div>
             </form>
         );
     }
-    
+
 
     function handleInputChange(event, field) {
         const value = event.target.value;
@@ -77,7 +174,7 @@ const EditarCurso = () => {
         const imagemInput = event.target;
         const imagemFile = imagemInput.files[0];
         const orgimg = document.getElementById('orgimg');
-    
+
         if (imagemFile) {
             if (imagemFile.type === 'application/pdf') {
                 // Se for um PDF, cria um elemento embed
@@ -136,7 +233,7 @@ const EditarCurso = () => {
 
 
 
-        fetch(RotaBanco +'/curso/editarCurso', {
+        fetch(RotaBanco + '/curso/editarCurso', {
             method: 'POST',
             body: formData,
         })
@@ -150,11 +247,16 @@ const EditarCurso = () => {
     }
 
     return (
-        <div>
-            {curso && preencherFormulario(curso)}
-            <button id="editar-curso-btn" onClick={salvarAlteracoes}>Salvar Alterações</button>
-        </div>
-
+        <>
+            <MainMobile className="main-mob">
+                <h1>Editar um curso</h1>
+                <div>
+                    {curso && preencherFormulario(curso)}
+                </div>
+                <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
+                <ChronnosTitleInput title="Remover o curso" format="delete" icon="rem-curso" type="a" />
+            </MainMobile>
+        </>
     );
 };
 

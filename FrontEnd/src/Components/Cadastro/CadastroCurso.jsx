@@ -3,6 +3,7 @@ import { useGlobalContext } from '../../App';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
+import "./CadastroCurso/styles.css";
 
 const CadastroCurso = () => {
   const { RotaBanco } = useGlobalContext();
@@ -138,6 +139,7 @@ const CadastroCurso = () => {
     <MainMobile className="main-mob">
       <h1>Registrar um curso</h1>
       <form onSubmit={handleSubmit} className="layout-vertical">
+      <ChronnosInput className="input-default" type="text" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} ></ChronnosInput>
         <select id="area" value={selectedArea} onChange={handleAreaChange}>
           <option value="">Selecione a área</option>
           {areasDoUsuario.map(area => (
@@ -158,14 +160,21 @@ const CadastroCurso = () => {
           <option value="">Selecione o ID de pagamento</option>
           <option value="3">Pix</option>
         </select>
-        <ChronnosInput className="input-default" type="text" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} ></ChronnosInput>
-        <ChronnosInput className="input-default" type="text" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} ></ChronnosInput>
-        <ChronnosInput className="input-default" type="text" placeholder="Anotações" value={anotacoes} onChange={e => setAnotacoes(e.target.value)} ></ChronnosInput>
         <ChronnosInput className="input-default" type="text" placeholder="Valor" value={valor} onChange={e => setValor(e.target.value)} ></ChronnosInput>
-        <input type="date" placeholder="Data de início" value={dataIni} onChange={e => setDataIni(e.target.value)} />
-        <input type="date" placeholder="Data de término" value={dataFini} onChange={e => setDataFini(e.target.value)} />
+        <ChronnosInput className="input-default" type="text" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} ></ChronnosInput>
+        <ChronnosInput className="input-default" type="number" placeholder="Média" value={media} onChange={e => setMedia(e.target.value)} ></ChronnosInput>
+        <ChronnosInput className="input-default" type="text" placeholder="Anotações" value={anotacoes} onChange={e => setAnotacoes(e.target.value)} ></ChronnosInput>
+        <div className="holder-pickers">
+          <div>
+            <p>Início do curso</p>
+            <input type="date" placeholder="Data de início" value={dataIni} onChange={e => setDataIni(e.target.value)} className="picker-data" />
+          </div>
+          <div>
+            <p>Fim do curso</p>
+            <input type="date" placeholder="Data de término" value={dataFini} onChange={e => setDataFini(e.target.value)} className="picker-data"/>
+          </div>
+        </div>
         <ChronnosInput className="input-default" type="text" placeholder="Duração" value={duracao} onChange={e => setDuracao(e.target.value)} ></ChronnosInput>
-        <input type="text" placeholder="Média" value={media} onChange={e => setMedia(e.target.value)} />
         <input id="imagem" name="imagem" type="file" onChange={handleFileChange} />
         <ChronnosButton className="button-default" onClick={handleSubmit}>Registrar curso</ChronnosButton>
       </form>

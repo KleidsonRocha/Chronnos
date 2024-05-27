@@ -35,21 +35,3 @@
     text-align: center;
     justify-content: center;
 }
-
-.popup{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-    box-sizing: border-box;
-    position: fixed;
-    z-index: 20;
-    background-color: #ffffffe6;
-    backdrop-filter: blur(1rem);
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    top: 0;
-    left: 0;
-}

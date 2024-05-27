@@ -125,7 +125,7 @@ const Anotacoes = () => {
   return (
     <>
       <MainMobile className={"main-mob"}>
-        <h1 className="titulo1">Anotações de Cursos</h1>
+        <h1 className="titulo1">Anotações</h1>
         {cursos.slice(0, showMoreCursos ? cursos.length : 5).map(curso => (
           <a key={curso.ID_CURSO} href={`/EditarAnotacoes?ID_CURSO=${curso.ID_CURSO}`}>
             <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>

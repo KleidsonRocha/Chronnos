@@ -1,0 +1,22 @@
+.header-curso {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 1rem;
+
+    h1 {
+        font-size: 1.5rem;
+        text-align: left;
+        color: #ffffff;
+    }
+
+    p {
+        font-size: 1.25rem;
+        text-align: left;
+        color: #ffffff;
+    }
+}

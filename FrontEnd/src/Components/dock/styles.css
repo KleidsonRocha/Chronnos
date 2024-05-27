@@ -30,6 +30,11 @@
         font-style: normal;
         font-weight: 400;
         text-align: center;
+        user-select: none;
+    }
+    
+    &:active{
+        transform: scale(0.85);
     }
 }
 

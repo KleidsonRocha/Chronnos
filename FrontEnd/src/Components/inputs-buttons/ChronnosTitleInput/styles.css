@@ -9,16 +9,19 @@
     h1{
         line-height: 90%;
     }
-    img{
-        width: 2rem;
-        height: 2rem;
-    }
     button{
         display: flex;
         width: 2rem;
         height: 2rem;
         background-color: transparent;
         border: none;
+    }
+    a{
+        display: flex;
+        width: 2rem;
+        height: 2rem;
+        height: auto;
+        width: auto;
     }
 }
 
@@ -30,4 +33,19 @@
 .regular{
     font-size: 1.5rem;
     font-weight: 400;
+}
+
+.delete{
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #ff0000;
+}
+
+.icon{
+    display: flex;
+    flex-direction: column;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
 }

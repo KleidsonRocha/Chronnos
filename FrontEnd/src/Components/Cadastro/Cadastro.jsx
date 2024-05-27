@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
+import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import '../../pages/LoginCadastro/styles.css';
 import '../../Assets/utility.css';
@@ -68,10 +69,7 @@ function CadastroUsuario() {
       </form>
       <p className="txt-footer">Já possui uma conta? Faça o Login <a href="/Login">aqui</a>.</p>
       {showPopup && (
-        <div className="popup">
-          <p className="txt-titulo">Usuário cadastrado com sucesso!</p>
-          <ChronnosButton type="submit" className={"button-default"} onClick={handleClosePopup}>Retornar ao Login</ChronnosButton>
-        </div>
+        <ChronnosPopUp title="Conta criada com sucesso!" btntxt="Retornar ao Login" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
       )}
     </MainMobile>
   );
