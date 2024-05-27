@@ -14,13 +14,14 @@ import EditarUsuario from "./Components/Editores/EditarUsuario"
 import Anotacoes from "./Components/Anotacoes"
 import Timeline from "./Components/Timeline"
 import Ajustes from "./Components/Ajustes"
+import Compartilhar from "./Components/Compartilhar";
 
 // Criar um contexto
 const GlobalContext = createContext();
 
 const App = () => {
   // Definir o estado da variável global
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.205:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.213:3000");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const App = () => {
         <Route path='/Timeline' element={<Timeline />} />
         <Route path="/Ajustes" element={<Ajustes />} />
         <Route path="/EditarUsuario" element={<EditarUsuario />} />
+        <Route path="/Compartilhar" element={<Compartilhar />} />
         <Route path='/*' element={<Home />} />
       </Routes>
     </GlobalContext.Provider>

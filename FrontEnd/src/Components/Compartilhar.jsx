@@ -5,7 +5,7 @@ import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
 import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 
-const Ajustes = () => {
+const Compartilhar = () => {
   const [cursos, setCursos] = useState([]);
   const { RotaBanco } = useGlobalContext();
   const [userData, setUserData] = useState(null);
@@ -151,9 +151,6 @@ return (
         <p>ID: {userData.ID_USUARIO}</p>
       </div>
     )}
-    <a href="/Compartilhar">
-    <button>Compartilhar Perfil</button>
-    </a>
     <div>
       <canvas id="graficoPizza"></canvas>
     </div>
@@ -162,4 +159,4 @@ return (
 );
 };
 
-export default Ajustes;
+export default Compartilhar;

@@ -217,6 +217,26 @@ router.post('/adicionarDesejo', (req, res) => {
   });
 });
 
+router.get('/excluirCurso', (req, res) => {
+  const cursoId = req.query.cursoId;
+
+  if (!cursoId) {
+    res.status(400).send('ID do curso é obrigatório.');
+    return;
+  }
+
+  const query = `SELECT excluirCurso(${cursoId})`;
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+    const curso = JSON.parse(results);
+    res.json(curso);
+  });
+});
+
 
 
 module.exports = router;

@@ -50,7 +50,12 @@ const CadastroCurso = () => {
         })
         .then(data => {
           setIdUsuario(idUsuarioFromCookie);
-          setAreasDoUsuario(data);
+          if (!data || data.length === 0) {
+            alert('Você não possui áreas cadastradas. Redirecionando para o cadastro de áreas.');
+            window.location.href = '/CadastroArea';
+          } else {
+            setAreasDoUsuario(data);
+          }
         })
         .catch(error => {
           console.error('Erro na requisição:', error);
@@ -60,12 +65,20 @@ const CadastroCurso = () => {
         .then(response => {
           if (!response.ok) {
             throw new Error('Erro ao carregar matérias do usuário');
+
           }
+          window
           return response.json();
         })
         .then(data => {
           setIdUsuario(idUsuarioFromCookie);
           setMateriasDoUsuario(data);
+          if (!data || data.length === 0) {
+            alert('Você não possui matérias cadastradas. Redirecionando para o cadastro de matérias.');
+            window.location.href = '/CadastroMateria';
+          } else {
+            setMateriasDoUsuario(data);
+          }
         })
         .catch(error => {
           console.error('Erro na requisição:', error);
