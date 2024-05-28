@@ -225,14 +225,17 @@ router.get('/excluirCurso', (req, res) => {
     return;
   }
 
-  const query = `SELECT excluirCurso(${cursoId})`;
+  const query = `SELECT excluirCurso(${cursoId}) AS curso`;
 
+  console.log(query);
+  
   connection.query(query, (err, results) => {
     if (err) {
+      console.error('Erro ao listar curso específico:', err);
       res.status(500).send('Erro interno do servidor');
       return;
     }
-    const curso = JSON.parse(results);
+    const curso = JSON.parse(results[0].curso);
     res.json(curso);
   });
 });

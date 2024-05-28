@@ -3,13 +3,15 @@ import { useGlobalContext } from '../../App';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
-import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
+import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 import "../../Assets/utility.css";
 import "../../Components/Cadastro/CadastroCurso/styles.css"
 
 const EditarCurso = () => {
     const { RotaBanco } = useGlobalContext();
     const [curso, setCurso] = useState(null);
+    const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
+    const [showPopupEdicao, setShowPopupEdicao] = useState(false); // Estado para controlar a exibição do pop-up
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -240,11 +242,33 @@ const EditarCurso = () => {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                setShowPopupEdicao(true);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     }
+
+    function excluirCurso() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const cursoId = urlParams.get('ID_CURSO');
+
+        const url = RotaBanco + `/curso/excluirCurso?cursoId=${cursoId}`;
+        console.log(url);
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao excluir curso');
+                }
+                setShowPopup(true);
+            })
+    }
+    const handleClosePopup = () => {
+        setShowPopup(false);
+        window.location.href = '/Home';
+    };
+
 
     return (
         <>
@@ -254,8 +278,14 @@ const EditarCurso = () => {
                     {curso && preencherFormulario(curso)}
                 </div>
                 <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-                <ChronnosTitleInput title="Remover o curso" format="delete" icon="rem-curso" type="a" />
+                <button onClick={() => excluirCurso()}>excluir curso</button>
             </MainMobile>
+            {showPopup && (
+                <ChronnosPopUp title="Curso excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+            )}
+            {showPopupEdicao && (
+                <ChronnosPopUp title="Curso editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+            )}
         </>
     );
 };
