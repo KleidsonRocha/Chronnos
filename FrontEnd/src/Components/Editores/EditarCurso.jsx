@@ -278,7 +278,7 @@ const EditarCurso = () => {
                     {curso && preencherFormulario(curso)}
                 </div>
                 <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-                <button onClick={() => excluirCurso()}>excluir curso</button>
+                <ChronnosButton id="editar-curso-btn" onClick={excluirCurso} className="button">Excluir</ChronnosButton>
             </MainMobile>
             {showPopup && (
                 <ChronnosPopUp title="Curso excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
