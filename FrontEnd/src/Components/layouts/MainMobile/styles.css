@@ -7,7 +7,8 @@
     gap: 1rem;
     padding: 1rem;
     overflow-y: scroll;
-    > *:last-child {
+
+    >*:last-child {
         margin-bottom: 5.5rem;
     }
 }
@@ -22,11 +23,19 @@
     padding: 1rem;
     justify-content: center;
     overflow-y: scroll;
-    > *:last-child {
+
+    >*:last-child {
         margin-bottom: 5.5rem;
     }
 }
 
-h1, h2{
+h1,
+h2 {
     line-height: 90%;
+}
+
+@media (orientation: landscape) {
+    .main-mob {
+        padding: 2rem 15vw;
+    }
 }
