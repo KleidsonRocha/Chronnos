@@ -202,8 +202,6 @@ const EditarCurso = () => {
         }
     }
 
-
-
     function salvarAlteracoes() {
         // Criação do formulário para passar como body da requisição do fetch 
         const formData = new FormData();

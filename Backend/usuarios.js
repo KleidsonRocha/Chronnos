@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const upload = require('./uploadConfig');
 const connection = require('./connection');
 
 router.get('/adicionarUsuario', (req, res) => {
@@ -232,6 +233,27 @@ router.get('/verificaUsuario', (req, res) => {
       return;
     }
     res.json(usuarioJSON);
+  });
+});
+
+router.post('/editarUsuario', upload.none(), (req, res) => {
+  const { id_aluno, nome, email, senha} = req.body;
+
+
+  // Cria a query para adicionar o desejo
+  const query = `SELECT editarUsuario(${id_aluno}, "${nome}", "${email}", "${senha}") AS novo_id`;
+
+  console.log(query); // Log da query para debug
+
+  // Executa a query no banco de dados
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao editar usuario:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+
+    res.status(200).send('')
   });
 });
 

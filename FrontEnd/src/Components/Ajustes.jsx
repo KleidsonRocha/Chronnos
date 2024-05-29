@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import Chart from 'chart.js/auto';
 import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
 import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
 import ChronnosInput from './inputs-buttons/ChronnosInput/ChronnosInput';
+import ChronnosPopUp from '../Components/ChronnosPopUp/ChronnosPopUp';
 import "../Assets/utility.css";
 
 const Ajustes = () => {
   const [cursos, setCursos] = useState([]);
   const { RotaBanco } = useGlobalContext();
   const [userData, setUserData] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showPopupSenha, setShowPopupSenha] = useState(false);
+  const [showPopupSucesso, setShowPopupSucesso] = useState(false); // Estado para controlar a exibição do pop-up
 
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
@@ -98,49 +101,58 @@ const Ajustes = () => {
     fetchCursosDoUsuario();
   }, []);
 
-  useEffect(() => {
-    if (cursos.length > 0) {
-      renderizarGrafico();
-    }
-  }, [cursos]);
 
-  const renderizarGrafico = () => {
-    const ctx = document.getElementById('graficoPizza');
-    const valores = cursos.map(curso => curso.VALOR);
-    const nomes = cursos.map(curso => curso.NOME);
+  const EditarConta = async event => {
+    let nome = document.getElementById('Nome').value;
+    let email = document.getElementById('Email').value;
+    let SenhaAtual = document.getElementById('SenhaAtual').value;
+    let SenhaNova = document.getElementById('SenhaNova').value;
+    let SenhaNova2 = document.getElementById('SenhaNovaIgual').value;
 
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: nomes,
-        datasets: [{
-          label: 'Valor dos Cursos',
-          data: valores,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 206, 86, 0.6)',
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(153, 102, 255, 0.6)',
-            'rgba(255, 159, 64, 0.6)'
-          ],
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Valor dos Cursos'
-          }
-        }
+    if (userData.SENHA !== SenhaAtual) {
+      setShowPopup(true);
+    } else if (SenhaNova !== SenhaNova2) {
+      setShowPopupSenha(true);
+    } else {
+      if (nome === "") {
+        nome = userData.NOME;
       }
-    });
-  };
+      if (email === "") {
+        email = userData.EMAIL;
+      }
 
+      const formData = new FormData();
+      formData.append('id_aluno', userData.ID_USUARIO);
+      formData.append('nome', nome);
+      formData.append('email', email);
+      formData.append('senha', SenhaNova);
+
+
+      const response = await fetch(RotaBanco + '/usuarios/editarUsuario', {
+        method: 'POST',
+        body: formData,
+      })
+      if (response.status == 200) {
+        document.cookie = `usuario=${JSON.stringify({ NOME: nome, EMAIL: email, SENHA: SenhaNova, ID_USUARIO: userData.ID_USUARIO })}; path=/;`;
+        setShowPopupSucesso(true);
+      }
+
+    }
+  }
+
+
+  function handleClosePopup() {
+    setShowPopup(false);
+  }
+
+  function handleClosePopupSenha() {
+    setShowPopupSenha(false);
+  }
+
+  function handleClosePopupSucesso() {
+    setShowPopupSenha(false);
+    window.location.href = '/Ajustes';
+  }
 
   return (
     <>
@@ -150,26 +162,32 @@ const Ajustes = () => {
           <div className="layout-vertical">
             <div className="holder-dados">
               <p>Nome</p>
-              <ChronnosInput className="input-default" placeholder={`${userData.NOME}`} />
+              <ChronnosInput id="Nome" className="input-default" placeholder={`${userData.NOME}`} />
             </div>
             <div className="holder-dados">
               <p>E-mail</p>
-              <ChronnosInput className="input-default" placeholder={`${userData.EMAIL}`} />
+              <ChronnosInput id="Email" className="input-default" placeholder={`${userData.EMAIL}`} />
             </div>
           </div>
         )}
         <div className="holder-dados">
           <p>Alterar a senha</p>
-          <ChronnosInput className="input-default" placeholder="Digite aqui a sua senha atual" />
+          <ChronnosInput id="SenhaAtual" className="input-default" placeholder="Digite aqui a sua senha atual" />
         </div>
-        <ChronnosInput className="input-default" placeholder="Digite aqui a sua senha nova" />
-        <ChronnosInput className="input-default" placeholder="Confirme aqui a sua senha nova" />
-        <ChronnosButton className="button-default">Confirmar as mudanças</ChronnosButton>
+        <ChronnosInput id="SenhaNova" className="input-default" placeholder="Digite aqui a sua senha nova" />
+        <ChronnosInput id="SenhaNovaIgual" className="input-default" placeholder="Confirme aqui a sua senha nova" />
+        <ChronnosButton className="button-default" onClick={EditarConta}>Confirmar as mudanças</ChronnosButton>
         <ChronnosTitleInput title="Apagar a conta" format="delete" icon="arrow-red" type="a" />
-        <div>
-          <canvas id="graficoPizza"></canvas>
-        </div>
       </MainMobile>
+      {showPopup && (
+        <ChronnosPopUp title="Senha digitada difere da atual" btntxt="Retornar" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+      )}
+      {showPopupSenha && (
+        <ChronnosPopUp title="Senhas novas não conferem" btntxt="Retornar" btntype="submit" cmd={{ onClick: handleClosePopupSenha }}></ChronnosPopUp>
+      )}
+      {showPopupSucesso && (
+        <ChronnosPopUp title="Ajustes realizados com sucesso!" btntxt="OK" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
+      )}
       <Dock />
     </>
   );
