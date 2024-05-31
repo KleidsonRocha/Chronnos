@@ -3,12 +3,14 @@ import { useGlobalContext } from '../../App';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
+import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 
 const CadastroArea = () => {
   const { RotaBanco } = useGlobalContext();
   const [nomeArea, setNomeArea] = useState('');
   const [cor, setCor] = useState('');
   const [idUsuario, setIdUsuario] = useState(null);
+  const [showPopupSucesso, setShowPopupSucesso] = useState(false)
 
   // Efeito para obter o ID do usuário do cookie quando o componente é montado
   useEffect(() => {
@@ -26,9 +28,6 @@ const CadastroArea = () => {
   }, []);
 
   const handleSubmit = async (event) => {
-
-
-
     const formData = {
       idUsuario: idUsuario,
       nomeArea: nomeArea,
@@ -43,16 +42,21 @@ const CadastroArea = () => {
         },
         body: JSON.stringify(formData),
       });
-
-
-
       const data = await response.json();
-      //Necessário mensagem de sucesso
+
+      if (data.novoId) {
+        setShowPopupSucesso(true);
+      }
+
     } catch (error) {
-      console.error('kleidson:', error);
-      //transformar esse console num pop-up de erro
+      console.log('novoId não encontrado na resposta');
     }
   };
+
+  function handleClosePopupSucesso() {
+    setShowPopupSucesso(false);
+    window.location.href = '/Home';
+  }
 
   const cores = [
     { nome: 'Azul Neptuno', hex: '#0B2943' },
@@ -76,17 +80,22 @@ const CadastroArea = () => {
   };
 
   return (
-    <MainMobile className="main-mob-cent">
-      <h1>Cadastro de área</h1>
-      <ChronnosInput className="input-default" type="text" placeholder="Nome da Área" value={nomeArea} onChange={(e) => setNomeArea(e.target.value)}></ChronnosInput>
-      <div>
-      <p style={{marginBottom: '0.25rem'}}>Selecione uma cor</p>
-      <div className="no-scrollbar" style={{ display: 'flex', direction: 'row', width: '100%', overflowY: 'scroll', gap: '0.5rem', borderRadius: '1rem' }}>
-        {cores.map((cor, index) => (<button style={{ backgroundColor: cor.hex }} className="button-color-picker" key={index} onClick={() => { setCor(cor.hex); corFeedback(); }}>{cor.nome}</button>))}
-      </div>
-      </div>
-      <ChronnosButton className="button-default" onClick={handleSubmit}>Adicionar Área</ChronnosButton>
-    </MainMobile>
+    <>
+      <MainMobile className="main-mob-cent">
+        <h1>Cadastro de área</h1>
+        <ChronnosInput className="input-default" type="text" placeholder="Nome da Área" value={nomeArea} onChange={(e) => setNomeArea(e.target.value)}></ChronnosInput>
+        <div>
+          <p style={{ marginBottom: '0.25rem' }}>Selecione uma cor</p>
+          <div className="no-scrollbar" style={{ display: 'flex', direction: 'row', width: '100%', overflowY: 'scroll', gap: '0.5rem', borderRadius: '1rem' }}>
+            {cores.map((cor, index) => (<button style={{ backgroundColor: cor.hex }} className="button-color-picker" key={index} onClick={() => { setCor(cor.hex); corFeedback(); }}>{cor.nome}</button>))}
+          </div>
+        </div>
+        <ChronnosButton className="button-default" onClick={handleSubmit}>Adicionar Área</ChronnosButton>
+      </MainMobile>
+      {showPopupSucesso && (
+        <ChronnosPopUp title="Área criada com sucesso!" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
+      )}
+    </>
   );
 };
 

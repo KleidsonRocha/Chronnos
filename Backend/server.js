@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const usuariosRoutes = require('./usuarios');
 const cursoRoutes = require('./curso');
 const app = express();
+const desejoRoutes = require('./desejo')
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,6 +16,7 @@ app.use('/Images', (req, res, next) => {
 
 app.use('/usuarios', usuariosRoutes);
 app.use('/curso', cursoRoutes);
+app.use('/desejo', desejoRoutes)
 
 // Inicializar o servidor
 const PORT = process.env.PORT || 3000;

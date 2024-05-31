@@ -3,8 +3,6 @@ const router = express.Router();
 const upload = require('./uploadConfig'); // Importa a configuração do multer
 const connection = require('./connection');
 
-
-
 router.get('/listarCursoEspecifico', (req, res) => {
   const cursoId = req.query.cursoId;
 

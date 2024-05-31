@@ -257,6 +257,27 @@ router.post('/editarUsuario', upload.none(), (req, res) => {
   });
 });
 
+router.post('/excluirUsuario', upload.none(), (req, res) => {
+  const { id_aluno} = req.body;
+
+
+  // Cria a query para adicionar o desejo
+  const query = `SELECT excluirUsuario(${id_aluno}) AS novo_id`;
+
+  console.log(query); // Log da query para debug
+
+  // Executa a query no banco de dados
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao excluir usuario:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+
+    res.status(200).send('')
+  });
+});
+
 
 // Exporte o roteador
 module.exports = router;

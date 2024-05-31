@@ -3,6 +3,7 @@ import { useGlobalContext } from '../../App';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
+import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 
 const CadastroDesejo = () => {
   const { RotaBanco } = useGlobalContext();
@@ -14,6 +15,7 @@ const CadastroDesejo = () => {
   const [nomeCurso, setNomeCurso] = useState('');
   const [modalidade, setModalidade] = useState('');
   const [linkCurso, setLinkCurso] = useState('');
+  const [showPopupSucesso, setShowPopupSucesso] = useState(false)
 
   useEffect(() => {
     const cookieString = document.cookie;
@@ -75,6 +77,7 @@ const CadastroDesejo = () => {
   };
 
   const handleSubmit = async event => {
+    event.preventDefault()
 
     const formData = {
       id_aluno: idUsuario,
@@ -94,29 +97,27 @@ const CadastroDesejo = () => {
         body: JSON.stringify(formData)
       });
 
-      if (!response.ok) {
-        throw new Error('Erro ao adicionar curso');
+      if (response.ok) {
+        setShowPopupSucesso(true);
       }
-
-      const data = await response.json();
-      console.log('Desejo adicionado com sucesso:', data);
     } catch (error) {
-      console.error('Erro:', error);
+      console.error("Erro ao adicionar desejo");
     }
   };
 
+  
+  function handleClosePopupSucesso() {
+    setShowPopupSucesso(false);
+    window.location.href = '/Home';
+  }
+
   return (
+    <>
     <MainMobile className="main-mob-cent">
       <h1>Adicione um curso desejado</h1>
       <form onSubmit={handleSubmit} className="layout-vertical">
         <ChronnosInput type="text" className="input-default" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} ></ChronnosInput>
         <ChronnosInput type="text" className="input-default" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} ></ChronnosInput>
-        {/*
-        <input type="text" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} />
-        <input type="text" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} />
-        <input type="text" placeholder="Link do Curso" value={linkCurso} onChange={e => setLinkCurso(e.target.value)} />
-        <button type="submit">Adicionar à lista de desejos</button>
-        */}
         <select id="area" value={selectedArea} onChange={handleAreaChange}>
           <option value="">Selecione a área</option>
           {areasDoUsuario.map(area => (
@@ -134,9 +135,13 @@ const CadastroDesejo = () => {
           ))}
         </select>
         <ChronnosInput type="text" className="input-default" placeholder="Link do Curso" value={linkCurso} onChange={e => setLinkCurso(e.target.value)}></ChronnosInput>
-        <ChronnosButton className="button-default" onClick={handleSubmit}>Adicionar à lista</ChronnosButton>
+        <ChronnosButton className="button-default" onSubmit={handleSubmit}>Adicionar à lista</ChronnosButton>
       </form>
     </MainMobile>
+    {showPopupSucesso && (
+        <ChronnosPopUp title="Desejo criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
+      )}
+    </>
   );
 };
 

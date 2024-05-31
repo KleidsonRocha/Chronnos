@@ -3,8 +3,10 @@ import { useGlobalContext } from '../../App';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import "./CursoEspecifico/styles.css"
 import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
+import Dock from '../dock/Dock';
 
-const CadastroCursoEspecifico = () => {
+
+const VisualizarCursoEspecifico = () => {
   const { RotaBanco } = useGlobalContext();
   const [cursosCompleto, setCursosCompleto] = useState(null);
 
@@ -14,8 +16,6 @@ const CadastroCursoEspecifico = () => {
 
     const url = RotaBanco + `/curso/listarCursoEspecifico?cursoId=${cursoId}`;
 
-
-
     fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -24,7 +24,7 @@ const CadastroCursoEspecifico = () => {
         return response.json();
       })
       .then(cursoData => {
-        const cursos = [cursoData]; // Coloque o curso retornado em um array
+        const cursos = [cursoData]; 
         const tratamentoErro = error => ({ error });
 
         const areasPromises = cursos.map(curso =>
@@ -81,11 +81,6 @@ const CadastroCursoEspecifico = () => {
     return <p>Carregando...</p>;
   }
 
-  const handleEditor = event => {
-    console.log(event);
-  };
-
-  // Retorna o componente com os cursos completos
   return (
     <>
       {cursosCompleto.map(curso => (
@@ -125,13 +120,12 @@ const CadastroCursoEspecifico = () => {
           ) : (
             <img src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="100%" />
           )}
+          
         </MainMobile>
       ))}
-      {/*
-        <p><strong>ID do Curso:</strong> {curso.ID_CURSO}</p>
-       */}
+      <Dock></Dock>
     </>
   );
 }
 
-export default CadastroCursoEspecifico;
+export default VisualizarCursoEspecifico;

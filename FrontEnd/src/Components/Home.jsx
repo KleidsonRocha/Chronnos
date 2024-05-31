@@ -28,15 +28,16 @@ const Curso = {
 };
 
 const CursosUsuario = () => {
+  const { RotaBanco } = useGlobalContext();
   const [cursos, setCursos] = useState([]);
   const [desejos, setDesejos] = useState([]);
+  const [areas, setAreasDoUsuario] = useState([]);
+  const [materias, setMateriasDoUsuario] = useState([]);
   const [showMoreCursos, setShowMoreCursos] = useState(false);
   const [showMoreDesejos, setShowMoreDesejos] = useState(false);
-  const [uniqueAreas, setUniqueAreas] = useState(new Set()); // Conjunto para armazenar áreas únicas
-  const uniqueAreasObj = {};
-  const [uniqueMaterias, setUniqueMaterias] = useState(new Set()); // Conjunto para armazenar áreas únicas
-  const uniqueMateriasObj = {};
-  const { RotaBanco } = useGlobalContext();
+
+
+
 
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
@@ -70,7 +71,6 @@ const CursosUsuario = () => {
 
         const cursos = await response.json();
 
-        // Promessas para obter detalhes da área de cada curso
         const areasPromises = cursos.map(curso =>
           fetch(RotaBanco + `/curso/listarAreaEspecifica?areaId=${curso.AREA}`)
             .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes da área'))
@@ -79,7 +79,6 @@ const CursosUsuario = () => {
           //pop-up de erro necessário
         );
 
-        // Promessas para obter detalhes da matéria de cada curso
         const materiasPromises = cursos.map(curso =>
           fetch(RotaBanco + `/curso/listarMateriaEspecifica?materiaId=${curso.MATERIA}`)
             .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes da matéria'))
@@ -99,13 +98,10 @@ const CursosUsuario = () => {
           //pop-up de erro necessário
         );
 
-
-        // Esperar todas as promessas de área e matéria serem resolvidas ou rejeitadas
         const areasResultados = await Promise.allSettled(areasPromises);
         const materiasResultados = await Promise.allSettled(materiasPromises);
         const pagamentoResultados = await Promise.allSettled(pagamentoPromises);
 
-        // Consolidar os resultados
         const cursosCompleto = cursos.map((curso, index) => ({
           ...curso,
           AREA_NOME: areasResultados[index].status === 'fulfilled' ? areasResultados[index].value.AREA_NOME : areasResultados[index].reason,
@@ -115,32 +111,8 @@ const CursosUsuario = () => {
         }));
 
 
-        // Iterar sobre os cursos completos para obter áreas únicas
-        cursosCompleto.forEach(cursoCompleto => {
-          // Verificar se a área já existe no objeto
-          if (!uniqueAreasObj[cursoCompleto.AREA]) {
-            // Se a área não existir, adicione-a ao objeto com o nome como chave e o ID como valor
-            uniqueAreasObj[cursoCompleto.AREA] = cursoCompleto.AREA_NOME;
-          }
-        });
-        // Converter o objeto em um array de objetos { id, nome } para renderização
-        const uniqueAreasArray = Object.entries(uniqueAreasObj).map(([id, nome]) => ({ id, nome }));
-        // Definir o estado de uniqueAreas com o array de áreas únicas
-        setUniqueAreas(uniqueAreasArray);
 
 
-        // Iterar sobre os desejos completos para obter matérias únicas
-        cursosCompleto.forEach(cursoCompleto => {
-          // Verificar se a matéria já existe no objeto
-          if (!uniqueMateriasObj[cursoCompleto.MATERIA]) {
-            // Se a matéria não existir, adicione-a ao objeto com o nome como chave e o ID como valor
-            uniqueMateriasObj[cursoCompleto.MATERIA] = cursoCompleto.MATERIA_NOME;
-          }
-        });
-        // Converter o objeto em um array de objetos { id, nome } para renderização
-        const uniqueMateriasArray = Object.entries(uniqueMateriasObj).map(([id, nome]) => ({ id, nome }));
-        // Definir o estado de uniqueMaterias com o array de matérias únicas
-        setUniqueMaterias(uniqueMateriasArray);
 
 
         setCursos(cursosCompleto);
@@ -219,14 +191,52 @@ const CursosUsuario = () => {
 
 
 
+
       } catch (error) {
         console.error('Erro:', error);
         //pop-up de erro necessário
       }
     };
 
+    const fetchAreasMateriasUsuario = async () => {
+      const usuarioId = getUsuarioIdFromCookie();
+      const urlAreas = `${RotaBanco}/usuarios/listarAreasUsuario?usuario_id=${usuarioId}`;
+      const urlMateria = `${RotaBanco}/usuarios/listarMateriaUsuario?usuario_id=${usuarioId}`;
+
+      fetch(urlAreas)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao carregar áreas do usuário');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setAreasDoUsuario(data);
+        })
+        .catch(error => {
+          console.error('Erro na requisição:', error);
+        });
+
+      fetch(urlMateria)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao carregar matérias do usuário');
+          }
+          window
+          return response.json();
+        })
+        .then(data => {
+            setMateriasDoUsuario(data);
+        })
+        .catch(error => {
+          console.error('Erro na requisição:', error);
+        });
+
+    }
+
     fetchCursosDoUsuario();
     fetchDesejoDousuario();
+    fetchAreasMateriasUsuario()
   }, []);
 
   const handleShowMoreCursos = () => {
@@ -253,7 +263,7 @@ const CursosUsuario = () => {
         {cursos.length > 5 && !showMoreCursos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
         <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
         {desejos.slice(0, showMoreDesejos ? desejos.length : 5).map(desejo => (
-          <a key={desejo.ID_DESEJO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${desejo.ID_DESEJO}`}>
+          <a key={desejo.ID_DESEJO} href={`/VisualizarDesejoEspecifico?ID_DESEJO=${desejo.ID_DESEJO}`}>
             <button className="tab-curso" style={{ backgroundColor: desejo.AREA_COR }}>
               <h1>{desejo.NOME}</h1>
               <p>{desejo.AREA_NOME} • {desejo.MATERIA_NOME}</p>
@@ -262,18 +272,20 @@ const CursosUsuario = () => {
         ))}
         {desejos.length > 5 && !showMoreDesejos && <ChronnosButton className="button-tiny" onClick={handleShowMoreDesejos}>Mostrar mais</ChronnosButton>}
         <ChronnosTitleInput title="Áreas" format="regular" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
-        {Array.from(uniqueAreas).map(area => (
-          <button className="tab-curso" key={area.id}>
-            <h1>{area.nome}</h1>
-            <p>{area.id}</p>
-          </button>
+        {areas.slice(0, showMoreCursos ? cursos.length : 5).map(area => (
+          <a key={area.ID_AREA} href={`/VisuaizarAreaEspecifico?ID_AREA=${area.ID_AREA}`}>
+            <button className="tab-curso" style={{ backgroundColor: area.COR }}>
+              <h1>{area.NOME_AREA}</h1>
+            </button>
+          </a>
         ))}
         <ChronnosTitleInput title="Matérias" format="regular" icon="add" type="a" cmd={{ href: "/CadastroMateria" }}></ChronnosTitleInput>
-        {Array.from(uniqueMaterias).map(materia => (
-          <button className="tab-curso" key={materia.id}>
-            <h1>{materia.nome}</h1>
-            <p>{materia.id}</p>
-          </button>
+        {materias.slice(0, showMoreCursos ? cursos.length : 5).map(materias => (
+          <a key={materias.ID_AREA} href={`/VisuaizarMateriaEspecifico?ID_MATERIA=${materias.ID_MATERIA}`}>
+            <button className="tab-curso" style={{ backgroundColor: materias.COR }}>
+              <h1>{materias.NOME_MATERIA}</h1>
+            </button>
+          </a>
         ))}
       </MainMobile>
       <Dock></Dock>
