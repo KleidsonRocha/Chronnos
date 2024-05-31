@@ -5,6 +5,7 @@ import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
 import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
+import Chart from 'chart.js/auto';
 // Definição do objeto Curso
 const Curso = {
   ID_CURSO: 0,
@@ -112,11 +113,11 @@ const Timeline = () => {
         //pop-up de erro necessário
       }
     };
- 
+
 
     fetchCursosDoUsuario();
   }, []);
-  
+
   const cursosOrdenados = cursos.sort((cursoA, cursoB) => {
     const dataA = new Date(cursoA.DATA_FINI);
     const dataB = new Date(cursoB.DATA_FINI);
@@ -127,12 +128,49 @@ const Timeline = () => {
     "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
   ];
-  
+
   const formatarData = (dataString) => {
     const data = new Date(dataString);
     const nomeMes = meses[data.getMonth()];
     const ano = data.getFullYear();
     return `${nomeMes} de ${ano}`;
+  };
+
+  useEffect(() => {
+    if (cursos.length > 0) {
+      renderizarGrafico();
+    }
+  }, [cursos]);
+
+  const renderizarGrafico = () => {
+    const ctx = document.getElementById('graficoPizza');
+    const valores = cursos.map(curso => curso.VALOR);
+    const nomes = cursos.map(curso => curso.NOME);
+    const cores = cursos.map(curso => curso.AREA_COR);
+
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: nomes,
+        datasets: [{
+          label: 'Valor dos Cursos',
+          data: valores,
+          backgroundColor: cores,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Valor dos Cursos'
+          }
+        }
+      }
+    });
   };
 
   return (
@@ -149,6 +187,9 @@ const Timeline = () => {
               </button>
             </a>
           ))}
+        </div>
+        <div className="frame-grafico">
+          <canvas id="graficoPizza"></canvas>
         </div>
       </MainMobile>
       <Dock></Dock>
