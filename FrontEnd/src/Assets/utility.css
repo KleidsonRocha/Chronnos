@@ -36,7 +36,7 @@ a {
     color: inherit;
 }
 
-select{
+select {
     display: flex;
     flex-direction: row;
     height: auto;
@@ -85,6 +85,15 @@ select{
     box-sizing: border-box;
 }
 
+.layout-map {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    gap: 1rem;
+    box-sizing: border-box;
+}
+
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
@@ -101,6 +110,7 @@ select{
     height: auto;
     box-sizing: border-box;
     gap: 0.25rem;
+
     p {
         font-size: 1.125rem;
     }
@@ -115,7 +125,7 @@ select{
     gap: 1rem;
 }
 
-.campo{
+.campo {
     display: flex;
     flex-direction: row;
     height: auto;
@@ -148,4 +158,21 @@ select{
     font-weight: 400;
     text-align: center;
     letter-spacing: normal;
+}
+
+@media (orientation: landscape) {
+    .layout-map {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        align-content: flex-start;
+        gap: 1rem;
+        width: 100%;
+        height: auto;
+    }
+
+    .layout-map a {
+        flex: 1 0 40%;
+    }
 }

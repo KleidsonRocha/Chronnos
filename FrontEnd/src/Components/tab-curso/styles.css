@@ -21,4 +21,9 @@
         text-align: left;
         color: #ffffff;
     }
+
+    &:hover{
+        transform: scale(1.0125);
+        cursor: pointer;
+    }
 }

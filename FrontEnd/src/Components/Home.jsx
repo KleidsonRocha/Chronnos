@@ -226,7 +226,7 @@ const CursosUsuario = () => {
           return response.json();
         })
         .then(data => {
-            setMateriasDoUsuario(data);
+          setMateriasDoUsuario(data);
         })
         .catch(error => {
           console.error('Erro na requisição:', error);
@@ -252,15 +252,17 @@ const CursosUsuario = () => {
     <>
       <MainMobile className={"main-mob"}>
         <ChronnosTitleInput title="Cursos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroCurso" }}></ChronnosTitleInput>
-        {cursos.slice(0, showMoreCursos ? cursos.length : 5).map(curso => (
-          <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
-            <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
-              <h1>{curso.NOME}</h1>
-              <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
-            </button>
-          </a>
-        ))}
-        {cursos.length > 5 && !showMoreCursos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
+        <div className="layout-map">
+          {cursos.slice(0, showMoreCursos ? cursos.length : 5).map(curso => (
+            <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
+              <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
+                <h1>{curso.NOME}</h1>
+                <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
+              </button>
+            </a>
+          ))}
+          {cursos.length > 5 && !showMoreCursos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
+        </div>
         <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
         {desejos.slice(0, showMoreDesejos ? desejos.length : 5).map(desejo => (
           <a key={desejo.ID_DESEJO} href={`/VisualizarDesejoEspecifico?ID_DESEJO=${desejo.ID_DESEJO}`}>
