@@ -58,7 +58,7 @@ function CadastroUsuario() {
   };
 
   return (
-    <MainMobile className="main-mob-cent">
+    <MainMobile className="form-mob-cent">
       <p className="txt-instrucao">CRIAÇÃO DA CONTA</p>
       <h1 className="txt-titulo">Insira seus dados</h1>
       <form onSubmit={handleSubmit}>

@@ -94,15 +94,6 @@ select {
     box-sizing: border-box;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-
-.no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
 .holder-dados {
     display: flex;
     flex-direction: column;
@@ -174,5 +165,16 @@ select {
 
     .layout-map a {
         flex: 1 0 40%;
+    }
+}
+
+@media (orientation: portrait) {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 }

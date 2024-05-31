@@ -44,7 +44,7 @@ function Login() {
   };
 
   return (
-    <MainMobile className={"main-mob-cent"}>
+    <MainMobile className={"form-mob-cent"}>
       <h1 className="txt-titulo">Seja bem vindo ao Chronnos!</h1>
       {error && <p className="txt-error">{error}</p>}
       <ChronnosInput type="email" id="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} className="input-default"></ChronnosInput>

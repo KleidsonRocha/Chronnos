@@ -16,3 +16,9 @@
     left: 0;
     color: black;
 }
+
+@media (orientation: landscape) {
+    .popup{
+        padding: 2rem 35vw;
+    }
+}

@@ -261,34 +261,43 @@ const CursosUsuario = () => {
               </button>
             </a>
           ))}
-          {cursos.length > 5 && !showMoreCursos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
         </div>
-        <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
-        {desejos.slice(0, showMoreDesejos ? desejos.length : 5).map(desejo => (
-          <a key={desejo.ID_DESEJO} href={`/VisualizarDesejoEspecifico?ID_DESEJO=${desejo.ID_DESEJO}`}>
-            <button className="tab-curso" style={{ backgroundColor: desejo.AREA_COR }}>
-              <h1>{desejo.NOME}</h1>
-              <p>{desejo.AREA_NOME} • {desejo.MATERIA_NOME}</p>
-            </button>
-          </a>
-        ))}
-        {desejos.length > 5 && !showMoreDesejos && <ChronnosButton className="button-tiny" onClick={handleShowMoreDesejos}>Mostrar mais</ChronnosButton>}
+        {cursos.length > 5 && !showMoreCursos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
+
         <ChronnosTitleInput title="Áreas" format="regular" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
-        {areas.slice(0, showMoreCursos ? cursos.length : 5).map(area => (
-          <a key={area.ID_AREA} href={`/VisuaizarAreaEspecifico?ID_AREA=${area.ID_AREA}`}>
-            <button className="tab-curso" style={{ backgroundColor: area.COR }}>
-              <h1>{area.NOME_AREA}</h1>
-            </button>
-          </a>
-        ))}
+        <div className="layout-map">
+          {areas.slice(0, showMoreCursos ? cursos.length : 5).map(area => (
+            <a key={area.ID_AREA} href={`/VisuaizarAreaEspecifico?ID_AREA=${area.ID_AREA}`}>
+              <button className="tab-curso" style={{ backgroundColor: area.COR }}>
+                <p>{area.NOME_AREA}</p>
+              </button>
+            </a>
+          ))}
+        </div>
+
         <ChronnosTitleInput title="Matérias" format="regular" icon="add" type="a" cmd={{ href: "/CadastroMateria" }}></ChronnosTitleInput>
-        {materias.slice(0, showMoreCursos ? cursos.length : 5).map(materias => (
-          <a key={materias.ID_AREA} href={`/VisuaizarMateriaEspecifico?ID_MATERIA=${materias.ID_MATERIA}`}>
-            <button className="tab-curso" style={{ backgroundColor: materias.COR }}>
-              <h1>{materias.NOME_MATERIA}</h1>
-            </button>
-          </a>
-        ))}
+        <div className="layout-map">
+          {materias.slice(0, showMoreCursos ? cursos.length : 5).map(materias => (
+            <a key={materias.ID_AREA} href={`/VisuaizarMateriaEspecifico?ID_MATERIA=${materias.ID_MATERIA}`}>
+              <button className="tab-curso" style={{ backgroundColor: materias.COR }}>
+                <p>{materias.NOME_MATERIA}</p>
+              </button>
+            </a>
+          ))}
+        </div>
+
+        <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
+        <div className="layout-map">
+          {desejos.slice(0, showMoreDesejos ? desejos.length : 5).map(desejo => (
+            <a key={desejo.ID_DESEJO} href={`/VisualizarDesejoEspecifico?ID_DESEJO=${desejo.ID_DESEJO}`}>
+              <button className="tab-curso" style={{ backgroundColor: desejo.AREA_COR }}>
+                <h1>{desejo.NOME}</h1>
+                <p>{desejo.AREA_NOME} • {desejo.MATERIA_NOME}</p>
+              </button>
+            </a>
+          ))}
+        </div>
+        {desejos.length > 5 && !showMoreDesejos && <ChronnosButton className="button-tiny" onClick={handleShowMoreDesejos}>Mostrar mais</ChronnosButton>}
       </MainMobile>
       <Dock></Dock>
     </>
