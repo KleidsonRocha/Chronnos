@@ -105,6 +105,7 @@ const Compartilhar = () => {
     const ctx = document.getElementById('graficoPizza');
     const valores = cursos.map(curso => curso.VALOR);
     const nomes = cursos.map(curso => curso.NOME);
+    const cores = cursos.map(curso => curso.AREA_COR);
   
     new Chart(ctx, {
       type: 'doughnut',
@@ -113,14 +114,7 @@ const Compartilhar = () => {
         datasets: [{
           label: 'Valor dos Cursos',
           data: valores,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 206, 86, 0.6)',
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(153, 102, 255, 0.6)',
-            'rgba(255, 159, 64, 0.6)'
-          ],
+          backgroundColor: cores,
         }]
       },
       options: {
