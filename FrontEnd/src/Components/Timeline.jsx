@@ -178,18 +178,20 @@ const Timeline = () => {
       <MainMobile className={"main-mob"}>
         <ChronnosTitleInput title="Timeline" format="bold"></ChronnosTitleInput>
         {/*precisa adicionar icon="comp" type="button" e cmd={{}} pra quando for montada a pag de view da timeline compartilhada*/}
-        <div className="frame-timeline">
-          {cursosOrdenados.map(curso => (
-            <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
-              <button key={curso.ID_CURSO} className="tab-timline" style={{ borderLeft: `2px solid ${curso.AREA_COR}` }}>
-                <h1>{curso.NOME}</h1>
-                <p>{formatarData(curso.DATA_FINI)}</p>
-              </button>
-            </a>
-          ))}
-        </div>
-        <div className="frame-grafico">
-          <canvas id="graficoPizza"></canvas>
+        <div className="holder-timeline-graf">
+          <div className="frame-timeline">
+            {cursosOrdenados.map(curso => (
+              <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
+                <button key={curso.ID_CURSO} className="tab-timline" style={{ borderLeft: `2px solid ${curso.AREA_COR}` }}>
+                  <h1>{curso.NOME}</h1>
+                  <p>{formatarData(curso.DATA_FINI)}</p>
+                </button>
+              </a>
+            ))}
+          </div>
+          <div className="frame-grafico">
+            <canvas id="graficoPizza"></canvas>
+          </div>
         </div>
       </MainMobile>
       <Dock></Dock>
