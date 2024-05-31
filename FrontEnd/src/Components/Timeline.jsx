@@ -123,6 +123,18 @@ const Timeline = () => {
     return dataA - dataB;
   });
 
+  const meses = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+  
+  const formatarData = (dataString) => {
+    const data = new Date(dataString);
+    const nomeMes = meses[data.getMonth()];
+    const ano = data.getFullYear();
+    return `${nomeMes} de ${ano}`;
+  };
+
   return (
     <>
       <MainMobile className={"main-mob"}>
@@ -133,7 +145,7 @@ const Timeline = () => {
             <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
               <button key={curso.ID_CURSO} className="tab-timline" style={{ borderLeft: `2px solid ${curso.AREA_COR}` }}>
                 <h1>{curso.NOME}</h1>
-                <p>{curso.DATA_FINI}</p>
+                <p>{formatarData(curso.DATA_FINI)}</p>
               </button>
             </a>
           ))}
