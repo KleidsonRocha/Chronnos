@@ -51,7 +51,6 @@ const getIcon = (iconName) => {
 };
 
 const ChronnosTitleInput = ({ title, icon, format, type, cmd }) => {
-  console.log('cmd prop:', cmd); // Debugging line
 
   return (
     <div className="title-input">
