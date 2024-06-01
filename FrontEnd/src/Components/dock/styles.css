@@ -11,7 +11,7 @@
 
     border-radius: 2rem 2rem 0 0;
     border-top: solid 1px #ffffff;
-    background-color: hsla(0, 0%, 100%, 0.75);
+    background-color: #ffffffbf;
     backdrop-filter: blur(1rem);
     -webkit-backdrop-filter: blur(1rem);
 }
@@ -47,6 +47,10 @@
     align-items: center;
 }
 
+.home-button{
+    display: none;
+}
+
 @media (orientation: landscape) {
     .dock {
         box-sizing: border-box;
@@ -58,8 +62,10 @@
         position: absolute;
         height: 100%;
         width: auto;
+        background-color: #f5f5f5bf;
         border-radius: 0rem 1rem 1rem 0rem;
-        background-color: #f5f5f5;
+        border-top: none;
+        border-right: solid 1px #ffffff;
         p{
             font-size: 0rem;
         }
@@ -80,6 +86,22 @@
         &:hover{
             transform: scale(1.05);
             cursor: pointer;
+        }
+    }
+
+    .home-button{
+        display: block;
+        width: 2.75rem;
+        height: auto;
+        position: absolute;
+        top: 1rem;
+        filter: grayscale(1);
+        border-radius: 0.5rem;
+        &:hover{
+            transform: scale(1.1);
+            cursor: pointer;
+            border-radius: 0.6875rem;
+            filter: grayscale(0);
         }
     }
 }

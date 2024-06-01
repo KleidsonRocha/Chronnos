@@ -29,6 +29,7 @@ const Dock = () => {
 
     return (
         <div className="dock">
+            <a href="/Home"><img src="/src/Assets/chronnos-home-button.png" className="home-button"/></a>
             <button className="dock-button" onClick={() => handleClick('/Home', '1')}>
                 <div className="dock-icon">
                     <svg width={"2rem"} height={"2rem"}>
