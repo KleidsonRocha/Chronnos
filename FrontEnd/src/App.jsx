@@ -10,8 +10,9 @@ import CadastroDesejo from "./Components/Cadastro/CadastroDesejo";
 import VisuaizarCursoEspecifico from "./Components/Visualizadores/VisualizarCursoEspecifico"
 import VisualizarDesejoEspecifico from "./Components/Visualizadores/VisualizarDesejoEspecifico"
 import EditarCurso from "./Components/Editores/EditarCurso"
+import EditarDesejo from "./Components/Editores/EditarDesejo"
 import EditarAnotacoes from "./Components/Editores/EditarAnotacoes"
-import EditarUsuario from "./Components/Editores/EditarUsuario"
+import EditarArea from "./Components/Editores/EditarArea"
 import Anotacoes from "./Components/Anotacoes"
 import Timeline from "./Components/Timeline"
 import Ajustes from "./Components/Ajustes"
@@ -61,11 +62,12 @@ const App = () => {
         <Route path='/VisuaizarCursoEspecifico' element={<VisuaizarCursoEspecifico />} />
         <Route path='/VisualizarDesejoEspecifico' element={<VisualizarDesejoEspecifico />} />
         <Route path='/EditarCurso' element={<EditarCurso />} />
+        <Route path='/EditarDesejo' element={<EditarDesejo />} />
+        <Route path='/EditarArea' element={<EditarArea />} />
         <Route path='/EditarAnotacoes' element={<EditarAnotacoes />} />       
         <Route path='/Anotacoes' element={<Anotacoes />} />
         <Route path='/Timeline' element={<Timeline />} />
         <Route path="/Ajustes" element={<Ajustes />} />
-        <Route path="/EditarUsuario" element={<EditarUsuario />} />
         <Route path="/Compartilhar" element={<Compartilhar />} />
         <Route path='/*' element={<Home />} />
       </Routes>

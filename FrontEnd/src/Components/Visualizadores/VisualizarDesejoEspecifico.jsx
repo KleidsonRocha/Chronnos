@@ -13,7 +13,7 @@ const VisualizarDesejoEspecifico = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const cursoId = urlParams.get('ID_DESEJO');
 
-    const url = RotaBanco + `/desejo/listarCursoEspecifico?desejoId=${cursoId}`;
+    const url = RotaBanco + `/desejo/listarDesejoEspecifico?desejoId=${cursoId}`;
 
     fetch(url)
       .then(response => {
@@ -68,7 +68,7 @@ const VisualizarDesejoEspecifico = () => {
       {desejoCompleto.map(desejo => (
         <MainMobile className="form-mob">
           <div key={desejo.ID_CURSO} className="header-curso" style={{ backgroundColor: desejo.AREA_COR }}>
-            <ChronnosTitleInput title={desejo.NOME} format="bold" icon="edit" type="a" cmd={{ href: `/EditarCurso?ID_CURSO=${desejo.ID_CURSO}` }}></ChronnosTitleInput>
+            <ChronnosTitleInput title={desejo.NOME} format="bold" icon="edit" type="a" cmd={{ href: `/EditarDesejo?ID_DESEJO=${desejo.ID_DESEJO}` }}></ChronnosTitleInput>
             <p>{desejo.AREA_NOME} • {desejo.MATERIA_NOME}</p>
           </div>
           <div className="holder-split">

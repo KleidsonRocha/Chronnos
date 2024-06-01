@@ -1,31 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import "../Assets/utility.css";
-import "../Components/tab-curso/styles.css"
+import "../Components/tab-curso/styles.css";
 import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
 import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
-// Definição do objeto Curso
-const Curso = {
-  ID_CURSO: 0,
-  NOME: "",
-  AREA: "",
-  AREA_NOME: "",
-  AREA_COR: "",
-  MATERIA: "",
-  MATERIA_NOME: "",
-  MEDIA: 0,
-  VALOR: 0,
-  PAGAMENTO: "",
-  PAGAMENTO_NOME: "",
-  DURACAO: "",
-  DATA_INI: "",
-  DATA_FINI: "",
-  MODALIDADE: "",
-  ANOTACOES: "",
-  ARQUIVO: ""
-};
 
 const CursosUsuario = () => {
   const { RotaBanco } = useGlobalContext();
@@ -35,9 +15,6 @@ const CursosUsuario = () => {
   const [materias, setMateriasDoUsuario] = useState([]);
   const [showMoreCursos, setShowMoreCursos] = useState(false);
   const [showMoreDesejos, setShowMoreDesejos] = useState(false);
-
-
-
 
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
@@ -60,42 +37,37 @@ const CursosUsuario = () => {
         if (!usuarioId) {
           window.location.href = '/Login';
           throw new Error('ID do usuário não encontrado no cookie');
-          //pop-up de erro necessário
         }
 
-        const response = await fetch(RotaBanco + `/usuarios/listarCursosDoUsuario?usuario_id=${usuarioId}`);
+        const response = await fetch(`${RotaBanco}/usuarios/listarCursosDoUsuario?usuario_id=${usuarioId}`);
         if (!response.ok) {
           throw new Error('Erro ao obter os cursos do usuário');
-          //pop-up de erro necessário
         }
 
         const cursos = await response.json();
 
         const areasPromises = cursos.map(curso =>
-          fetch(RotaBanco + `/curso/listarAreaEspecifica?areaId=${curso.AREA}`)
+          fetch(`${RotaBanco}/curso/listarAreaEspecifica?areaId=${curso.AREA}`)
             .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes da área'))
             .then(areaData => ({ ...curso, AREA_NOME: areaData.NOME_AREA, AREA_COR: areaData.COR }))
             .catch(error => ({ ...curso, AREA_NOME: 'Erro ao obter detalhes da área', AREA_COR: 'Erro' }))
-          //pop-up de erro necessário
         );
 
         const materiasPromises = cursos.map(curso =>
-          fetch(RotaBanco + `/curso/listarMateriaEspecifica?materiaId=${curso.MATERIA}`)
+          fetch(`${RotaBanco}/curso/listarMateriaEspecifica?materiaId=${curso.MATERIA}`)
             .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes da matéria'))
             .then(materiaData => ({ ...curso, MATERIA_NOME: materiaData.NOME_MATERIA }))
             .catch(error => ({ ...curso, MATERIA_NOME: 'Erro ao obter detalhes da matéria' }))
-          //pop-up de erro necessário
         );
 
         const pagamentoPromises = cursos.map(curso =>
-          fetch(RotaBanco + `/curso/listarPagamentoEspecifico?pagamentoId=${curso.PAGAMENTO}`)
-            .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes do pagamento'))//pop-up de erro necessário
+          fetch(`${RotaBanco}/curso/listarPagamentoEspecifico?pagamentoId=${curso.PAGAMENTO}`)
+            .then(response => response.ok ? response.json() : Promise.reject('Erro ao obter os detalhes do pagamento'))
             .then(pagamentoData => {
               const pagamento = JSON.parse(pagamentoData[0].pagamento);
               return { ...curso, PAGAMENTO_NOME: pagamento.TIPO };
             })
             .catch(error => ({ ...curso, PAGAMENTO_NOME: 'Erro ao obter detalhes de pagamento' }))
-          //pop-up de erro necessário
         );
 
         const areasResultados = await Promise.allSettled(areasPromises);
@@ -104,21 +76,15 @@ const CursosUsuario = () => {
 
         const cursosCompleto = cursos.map((curso, index) => ({
           ...curso,
-          AREA_NOME: areasResultados[index].status === 'fulfilled' ? areasResultados[index].value.AREA_NOME : areasResultados[index].reason,
+          AREA_NOME: areasResultados[index].status === 'fulfilled' ? areasResultados[index].value.AREA_NOME : 'Erro',
           AREA_COR: areasResultados[index].status === 'fulfilled' ? areasResultados[index].value.AREA_COR : 'Erro',
-          MATERIA_NOME: materiasResultados[index].status === 'fulfilled' ? materiasResultados[index].value.MATERIA_NOME : materiasResultados[index].reason,
-          PAGAMENTO_NOME: pagamentoResultados[index].status === 'fulfilled' ? pagamentoResultados[index].value.PAGAMENTO_NOME : pagamentoResultados[index].reason,
+          MATERIA_NOME: materiasResultados[index].status === 'fulfilled' ? materiasResultados[index].value.MATERIA_NOME : 'Erro',
+          PAGAMENTO_NOME: pagamentoResultados[index].status === 'fulfilled' ? pagamentoResultados[index].value.PAGAMENTO_NOME : 'Erro',
         }));
-
-
-
-
-
 
         setCursos(cursosCompleto);
       } catch (error) {
         console.error('Erro:', error);
-        //pop-up de erro necessário
       }
     };
 
@@ -128,27 +94,23 @@ const CursosUsuario = () => {
         if (!usuarioId) {
           window.location.href = '/Login';
           throw new Error('ID do usuário não encontrado no cookie');
-          // Pop-up de erro necessário
         }
 
-        const response = await fetch(RotaBanco + `/usuarios/listarDesejoDoUsuario?usuario_id=${usuarioId}`);
+        const response = await fetch(`${RotaBanco}/usuarios/listarDesejoDoUsuario?usuario_id=${usuarioId}`);
         if (!response.ok) {
           throw new Error('Erro ao obter os desejos do usuário');
-          // Pop-up de erro necessário
         }
 
         const desejos = await response.json();
 
-        // Promessas para obter detalhes de cada desejo
         const desejosPromises = desejos.map(desejo =>
           Promise.all([
-            fetch(RotaBanco + `/curso/listarAreaEspecifica?areaId=${desejo.DESEJO_ID_AREA}`),
-            fetch(RotaBanco + `/curso/listarMateriaEspecifica?materiaId=${desejo.DESEJO_ID_MATERIA}`),
+            fetch(`${RotaBanco}/curso/listarAreaEspecifica?areaId=${desejo.DESEJO_ID_AREA}`),
+            fetch(`${RotaBanco}/curso/listarMateriaEspecifica?materiaId=${desejo.DESEJO_ID_MATERIA}`),
           ])
             .then(async ([areaResponse, materiaResponse]) => {
               if (!areaResponse.ok || !materiaResponse.ok) {
                 throw new Error('Erro ao obter detalhes do desejo');
-                // Pop-up de erro necessário
               }
 
               const [areaData, materiaData] = await Promise.all([
@@ -171,35 +133,31 @@ const CursosUsuario = () => {
             }))
         );
 
-        // Esperar todas as promessas de detalhes de desejo serem resolvidas ou rejeitadas
         const desejosResultados = await Promise.allSettled(desejosPromises);
         const desejosCompletos = desejosResultados.map((resultado, index) => {
           if (resultado.status === 'fulfilled') {
             return resultado.value;
           } else {
-            // Lida com o caso em que a promessa foi rejeitada
             return {
               ...desejos[index],
-              AREA_NOME: resultado.reason.AREA_NOME,
-              AREA_COR: resultado.reason.AREA_COR,
-              MATERIA_NOME: resultado.reason.MATERIA_NOME,
-              PAGAMENTO_NOME: resultado.reason.PAGAMENTO_NOME
+              AREA_NOME: 'Erro ao obter detalhes da área',
+              AREA_COR: 'Erro',
+              MATERIA_NOME: 'Erro ao obter detalhes da matéria',
             };
           }
         });
         setDesejos(desejosCompletos);
-
-
-
-
       } catch (error) {
         console.error('Erro:', error);
-        //pop-up de erro necessário
       }
     };
 
     const fetchAreasMateriasUsuario = async () => {
       const usuarioId = getUsuarioIdFromCookie();
+      if (!usuarioId) {
+        window.location.href = '/Login';
+        throw new Error('ID do usuário não encontrado no cookie');
+      }
       const urlAreas = `${RotaBanco}/usuarios/listarAreasUsuario?usuario_id=${usuarioId}`;
       const urlMateria = `${RotaBanco}/usuarios/listarMateriaUsuario?usuario_id=${usuarioId}`;
 
@@ -222,7 +180,6 @@ const CursosUsuario = () => {
           if (!response.ok) {
             throw new Error('Erro ao carregar matérias do usuário');
           }
-          window
           return response.json();
         })
         .then(data => {
@@ -231,12 +188,11 @@ const CursosUsuario = () => {
         .catch(error => {
           console.error('Erro na requisição:', error);
         });
-
-    }
+    };
 
     fetchCursosDoUsuario();
     fetchDesejoDousuario();
-    fetchAreasMateriasUsuario()
+    fetchAreasMateriasUsuario();
   }, []);
 
   const handleShowMoreCursos = () => {
@@ -247,61 +203,54 @@ const CursosUsuario = () => {
     setShowMoreDesejos(true);
   };
 
-
   return (
     <>
       <MainMobile className={"main-mob"}>
         <ChronnosTitleInput title="Cursos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroCurso" }}></ChronnosTitleInput>
-        <div className="layout-map">
-          {cursos.slice(0, showMoreCursos ? cursos.length : 6).map(curso => (
-            <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
-              <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
-                <h1>{curso.NOME}</h1>
-                <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
-              </button>
-            </a>
-          ))}
-        </div>
-        {cursos.length > 6 && !showMoreCursos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
+        {cursos.slice(0, showMoreCursos ? cursos.length : 6).map(curso => (
+          <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
+            <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
+              <h1>{curso.NOME}</h1>
+              <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
+            </button>
+          </a>
+        ))}
+        {!showMoreCursos && cursos.length > 6 && (
+          <ChronnosButton className="small" onClick={handleShowMoreCursos}>Ver mais</ChronnosButton>
+        )}
 
+        <ChronnosTitleInput title="Desejos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroCurso" }}></ChronnosTitleInput>
+        {desejos.slice(0, showMoreDesejos ? desejos.length : 6).map(desejo => (
+          <a key={desejo.ID_DESEJO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${desejo.ID_DESEJO}`}>
+            <button className="tab-curso" style={{ backgroundColor: desejo.AREA_COR }}>
+              <h1>{desejo.DESEJO_TITULO}</h1>
+              <p>{desejo.AREA_NOME} • {desejo.MATERIA_NOME}</p>
+            </button>
+          </a>
+        ))}
+        {!showMoreDesejos && desejos.length > 6 && (
+          <ChronnosButton className="small" onClick={handleShowMoreDesejos}>Ver mais</ChronnosButton>
+        )}
         <ChronnosTitleInput title="Áreas" format="regular" icon="add" type="a" cmd={{ href: "/CadastroArea" }}></ChronnosTitleInput>
-        <div className="layout-map">
-          {areas.slice(0, showMoreCursos ? cursos.length : 6).map(area => (
-            <a key={area.ID_AREA} href={`/VisuaizarAreaEspecifico?ID_AREA=${area.ID_AREA}`}>
-              <button className="tab-curso" style={{ backgroundColor: area.COR }}>
-                <p>{area.NOME_AREA}</p>
-              </button>
-            </a>
-          ))}
-        </div>
-
+        {areas && areas.length > 0 && areas.slice(0, showMoreCursos ? cursos.length : 6).map(area => (
+          <a key={area.ID_AREA} href={`/EditarArea?ID_AREA=${area.ID_AREA}`}>
+            <button className="tab-curso" style={{ backgroundColor: area.COR }}>
+              <h1>{area.NOME_AREA}</h1>
+            </button>
+          </a>
+        ))}
         <ChronnosTitleInput title="Matérias" format="regular" icon="add" type="a" cmd={{ href: "/CadastroMateria" }}></ChronnosTitleInput>
-        <div className="layout-map">
-          {materias.slice(0, showMoreCursos ? cursos.length : 6).map(materias => (
-            <a key={materias.ID_AREA} href={`/VisuaizarMateriaEspecifico?ID_MATERIA=${materias.ID_MATERIA}`}>
-              <button className="tab-curso" style={{ backgroundColor: materias.COR }}>
-                <p>{materias.NOME_MATERIA}</p>
-              </button>
-            </a>
-          ))}
-        </div>
-
-        <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
-        <div className="layout-map">
-          {desejos.slice(0, showMoreDesejos ? desejos.length : 6).map(desejo => (
-            <a key={desejo.ID_DESEJO} href={`/VisualizarDesejoEspecifico?ID_DESEJO=${desejo.ID_DESEJO}`}>
-              <button className="tab-curso" style={{ backgroundColor: desejo.AREA_COR }}>
-                <h1>{desejo.NOME}</h1>
-                <p>{desejo.AREA_NOME} • {desejo.MATERIA_NOME}</p>
-              </button>
-            </a>
-          ))}
-        </div>
-        {desejos.length > 6 && !showMoreDesejos && <ChronnosButton className="button-tiny" onClick={handleShowMoreDesejos}>Mostrar mais</ChronnosButton>}
+        {materias && materias.length > 0 && materias.slice(0, showMoreCursos ? cursos.length : 6).map(materia => (
+          <a key={materia.ID_MATERIA} href={`/VisuaizarMateriaEspecifico?ID_MATERIA=${materia.ID_MATERIA}`}>
+            <button className="tab-curso" style={{ backgroundColor: materia.COR }}>
+              <h1>{materia.NOME_MATERIA}</h1>
+            </button>
+          </a>
+        ))}
       </MainMobile>
       <Dock></Dock>
     </>
   );
-};
+}
 
 export default CursosUsuario;
