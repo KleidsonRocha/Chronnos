@@ -7,6 +7,7 @@ import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTit
 import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 import "../../Assets/utility.css";
 import "../../Components/Cadastro/CadastroCurso/styles.css"
+import HomeButton from '../inputs-buttons/home-button/HomeButton';
 
 const EditarCurso = () => {
     const { RotaBanco } = useGlobalContext();
@@ -285,6 +286,7 @@ const EditarCurso = () => {
             {showPopupEdicao && (
                 <ChronnosPopUp title="Curso editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
             )}
+            <HomeButton/>
         </>
     );
 };

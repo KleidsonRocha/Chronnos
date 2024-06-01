@@ -1,9 +1,12 @@
 import React from 'react';
 import './styles.css';
+import homeButton from './chronnos-home-button.png';
 
 const HomeButton = ({}) => {
   return (
-    <a href="/Home"><img src="./chronnos-home-button.png" className="home-button"/></a>
+    <div className="home-button-holder">
+        <a href="/Home"><img src={homeButton} className="home-button"/></a>
+    </div>
   );
 };
 
