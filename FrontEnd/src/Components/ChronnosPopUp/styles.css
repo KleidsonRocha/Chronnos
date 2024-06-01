@@ -8,6 +8,7 @@
     z-index: 20;
     background-color: #f2f2f2d9;
     backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(10px);
     justify-content: center;
     align-items: center;
     gap: 1rem;
@@ -15,4 +16,10 @@
     top: 0;
     left: 0;
     color: black;
+}
+
+@media (orientation: landscape) {
+    .popup{
+        padding: 2rem 35vw;
+    }
 }

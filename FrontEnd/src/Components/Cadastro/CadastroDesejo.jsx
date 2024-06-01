@@ -113,7 +113,7 @@ const CadastroDesejo = () => {
 
   return (
     <>
-    <MainMobile className="main-mob-cent">
+    <MainMobile className="form-mob-cent">
       <h1>Adicione um curso desejado</h1>
       <form onSubmit={handleSubmit} className="layout-vertical">
         <ChronnosInput type="text" className="input-default" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} ></ChronnosInput>

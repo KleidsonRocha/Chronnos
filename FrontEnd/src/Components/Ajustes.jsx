@@ -116,11 +116,15 @@ const Ajustes = () => {
       window.location.href = "/Login";
     }
   };
+
+  const handleCock = () => {
+    alert('Button clicked!');
+  };
   
 
   return (
     <>
-      <MainMobile className="main-mob">
+      <MainMobile className="form-mob">
         <ChronnosTitleInput title="Ajustes" format="bold" />
         {userData && (
           <div className="layout-vertical">
@@ -141,8 +145,8 @@ const Ajustes = () => {
         <ChronnosInput id="SenhaNova" className="input-default" placeholder="Digite aqui a sua senha nova" />
         <ChronnosInput id="SenhaNovaIgual" className="input-default" placeholder="Confirme aqui a sua senha nova" />
         <ChronnosButton className="button-default" onClick={EditarConta}>Confirmar as mudanças</ChronnosButton>
-        <ChronnosTitleInput title="Apagar a conta" format="delete" icon="arrow-red" type="a" />
-        <a onClick={ExcluirConta}><button>Excluir</button></a>
+        <ChronnosTitleInput title="Apagar a conta" icon="arrow-red" format="delete" type="button" cmd={{ onClick: ExcluirConta }}
+      />
       </MainMobile>
       {showPopup && (
         <ChronnosPopUp title="Senha digitada difere da atual" btntxt="Retornar" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>

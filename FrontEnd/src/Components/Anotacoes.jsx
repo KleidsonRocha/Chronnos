@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "../Assets/utility.css";
 import "../Components/tab-curso/styles.css"
 import MainMobile from './layouts/MainMobile/MainMobile';
+import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
 // Definição do objeto Curso
@@ -124,7 +125,7 @@ const Anotacoes = () => {
 
   return (
     <>
-      <MainMobile className={"main-mob"}>
+      <MainMobile className={"form-mob"}>
         <h1 className="titulo1">Anotações</h1>
         {cursos.slice(0, showMoreCursos ? cursos.length : 5).map(curso => (
           <a key={curso.ID_CURSO} href={`/EditarAnotacoes?ID_CURSO=${curso.ID_CURSO}`}>
@@ -134,7 +135,7 @@ const Anotacoes = () => {
             </button>
           </a>          
         ))}
-        {cursos.length > 5 && !showMoreCursos && <button onClick={handleShowMoreCursos}>Mostrar mais</button>}
+        {cursos.length > 5 && !showMoreCursos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
       </MainMobile>
       <Dock></Dock>
     </>

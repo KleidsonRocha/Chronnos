@@ -1,4 +1,4 @@
-.main-mob {
+.main-mob, .form-mob {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -13,7 +13,7 @@
     }
 }
 
-.main-mob-cent {
+.main-mob-cent, .form-mob-cent {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -35,7 +35,17 @@ h2 {
 }
 
 @media (orientation: landscape) {
-    .main-mob {
+    .main-mob, .main-mob-cent {
         padding: 2rem 15vw;
+        >*:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .form-mob, .form-mob-cent {
+        padding: 2rem 30vw;
+        >*:last-child {
+            margin-bottom: 0;
+        }
     }
 }

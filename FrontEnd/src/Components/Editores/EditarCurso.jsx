@@ -3,6 +3,7 @@ import { useGlobalContext } from '../../App';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
+import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 import "../../Assets/utility.css";
 import "../../Components/Cadastro/CadastroCurso/styles.css"
@@ -269,13 +270,13 @@ const EditarCurso = () => {
 
     return (
         <>
-            <MainMobile className="main-mob">
+            <MainMobile className="form-mob">
                 <h1>Editar um curso</h1>
                 <div>
                     {curso && preencherFormulario(curso)}
                 </div>
                 <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-                <ChronnosButton id="editar-curso-btn" onClick={excluirCurso} className="button">Excluir</ChronnosButton>
+                <ChronnosTitleInput title="Remover o curso" icon="rem-curso" format="delete" type="button" cmd={{ onClick: excluirCurso }}/>
             </MainMobile>
             {showPopup && (
                 <ChronnosPopUp title="Curso excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>

@@ -11,10 +11,17 @@
     }
     button{
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         width: 2rem;
         height: 2rem;
         background-color: transparent;
         border: none;
+        &:hover{
+            transform: scale(1.1);
+            cursor: pointer;
+        }
     }
     a{
         display: flex;
@@ -22,6 +29,10 @@
         height: 2rem;
         height: auto;
         width: auto;
+        &:hover{
+            transform: scale(1.1);
+            cursor: pointer;
+        }
     }
 }
 

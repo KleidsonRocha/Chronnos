@@ -84,7 +84,7 @@ const VisualizarCursoEspecifico = () => {
   return (
     <>
       {cursosCompleto.map(curso => (
-        <MainMobile className="main-mob">
+        <MainMobile className="form-mob">
           <div key={curso.ID_CURSO} className="header-curso" style={{ backgroundColor: curso.AREA_COR }}>
             <ChronnosTitleInput title={curso.NOME} format="bold" icon="edit" type="a" cmd={{ href: `/EditarCurso?ID_CURSO=${curso.ID_CURSO}` }}></ChronnosTitleInput>
             <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>

@@ -66,7 +66,7 @@ const VisualizarDesejoEspecifico = () => {
   return (
     <>
       {desejoCompleto.map(desejo => (
-        <MainMobile className="main-mob">
+        <MainMobile className="form-mob">
           <div key={desejo.ID_CURSO} className="header-curso" style={{ backgroundColor: desejo.AREA_COR }}>
             <ChronnosTitleInput title={desejo.NOME} format="bold" icon="edit" type="a" cmd={{ href: `/EditarDesejo?ID_DESEJO=${desejo.ID_DESEJO}` }}></ChronnosTitleInput>
             <p>{desejo.AREA_NOME} • {desejo.MATERIA_NOME}</p>

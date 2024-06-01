@@ -81,7 +81,7 @@ const CadastroArea = () => {
 
   return (
     <>
-      <MainMobile className="main-mob-cent">
+      <MainMobile className="form-mob-cent">
         <h1>Cadastro de área</h1>
         <ChronnosInput className="input-default" type="text" placeholder="Nome da Área" value={nomeArea} onChange={(e) => setNomeArea(e.target.value)}></ChronnosInput>
         <div>

@@ -92,7 +92,7 @@ const CadastroMateria = () => {
 
   return (
     <>
-      <MainMobile className="main-mob-cent">
+      <MainMobile className="form-mob-cent">
         <h1>Cadastro de matéria</h1>
         <select id="area" value={selectedArea} onChange={handleAreaChange}>
           <option value="">Selecione a área</option>
