@@ -163,7 +163,6 @@ const EditarCurso = () => {
         );
     }
 
-
     function handleInputChange(event, field) {
         const value = event.target.value;
         setCurso(prevState => ({

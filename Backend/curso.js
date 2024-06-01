@@ -127,6 +127,25 @@ router.post('/editarCurso', upload.single('imagem'), (req, res) => {
   });
 });
 
+router.post('/editarArea', upload.none(), (req, res) => {
+  const { id_area, id_usuario, nome, cor} = req.body;
+
+
+  const query = `SELECT editarArea(${id_area}, ${id_usuario}, "${nome}", "${cor}")  AS novo_id`;
+
+  console.log(query);
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao editar desejo:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+
+    res.status(200).send('')
+  });
+});
+
 router.post('/editarAnotacoes', (req, res) => {
   const { cursoId, anotacoes } = req.body;
 
@@ -224,6 +243,30 @@ router.get('/excluirCurso', (req, res) => {
   }
 
   const query = `SELECT excluirCurso(${cursoId}) AS curso`;
+
+  console.log(query);
+  
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao listar curso específico:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+    const curso = JSON.parse(results[0].curso);
+    res.json(curso);
+  });
+});
+
+router.get('/excluirArea', (req, res) => {
+  const areaId = req.query.areaId;
+
+  if (!areaId) {
+    res.status(400).send('ID do curso é obrigatório.');
+    return;
+  }
+  console.log(areaId);
+
+  const query = `SELECT excluirArea(${areaId}) AS curso`;
 
   console.log(query);
   
