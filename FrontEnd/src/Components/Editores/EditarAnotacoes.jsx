@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalContext } from '../../App';
-import HomeButton from '../inputs-buttons/home-button/HomeButton';
+import Dock from '../dock/Dock';
 
 const EditarAnotacoes = () => {
     const { RotaBanco } = useGlobalContext();
@@ -67,7 +67,7 @@ const EditarAnotacoes = () => {
                 </form>
             )}
             <button id="editar-curso-btn" onClick={salvarAlteracoes}>Salvar Alterações</button>
-            <HomeButton/>
+            <Dock/>
         </>
     );
 };
