@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './styles.css';
+import HomeButton from '../inputs-buttons/home-button/HomeButton';
 
 const Dock = () => {
     const navigate = useNavigate();
@@ -29,7 +30,6 @@ const Dock = () => {
 
     return (
         <div className="dock">
-            <a href="/Home"><img src="/src/Assets/chronnos-home-button.png" className="home-button"/></a>
             <button className="dock-button" onClick={() => handleClick('/Home', '1')}>
                 <div className="dock-icon">
                     <svg width={"2rem"} height={"2rem"}>
@@ -62,6 +62,7 @@ const Dock = () => {
                 </div>
                 <p style={{ color: activeButton === "4" ? "#000000" : "#808080", fontWeight: activeButton === "4" ? 700 : 400 }}>Ajustes</p>
             </button>
+            <HomeButton/>
         </div>
     );
 };
