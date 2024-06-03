@@ -13,6 +13,7 @@ const EditarArea = () => {
     const [area, setArea] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [showPopupEdicao, setShowPopupEdicao] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const [userData, setUserData] = useState(null);
     const cores = [
         { nome: 'Azul Neptuno', hex: '#0B2943' },
@@ -101,8 +102,8 @@ const EditarArea = () => {
         formData.append('id_area', area.ID_AREA);
         formData.append('id_usuario', userData.ID_USUARIO);
         formData.append('nome', area.NOME_AREA);
-        formData.append('cor',  cor);
-        
+        formData.append('cor', cor);
+
         const response = await fetch(RotaBanco + '/curso/editarArea', {
             method: 'POST',
             body: formData,
@@ -110,7 +111,7 @@ const EditarArea = () => {
         if (response.status == 200) {
             setShowPopupEdicao(true);
         }
-        
+
     }
 
     const corFeedback = () => {
@@ -119,22 +120,27 @@ const EditarArea = () => {
         }
     };
 
-    function excluirArea() {
-        
-        //fazer logica de confirmação
-        const urlParams = new URLSearchParams(window.location.search);
-        const cursoId = urlParams.get('ID_AREA');
+    function showDeleteConfirmation() {
+        setShowConfirmation(true);
+    }
 
-        const url = RotaBanco + `/curso/excluirArea?areaId=${cursoId}`;
+    function confirmarDelete(confirmacao) {
+        if (confirmacao) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cursoId = urlParams.get('ID_AREA');
+
+            const url = RotaBanco + `/curso/excluirArea?areaId=${cursoId}`;
 
 
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao excluir area');
-                }
-                setShowPopup(true);
-            })
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao excluir area');
+                    }
+                    setShowPopup(true);
+                })
+        }
+        setShowConfirmation(false);
     }
 
     const handleClosePopup = () => {
@@ -151,16 +157,25 @@ const EditarArea = () => {
                     {area && preencherFormulario(area)}
                 </div>
                 <div className="no-scrollbar" style={{ display: 'flex', direction: 'row', width: '100%', overflowY: 'scroll', gap: '0.5rem', borderRadius: '1rem' }}>
-                    {cores.map((cor, index) => (<button style={{ backgroundColor: cor.hex }} className="button-color-picker" key={index} onClick={() => {setCor(cor.hex) ;corFeedback()}} >{cor.nome}</button>))}
+                    {cores.map((cor, index) => (<button style={{ backgroundColor: cor.hex }} className="button-color-picker" key={index} onClick={() => { setCor(cor.hex); corFeedback() }} >{cor.nome}</button>))}
                 </div>
                 <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-                <ChronnosButton id="editar-curso-btn" onClick={excluirArea} className="button">Excluir</ChronnosButton>
+                <ChronnosButton id="editar-curso-btn" onClick={showDeleteConfirmation} className="button">Excluir</ChronnosButton>
             </MainMobile>
             {showPopup && (
                 <ChronnosPopUp title="Área excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
             )}
             {showPopupEdicao && (
                 <ChronnosPopUp title="Área editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+            )}
+            {showConfirmation && (
+                <div className="popup">
+                    <div className="popup-inner">
+                        <h2>Tem certeza que deseja excluir esta área?</h2>
+                        <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(true)} className="button-default">Sim</ChronnosButton>
+                        <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(false)} className="button-default">Não</ChronnosButton>
+                    </div>
+                </div>
             )}
         </>
     );

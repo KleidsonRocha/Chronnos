@@ -13,6 +13,7 @@ import EditarCurso from "./Components/Editores/EditarCurso"
 import EditarDesejo from "./Components/Editores/EditarDesejo"
 import EditarAnotacoes from "./Components/Editores/EditarAnotacoes"
 import EditarArea from "./Components/Editores/EditarArea"
+import EditarMateria from "./Components/Editores/EditarMateria"
 import Anotacoes from "./Components/Anotacoes"
 import Timeline from "./Components/Timeline"
 import Ajustes from "./Components/Ajustes"
@@ -23,7 +24,7 @@ const GlobalContext = createContext();
 
 const App = () => {
   // Definir o estado da variável global
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.0.13:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.10.35:3000");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,6 +65,7 @@ const App = () => {
         <Route path='/EditarCurso' element={<EditarCurso />} />
         <Route path='/EditarDesejo' element={<EditarDesejo />} />
         <Route path='/EditarArea' element={<EditarArea />} />
+        <Route path='/EditarMateria' element={<EditarMateria />} />
         <Route path='/EditarAnotacoes' element={<EditarAnotacoes />} />       
         <Route path='/Anotacoes' element={<Anotacoes />} />
         <Route path='/Timeline' element={<Timeline />} />

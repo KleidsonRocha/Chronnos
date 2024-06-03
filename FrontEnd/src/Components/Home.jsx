@@ -239,7 +239,7 @@ const CursosUsuario = () => {
         ))}
         <ChronnosTitleInput title="Matérias" format="bold" icon="add" type="a" cmd={{ href: "/CadastroMateria" }}></ChronnosTitleInput>
         {materias && materias.length > 0 && materias.slice(0, showMoreCursos ? cursos.length : 5).map(materia => (
-          <a key={materia.ID_MATERIA} href={`/VisuaizarMateriaEspecifico?ID_MATERIA=${materia.ID_MATERIA}`}>
+          <a key={materia.ID_MATERIA} href={`/EditarMateria?ID_MATERIA=${materia.ID_MATERIA}`}>
             <button className="tab-curso" style={{ backgroundColor: materia.COR }}>
               <h1>{materia.NOME_MATERIA}</h1>
             </button>
