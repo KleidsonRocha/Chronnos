@@ -19,11 +19,9 @@ import Timeline from "./Components/Timeline"
 import Ajustes from "./Components/Ajustes"
 import Compartilhar from "./Components/Compartilhar";
 
-// Criar um contexto
 const GlobalContext = createContext();
 
 const App = () => {
-  // Definir o estado da variável global
   const [RotaBanco, setGlobalVariable] = useState("http://192.168.10.35:3000");
   const navigate = useNavigate();
 

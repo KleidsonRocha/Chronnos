@@ -13,7 +13,7 @@ function CadastroUsuario() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [btnCriarContaClass, setBtnCriarContaClass] = useState('');
-  const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
+  const [showPopup, setShowPopup] = useState(false); 
   const { RotaBanco } = useGlobalContext();
   
   useEffect(() => {
@@ -43,7 +43,7 @@ function CadastroUsuario() {
       .then(response => response.json())
       .then(data => {
         console.log('Usuário cadastrado:', data);
-        setShowPopup(true); // Exibe o pop-up após o cadastro
+        setShowPopup(true); 
       })
       .catch((error) => {
         console.error('Erro:', error);
@@ -51,7 +51,6 @@ function CadastroUsuario() {
       });
   };
 
-  // Função para fechar o pop-up e redirecionar para a tela de login
   const handleClosePopup = () => {
     setShowPopup(false);
     window.location.href = '/Login';

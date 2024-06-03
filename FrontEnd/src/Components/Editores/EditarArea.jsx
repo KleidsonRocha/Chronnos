@@ -97,7 +97,6 @@ const EditarArea = () => {
     }
 
     const salvarAlteracoes = async event => {
-        // Criação do formulário para passar como body da requisição do fetch 
         const formData = new FormData();
         formData.append('id_area', area.ID_AREA);
         formData.append('id_usuario', userData.ID_USUARIO);

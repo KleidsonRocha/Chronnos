@@ -13,7 +13,6 @@ const CadastroArea = () => {
   const [idUsuario, setIdUsuario] = useState(null);
   const [showPopupSucesso, setShowPopupSucesso] = useState(false)
 
-  // Efeito para obter o ID do usuário do cookie quando o componente é montado
   useEffect(() => {
     const cookieString = document.cookie;
     const cookies = cookieString.split('; ');

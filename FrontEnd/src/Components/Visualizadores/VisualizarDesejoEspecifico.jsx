@@ -41,8 +41,8 @@ const VisualizarDesejoEspecifico = () => {
         Promise.all([...areasPromises, ...materiasPromises])
           .then(results => {
             const desejoCompleto = desejos.map((desejo, index) => {
-              const areaResult = results[index * 2]; // A área está na posição par
-              const materiaResult = results[index * 2 + 1]; // A matéria está na posição ímpar
+              const areaResult = results[index * 2]; 
+              const materiaResult = results[index * 2 + 1]; 
 
               return {
                 ...desejo,
