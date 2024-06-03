@@ -169,11 +169,11 @@ const EditarArea = () => {
             )}
             {showConfirmation && (
                 <div className="popup">
-                    <div className="popup-inner">
-                        <h2>Tem certeza que deseja excluir esta área?</h2>
-                        <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(true)} className="button-default">Sim</ChronnosButton>
-                        <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(false)} className="button-default">Não</ChronnosButton>
-                    </div>
+
+                    <h2>Tem certeza que deseja excluir esta área? isto excluirá todos os cursos e matérias correlacionados de forma irreversível</h2>
+                    <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(true)} className="button-default">Sim</ChronnosButton>
+                    <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(false)} className="button-default">Não</ChronnosButton>
+
                 </div>
             )}
         </>
