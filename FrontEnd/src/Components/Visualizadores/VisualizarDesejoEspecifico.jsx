@@ -87,7 +87,7 @@ const VisualizarDesejoEspecifico = () => {
           </div>
         </MainMobile>
       ))}
-      <Dock></Dock>
+      <Dock/>
     </>
   );
 }

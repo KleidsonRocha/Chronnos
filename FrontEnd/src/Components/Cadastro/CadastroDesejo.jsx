@@ -4,6 +4,7 @@ import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
 import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
+import Dock from '../dock/Dock';
 
 const CadastroDesejo = () => {
   const { RotaBanco } = useGlobalContext();
@@ -105,7 +106,7 @@ const CadastroDesejo = () => {
     }
   };
 
-  
+
   function handleClosePopupSucesso() {
     setShowPopupSucesso(false);
     window.location.href = '/Home';
@@ -113,34 +114,35 @@ const CadastroDesejo = () => {
 
   return (
     <>
-    <MainMobile className="form-mob-cent">
-      <h1>Adicione um curso desejado</h1>
-      <form onSubmit={handleSubmit} className="layout-vertical">
-        <ChronnosInput type="text" className="input-default" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} ></ChronnosInput>
-        <ChronnosInput type="text" className="input-default" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} ></ChronnosInput>
-        <select id="area" value={selectedArea} onChange={handleAreaChange}>
-          <option value="">Selecione a área</option>
-          {areasDoUsuario.map(area => (
-            <option key={area.ID_AREA} value={area.ID_AREA}>
-              {area.NOME_AREA}
-            </option>
-          ))}
-        </select>
-        <select id="materia" value={selectedMateria} onChange={handleMateriaChange}>
-          <option value="">Selecione a matéria</option>
-          {materiasDoUsuario.map(materia => (
-            <option key={materia.ID_MATERIA} value={materia.ID_MATERIA}>
-              {materia.NOME_MATERIA}
-            </option>
-          ))}
-        </select>
-        <ChronnosInput type="text" className="input-default" placeholder="Link do Curso" value={linkCurso} onChange={e => setLinkCurso(e.target.value)}></ChronnosInput>
-        <ChronnosButton className="button-default" onSubmit={handleSubmit}>Adicionar à lista</ChronnosButton>
-      </form>
-    </MainMobile>
-    {showPopupSucesso && (
+      <MainMobile className="form-mob-cent">
+        <h1>Adicione um curso desejado</h1>
+        <form onSubmit={handleSubmit} className="layout-vertical">
+          <ChronnosInput type="text" className="input-default" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} ></ChronnosInput>
+          <ChronnosInput type="text" className="input-default" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} ></ChronnosInput>
+          <select id="area" value={selectedArea} onChange={handleAreaChange}>
+            <option value="">Selecione a área</option>
+            {areasDoUsuario.map(area => (
+              <option key={area.ID_AREA} value={area.ID_AREA}>
+                {area.NOME_AREA}
+              </option>
+            ))}
+          </select>
+          <select id="materia" value={selectedMateria} onChange={handleMateriaChange}>
+            <option value="">Selecione a matéria</option>
+            {materiasDoUsuario.map(materia => (
+              <option key={materia.ID_MATERIA} value={materia.ID_MATERIA}>
+                {materia.NOME_MATERIA}
+              </option>
+            ))}
+          </select>
+          <ChronnosInput type="text" className="input-default" placeholder="Link do Curso" value={linkCurso} onChange={e => setLinkCurso(e.target.value)}></ChronnosInput>
+          <ChronnosButton className="button-default" onSubmit={handleSubmit}>Adicionar à lista</ChronnosButton>
+        </form>
+      </MainMobile>
+      {showPopupSucesso && (
         <ChronnosPopUp title="Desejo criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
       )}
+      <Dock />
     </>
   );
 };

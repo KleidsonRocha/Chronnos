@@ -3,9 +3,11 @@ import { useGlobalContext } from '../../App';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
+import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 import "../../Assets/utility.css";
 import "../../Components/Cadastro/CadastroCurso/styles.css"
+import Dock from '../dock/Dock';
 
 const EditarDesejo = () => {
     const { RotaBanco } = useGlobalContext();
@@ -198,7 +200,7 @@ const EditarDesejo = () => {
                     {desejoCompleto && preencherFormulario(desejoCompleto)}
                 </div>
                 <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-                <ChronnosButton id="editar-curso-btn" onClick={excluirDesejo} className="button">Excluir</ChronnosButton>
+                <ChronnosTitleInput title="Apagar o desejo" icon="rem-curso" format="delete" type="button" cmd={{ onClick: excluirDesejo }}/>
             </MainMobile>
             {showPopup && (
                 <ChronnosPopUp title="Desejo excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
@@ -206,6 +208,7 @@ const EditarDesejo = () => {
             {showPopupEdicao && (
                 <ChronnosPopUp title="Desejo editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
             )}
+            <Dock/>
         </>
     );
 };

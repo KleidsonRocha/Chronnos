@@ -4,6 +4,7 @@ import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
 import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
+import Dock from '../dock/Dock';
 
 const CadastroArea = () => {
   const { RotaBanco } = useGlobalContext();
@@ -95,6 +96,7 @@ const CadastroArea = () => {
       {showPopupSucesso && (
         <ChronnosPopUp title="Área criada com sucesso!" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
       )}
+      <Dock/>
     </>
   );
 };

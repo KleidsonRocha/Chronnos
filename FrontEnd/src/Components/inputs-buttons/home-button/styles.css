@@ -1,0 +1,33 @@
+.home-button {
+    display: none;
+}
+
+@media (orientation: landscape) {
+    .home-button-holder{
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        height: auto;
+        padding: 0.75rem 1rem 1rem 0.75rem;
+        z-index: 15;
+    }
+    
+    .home-button {
+        display: block;
+        width: 2.75rem;
+        height: auto;
+        filter: grayscale(1);
+        border-radius: 0.5rem;
+
+        &:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+            border-radius: 0.6875rem;
+            filter: grayscale(0);
+        }
+    }
+}
