@@ -167,8 +167,12 @@ const CadastroCurso = () => {
             ))}
           </select>
           <select value={cursoIdPagamento} onChange={e => setCursoIdPagamento(e.target.value)}>
-            <option value="">Selecione o ID de pagamento</option>
+            <option value="">Selecione a forma de pagamento</option>
             <option value="3">Pix</option>
+            <option value="4">Cartão de Credito</option>
+            <option value="6">Cartão de Débito</option>
+            <option value="5">Boleto</option>
+            <option value="7">Dinheiro</option>
           </select>
           <ChronnosInput className="input-default" type="text" placeholder="Valor" value={valor} onChange={e => setValor(e.target.value)} ></ChronnosInput>
           <ChronnosInput className="input-default" type="text" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} ></ChronnosInput>

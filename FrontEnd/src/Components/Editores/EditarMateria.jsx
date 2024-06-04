@@ -77,6 +77,25 @@ const EditarMateria = () => {
     }
   }, [RotaBanco]);
 
+  
+  function showDeleteConfirmation() {
+    setShowConfirmation(true);
+  }
+
+  function handleInputChange(event, field) {
+    const value = event.target.value;
+    setMateria(prevState => ({
+      ...prevState,
+      [field]: value
+    }));
+  }
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setShowPopupEdicao(false)
+    window.location.href = '/Home';
+  };
+
   function preencherFormulario(materia) {
     return (
       <form id="curso-formulario">
@@ -90,34 +109,25 @@ const EditarMateria = () => {
               onChange={(e) => handleInputChange(e, 'NOME_MATERIA')}
             />
           </div>
+          <select id="area" value={selectedArea} onChange={(e) => handleInputChange(e, 'ID_AREA')}>
+          <option value="">Selecione a nova área</option>
+          {areasDoUsuario.map(area => (
+            <option key={area.ID_AREA} value={area.ID_AREA}>
+              
+              {area.NOME_AREA}
+            </option>
+          ))}
+        </select>
 
         </div>
       </form>
     );
   }
 
-  function handleInputChange(event, field) {
-    const value = event.target.value;
-    setMateria(prevState => ({
-      ...prevState,
-      [field]: value
-    }));
-  }
-
-  const handleAreaChange = event => {
-    setSelectedArea(event.target.value);
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    setShowPopupEdicao(false)
-    window.location.href = '/Home';
-  };
-
   const salvarAlteracoes = async event => {
     const formData = new FormData();
     formData.append('materia_id', materia.ID_MATERIA);
-    formData.append('area_id', selectedArea);
+    formData.append('area_id', materia.ID_AREA);
     formData.append('nome', materia.NOME_MATERIA);
     formData.append('usuario_id', userData.ID_USUARIO);
 
@@ -132,28 +142,24 @@ const EditarMateria = () => {
 
   }
 
-  function showDeleteConfirmation() {
-    setShowConfirmation(true);
-  }
-
   function confirmarDelete(confirmacao) {
     if (confirmacao) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const materiaId = urlParams.get('ID_MATERIA');
+      const urlParams = new URLSearchParams(window.location.search);
+      const materiaId = urlParams.get('ID_MATERIA');
 
-        const url = RotaBanco + `/curso/excluirMateria?materiaId=${materiaId}`;
+      const url = RotaBanco + `/curso/excluirMateria?materiaId=${materiaId}`;
 
 
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao excluir area');
-                }
-                setShowPopup(true);
-            })
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao excluir area');
+          }
+          setShowPopup(true);
+        })
     }
     setShowConfirmation(false);
-}
+  }
 
   return (
     <>
@@ -162,14 +168,6 @@ const EditarMateria = () => {
         <div>
           {materia && preencherFormulario(materia)}
         </div>
-        <select id="area" value={selectedArea} onChange={handleAreaChange}>
-          <option value="">Selecione a nova área</option>
-          {areasDoUsuario.map(area => (
-            <option key={area.ID_AREA} value={area.ID_AREA}>
-              {area.NOME_AREA}
-            </option>
-          ))}
-        </select>
         <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
         <ChronnosTitleInput title="Remover a matéria" format="delete" type="button" icon="rem-curso" cmd={{ onClick: showDeleteConfirmation }} />
       </MainMobile>

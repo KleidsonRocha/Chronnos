@@ -135,10 +135,6 @@ const Ajustes = () => {
   }
 
 
-
-
-
-
   return (
     <>
       <MainMobile className="form-mob">

@@ -10,284 +10,316 @@ import "../../Components/Cadastro/CadastroCurso/styles.css"
 import Dock from '../dock/Dock';
 
 const EditarCurso = () => {
-    const { RotaBanco } = useGlobalContext();
-    const [curso, setCurso] = useState(null);
-    const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
-    const [showPopupEdicao, setShowPopupEdicao] = useState(false); // Estado para controlar a exibição do pop-up
+  const { RotaBanco } = useGlobalContext();
+  const [curso, setCurso] = useState(null);
+  const [areasDoUsuario, setAreasDoUsuario] = useState([]);
+  const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
+  const [showPopupEdicao, setShowPopupEdicao] = useState(false); // Estado para controlar a exibição do pop-up
 
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const cursoId = urlParams.get('ID_CURSO');
-
-        const url = RotaBanco + `/curso/listarCursoEspecifico?cursoId=${cursoId}`;
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao obter os detalhes do curso');
-                }
-                return response.json();
-            })
-            .then(cursoData => {
-                setCurso(cursoData);
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-            });
-    }, [RotaBanco]);
-
-    function preencherFormulario(curso) {
-        return (
-            <form id="curso-formulario">
-                <div className="layout-vertical">
-                    <div className="holder-dados">
-                        <p>Nome do curso</p>
-                        <ChronnosInput
-                            type="text"
-                            id="nome"
-                            value={curso.NOME}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'NOME')}
-                        />
-                    </div>
-                    <div className="holder-dados">
-                        <p>Area</p>
-                        <ChronnosInput
-                            type="text"
-                            id="area"
-                            value={curso.AREA}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'AREA')}
-                        />
-                    </div>
-                    <div className="holder-dados">
-                        <p>Materia</p>
-                        <ChronnosInput
-                            type="text"
-                            id="materia"
-                            value={curso.MATERIA}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'MATERIA')}
-                        />
-                    </div>
-                    <div className="holder-dados">
-                        <p>Formato de pagamento</p>
-                        <ChronnosInput
-                            type="text"
-                            id="pagamento"
-                            value={curso.PAGAMENTO}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'PAGAMENTO')}
-                        />
-                    </div>
-                    <div className="holder-dados">
-                        <p>Valor</p>
-                        <ChronnosInput
-                            type="number"
-                            id="valor"
-                            value={curso.VALOR}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'VALOR')}
-                        />
-                    </div>
-                    <div className="holder-dados">
-                        <p>Modalidade</p>
-                        <ChronnosInput
-                            type="text"
-                            id="modalidade"
-                            value={curso.MODALIDADE}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'MODALIDADE')}
-                        />
-                    </div>
-                    <div className="holder-dados">
-                        <p>Média</p>
-                        <ChronnosInput
-                            type="number"
-                            id="media"
-                            value={curso.MEDIA}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'MEDIA')}
-                        />
-                    </div>
-                    <div className="holder-dados">
-                        <p>Anotações</p>
-                        <textarea
-                            id="anotacoes"
-                            name="anotacoes"
-                            value={curso.ANOTACOES}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'ANOTACOES')}
-                        />
-                    </div>
-                    <div className="holder-pickers">
-                        <div className="holder-pickers">
-                            <p>Início do curso</p>
-                            <ChronnosInput
-                                type="date"
-                                id="data_ini"
-                                value={curso.DATA_INI}
-                                className="picker-data"
-                                onChange={(e) => handleInputChange(e, 'DATA_INI')}
-                            />
-                        </div>
-                        <div className="holder-pickers">
-                            <p>Fim do curso</p>
-                            <ChronnosInput
-                                type="date"
-                                id="data_fini"
-                                value={curso.DATA_FINI}
-                                className="picker-data"
-                                onChange={(e) => handleInputChange(e, 'DATA_FINI')}
-                            />
-                        </div>
-                    </div>
-                    <div className="holder-dados">
-                        <p>Duração</p>
-                        <ChronnosInput
-                            type="text"
-                            id="duracao"
-                            value={curso.DURACAO}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'DURACAO')}
-                        />
-                    </div>
-                    <input type="file" id="imagem" name="imagem" onChange={handleImagemChange} />
-                    <div >
-                        {curso && curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
-                            <embed id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
-                        ) : (
-                            <img id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="auto" />
-                        )}
-                    </div>
-                </div>
-            </form>
-        );
-    }
-
-    function handleInputChange(event, field) {
-        const value = event.target.value;
-        setCurso(prevState => ({
-            ...prevState,
-            [field]: value
-        }));
-    }
-
-    function handleImagemChange(event) {
-        const imagemInput = event.target;
-        const imagemFile = imagemInput.files[0];
-        const orgimg = document.getElementById('orgimg');
-
-        if (imagemFile) {
-            if (imagemFile.type === 'application/pdf') {
-                // Se for um PDF, cria um elemento embed
-                const embedElement = document.createElement('embed');
-                embedElement.src = URL.createObjectURL(imagemFile);
-                embedElement.type = 'application/pdf';
-                embedElement.width = '100%';
-                embedElement.height = '500px';
-                orgimg.innerHTML = ''; // Limpa o conteúdo existente
-                orgimg.appendChild(embedElement); // Adiciona o elemento embed à div orgimg
-            } else {
-                // Se for uma imagem, cria um elemento img
-                const imgElement = document.createElement('img');
-                imgElement.src = URL.createObjectURL(imagemFile);
-                imgElement.width = '100%';
-                imgElement.height = 'auto'; // Ajusta a altura automaticamente
-                orgimg.innerHTML = ''; // Limpa o conteúdo existente
-                orgimg.appendChild(imgElement); // Adiciona o elemento img à div orgimg
-            }
-        } else {
-            // Se nenhum arquivo foi selecionado, restaura a imagem original
-            orgimg.innerHTML = `<embed src="${RotaBanco}/Images/${curso.ARQUIVO}" type="application/pdf" width="100%" height="500px" />`;
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const cursoId = urlParams.get('ID_CURSO');
+    const url = RotaBanco + `/curso/listarCursoEspecifico?cursoId=${cursoId}`;
+    
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao obter os detalhes do curso');
         }
-    }
+        return response.json();
+      })
+      .then(cursoData => {
+        setCurso(cursoData);
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+      });
 
-    function salvarAlteracoes() {
-        // Criação do formulário para passar como body da requisição do fetch 
-        const formData = new FormData();
-        formData.append('cursoId', curso.ID_CURSO);
-        formData.append('nome', document.getElementById('nome').value);
-        formData.append('modalidade', document.getElementById('modalidade').value);
-        formData.append('anotacoes', document.getElementById('anotacoes').value);
-        formData.append('valor', document.getElementById('valor').value);
-        formData.append('area', document.getElementById('area').value);
-        formData.append('pagamento', document.getElementById('pagamento').value);
-        formData.append('materia', document.getElementById('materia').value);
-        formData.append('dataIni', document.getElementById('data_ini').value);
-        formData.append('dataFini', document.getElementById('data_fini').value);
-        formData.append('duracao', document.getElementById('duracao').value);
-        formData.append('media', document.getElementById('media').value);
+    const getUsuarioIdFromCookie = () => {
+      const cookieString = document.cookie;
+      const cookies = cookieString.split(';');
 
-        const orgimg = document.getElementById('orgimg').src;
-        const parts = orgimg.split('/');
-        const img = parts[parts.length - 1];
-        formData.append('imagem', img)
-
-        const imagemInput = document.getElementById('imagem');
-        const imagemFile = imagemInput.files[0];
-        if (imagemFile == null && img == null) {
-            formData.append('imagem', null);
-        } else {
-            formData.append('imagem', imagemFile);
+      for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.split('=');
+        const trimmedName = cookieName.trim();
+        if (trimmedName === 'usuario') {
+          const usuarioString = cookieValue.replace(/[()]/g, '');
+          const usuarioObjeto = JSON.parse(usuarioString);
+          return usuarioObjeto;
         }
-
-
-
-        fetch(RotaBanco + '/curso/editarCurso', {
-            method: 'POST',
-            body: formData,
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                setShowPopupEdicao(true);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }
-
-    function excluirCurso() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const cursoId = urlParams.get('ID_CURSO');
-
-        const url = RotaBanco + `/curso/excluirCurso?cursoId=${cursoId}`;
-        console.log(url);
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao excluir curso');
-                }
-                setShowPopup(true);
-            })
-    }
-    const handleClosePopup = () => {
-        setShowPopup(false);
-        window.location.href = '/Home';
+      }
+      return null;
     };
 
+    const usuarioData = getUsuarioIdFromCookie();
 
+    const urlArea = RotaBanco + `/usuarios/listarAreasUsuario?usuario_id=${usuarioData.ID_USUARIO}`;
+    fetch(urlArea)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao carregar áreas do usuário');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setAreasDoUsuario(data);
+      });
+  }, [RotaBanco]);
+
+  function preencherFormulario(curso) {
     return (
-        <>
-            <MainMobile className="form-mob">
-                <h1>Editar um curso</h1>
-                <div>
-                    {curso && preencherFormulario(curso)}
-                </div>
-                <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-                <ChronnosTitleInput title="Remover o curso" icon="rem-curso" format="delete" type="button" cmd={{ onClick: excluirCurso }}/>
-            </MainMobile>
-            {showPopup && (
-                <ChronnosPopUp title="Curso excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+      <form id="curso-formulario">
+        <div className="layout-vertical">
+          <div className="holder-dados">
+            <p>Nome do curso</p>
+            <ChronnosInput
+              type="text"
+              id="nome"
+              value={curso.NOME}
+              className="input-default"
+              onChange={(e) => handleInputChange(e, 'NOME')}
+            />
+          </div>
+          <div className="holder-dados">
+            <p>Area</p>
+            <select id="area" value={curso.AREA} onChange={(e) => handleInputChange(e, 'AREA')}>
+              <option value="">Selecione a nova área</option>
+              {areasDoUsuario.map(area => (
+                <option key={area.ID_AREA} value={area.ID_AREA}>
+                  {area.NOME_AREA}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="holder-dados">
+            <p>Materia</p>
+            <ChronnosInput
+              type="text"
+              id="materia"
+              value={curso.MATERIA}
+              className="input-default"
+              onChange={(e) => handleInputChange(e, 'MATERIA')}
+            />
+          </div>
+          <div className="holder-dados">
+            <p>Formato de pagamento</p>
+            <ChronnosInput
+              type="text"
+              id="pagamento"
+              value={curso.PAGAMENTO}
+              className="input-default"
+              onChange={(e) => handleInputChange(e, 'PAGAMENTO')}
+            />
+          </div>
+          <div className="holder-dados">
+            <p>Valor</p>
+            <ChronnosInput
+              type="number"
+              id="valor"
+              value={curso.VALOR}
+              className="input-default"
+              onChange={(e) => handleInputChange(e, 'VALOR')}
+            />
+          </div>
+          <div className="holder-dados">
+            <p>Modalidade</p>
+            <ChronnosInput
+              type="text"
+              id="modalidade"
+              value={curso.MODALIDADE}
+              className="input-default"
+              onChange={(e) => handleInputChange(e, 'MODALIDADE')}
+            />
+          </div>
+          <div className="holder-dados">
+            <p>Média</p>
+            <ChronnosInput
+              type="number"
+              id="media"
+              value={curso.MEDIA}
+              className="input-default"
+              onChange={(e) => handleInputChange(e, 'MEDIA')}
+            />
+          </div>
+          <div className="holder-dados">
+            <p>Anotações</p>
+            <textarea
+              id="anotacoes"
+              name="anotacoes"
+              value={curso.ANOTACOES}
+              className="input-default"
+              onChange={(e) => handleInputChange(e, 'ANOTACOES')}
+            />
+          </div>
+          <div className="holder-pickers">
+            <div className="holder-pickers">
+              <p>Início do curso</p>
+              <ChronnosInput
+                type="date"
+                id="data_ini"
+                value={curso.DATA_INI}
+                className="picker-data"
+                onChange={(e) => handleInputChange(e, 'DATA_INI')}
+              />
+            </div>
+            <div className="holder-pickers">
+              <p>Fim do curso</p>
+              <ChronnosInput
+                type="date"
+                id="data_fini"
+                value={curso.DATA_FINI}
+                className="picker-data"
+                onChange={(e) => handleInputChange(e, 'DATA_FINI')}
+              />
+            </div>
+          </div>
+          <div className="holder-dados">
+            <p>Duração</p>
+            <ChronnosInput
+              type="text"
+              id="duracao"
+              value={curso.DURACAO}
+              className="input-default"
+              onChange={(e) => handleInputChange(e, 'DURACAO')}
+            />
+          </div>
+          <input type="file" id="imagem" name="imagem" onChange={handleImagemChange} />
+          <div >
+            {curso && curso.ARQUIVO && curso.ARQUIVO.endsWith('.pdf') ? (
+              <embed id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} type="application/pdf" width="100%" height="500px" />
+            ) : (
+              <img id="orgimg" src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="auto" />
             )}
-            {showPopupEdicao && (
-                <ChronnosPopUp title="Curso editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
-            )}
-            <Dock/>
-        </>
+          </div>
+        </div>
+      </form>
     );
+  }
+
+
+  function handleInputChange(event, field) {
+    const value = event.target.value;
+    setCurso(prevState => ({
+      ...prevState,
+      [field]: value
+    }));
+  }
+
+  function handleImagemChange(event) {
+    const imagemInput = event.target;
+    const imagemFile = imagemInput.files[0];
+    const orgimg = document.getElementById('orgimg');
+
+    if (imagemFile) {
+      if (imagemFile.type === 'application/pdf') {
+        // Se for um PDF, cria um elemento embed
+        const embedElement = document.createElement('embed');
+        embedElement.src = URL.createObjectURL(imagemFile);
+        embedElement.type = 'application/pdf';
+        embedElement.width = '100%';
+        embedElement.height = '500px';
+        orgimg.innerHTML = ''; // Limpa o conteúdo existente
+        orgimg.appendChild(embedElement); // Adiciona o elemento embed à div orgimg
+      } else {
+        // Se for uma imagem, cria um elemento img
+        const imgElement = document.createElement('img');
+        imgElement.src = URL.createObjectURL(imagemFile);
+        imgElement.width = '100%';
+        imgElement.height = 'auto'; // Ajusta a altura automaticamente
+        orgimg.innerHTML = ''; // Limpa o conteúdo existente
+        orgimg.appendChild(imgElement); // Adiciona o elemento img à div orgimg
+      }
+    } else {
+      // Se nenhum arquivo foi selecionado, restaura a imagem original
+      orgimg.innerHTML = `<embed src="${RotaBanco}/Images/${curso.ARQUIVO}" type="application/pdf" width="100%" height="500px" />`;
+    }
+  }
+
+  function salvarAlteracoes() {
+    // Criação do formulário para passar como body da requisição do fetch 
+    const formData = new FormData();
+    formData.append('cursoId', curso.ID_CURSO);
+    formData.append('nome', document.getElementById('nome').value);
+    formData.append('modalidade', document.getElementById('modalidade').value);
+    formData.append('anotacoes', document.getElementById('anotacoes').value);
+    formData.append('valor', document.getElementById('valor').value);
+    formData.append('area', document.getElementById('area').value);
+    formData.append('pagamento', document.getElementById('pagamento').value);
+    formData.append('materia', document.getElementById('materia').value);
+    formData.append('dataIni', document.getElementById('data_ini').value);
+    formData.append('dataFini', document.getElementById('data_fini').value);
+    formData.append('duracao', document.getElementById('duracao').value);
+    formData.append('media', document.getElementById('media').value);
+
+    const orgimg = document.getElementById('orgimg').src;
+    const parts = orgimg.split('/');
+    const img = parts[parts.length - 1];
+    formData.append('imagem', img)
+
+    const imagemInput = document.getElementById('imagem');
+    const imagemFile = imagemInput.files[0];
+    if (imagemFile == null && img == null) {
+      formData.append('imagem', null);
+    } else {
+      formData.append('imagem', imagemFile);
+    }
+
+
+
+    fetch(RotaBanco + '/curso/editarCurso', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        setShowPopupEdicao(true);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  function excluirCurso() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const cursoId = urlParams.get('ID_CURSO');
+
+    const url = RotaBanco + `/curso/excluirCurso?cursoId=${cursoId}`;
+    console.log(url);
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao excluir curso');
+        }
+        setShowPopup(true);
+      })
+  }
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    window.location.href = '/Home';
+  };
+
+
+  return (
+    <>
+      <MainMobile className="form-mob">
+        <h1>Editar um curso</h1>
+        <div>
+          {curso && preencherFormulario(curso)}
+        </div>
+        <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
+        <ChronnosTitleInput title="Remover o curso" icon="rem-curso" format="delete" type="button" cmd={{ onClick: excluirCurso }} />
+      </MainMobile>
+      {showPopup && (
+        <ChronnosPopUp title="Curso excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+      )}
+      {showPopupEdicao && (
+        <ChronnosPopUp title="Curso editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+      )}
+      <Dock />
+    </>
+  );
 };
 
 export default EditarCurso;
