@@ -41,12 +41,7 @@
     &:hover{
         background-color: #f5f5f5;
         cursor: pointer;
-        h1{
-            transform: translateX(0.5rem);
-        }
-        p{
-            transform: translateX(0.5rem);
-        }
+        padding-left: 1.5rem;
     }
 }
 
