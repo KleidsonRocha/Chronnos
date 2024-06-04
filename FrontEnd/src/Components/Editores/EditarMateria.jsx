@@ -3,9 +3,11 @@ import { useGlobalContext } from '../../App';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
+import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 import "../../Assets/utility.css";
 import "../../Components/Cadastro/CadastroCurso/styles.css"
+import Dock from '../dock/Dock';
 
 const EditarMateria = () => {
   const { RotaBanco } = useGlobalContext();
@@ -79,7 +81,6 @@ const EditarMateria = () => {
       <form id="curso-formulario">
         <div className="layout-vertical">
           <div className="holder-dados">
-            <p>NOME</p>
             <ChronnosInput
               type="text"
               id="nome"
@@ -151,7 +152,7 @@ const EditarMateria = () => {
 
   return (
     <>
-      <MainMobile className="main-mob">
+      <MainMobile className="form-mob-cent">
         <h1>Editar um Matéria</h1>
         <div>
           {materia && preencherFormulario(materia)}
@@ -165,7 +166,7 @@ const EditarMateria = () => {
           ))}
         </select>
         <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-        <ChronnosButton id="editar-curso-btn" onClick={excluirMateria} className="button">Excluir</ChronnosButton>
+        <ChronnosTitleInput title="Remover a matéria" format="delete" type="button" icon="rem-curso" cmd={{ onClick: excluirMateria }}/>
       </MainMobile>
       {showPopup && (
         <ChronnosPopUp title="Área excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
@@ -173,6 +174,7 @@ const EditarMateria = () => {
       {showPopupEdicao && (
         <ChronnosPopUp title="Área editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
       )}
+      <Dock/>
     </>
   );
 };
