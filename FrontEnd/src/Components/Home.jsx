@@ -240,7 +240,7 @@ const CursosUsuario = () => {
           <ChronnosButton className="small" onClick={handleShowMoreDesejos}>Ver mais</ChronnosButton>
         )}
 
-        <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroCurso" }}></ChronnosTitleInput>
+        <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
         {desejos.slice(0, showMoreDesejos ? desejos.length : 5).map(desejo => (
           <a key={desejo.ID_DESEJO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${desejo.ID_DESEJO}`}>
             <button className="tab-curso" style={{ backgroundColor: desejo.AREA_COR }}>
