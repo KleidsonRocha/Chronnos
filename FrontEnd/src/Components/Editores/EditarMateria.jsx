@@ -16,6 +16,7 @@ const EditarMateria = () => {
   const [selectedArea, setSelectedArea] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupEdicao, setShowPopupEdicao] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [userData, setUserData] = useState(null);
 
 
@@ -115,12 +116,13 @@ const EditarMateria = () => {
 
   const salvarAlteracoes = async event => {
     const formData = new FormData();
-    formData.append('id_materia', materia.ID_MATERIA);
-    formData.append('area', selectedArea);
+    formData.append('materia_id', materia.ID_MATERIA);
+    formData.append('area_id', selectedArea);
     formData.append('nome', materia.NOME_MATERIA);
+    formData.append('usuario_id', userData.ID_USUARIO);
 
     //fazer rota para o banco para editar materia
-    const response = await fetch(RotaBanco + '', {
+    const response = await fetch(RotaBanco + '/curso/editarMateria', {
       method: 'POST',
       body: formData,
     })
@@ -130,25 +132,28 @@ const EditarMateria = () => {
 
   }
 
-  function excluirMateria() {
-
-    //fazer logica de confirmação
-    const urlParams = new URLSearchParams(window.location.search);
-    const cursoId = urlParams.get('ID_AREA');
-
-    const url = RotaBanco + `/curso/excluirArea?areaId=${cursoId}`;
-
-
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao excluir area');
-        }
-        setShowPopup(true);
-      })
+  function showDeleteConfirmation() {
+    setShowConfirmation(true);
   }
 
+  function confirmarDelete(confirmacao) {
+    if (confirmacao) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const materiaId = urlParams.get('ID_MATERIA');
 
+        const url = RotaBanco + `/curso/excluirMateria?materiaId=${materiaId}`;
+
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao excluir area');
+                }
+                setShowPopup(true);
+            })
+    }
+    setShowConfirmation(false);
+}
 
   return (
     <>
@@ -166,7 +171,7 @@ const EditarMateria = () => {
           ))}
         </select>
         <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-        <ChronnosTitleInput title="Remover a matéria" format="delete" type="button" icon="rem-curso" cmd={{ onClick: excluirMateria }}/>
+        <ChronnosTitleInput title="Remover a matéria" format="delete" type="button" icon="rem-curso" cmd={{ onClick: showDeleteConfirmation }} />
       </MainMobile>
       {showPopup && (
         <ChronnosPopUp title="Área excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
@@ -174,7 +179,19 @@ const EditarMateria = () => {
       {showPopupEdicao && (
         <ChronnosPopUp title="Área editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
       )}
-      <Dock/>
+      {showConfirmation && (
+        <>
+          <ChronnosPopUp btntxt="teste" title="teste" double="true" btntype1="button" btntxt1="botao1" cmd1={{}} btntype2="button" btntxt2="botao2" cmd2={{}}></ChronnosPopUp>
+          <div className="popup">
+            <h2>Tem certeza que deseja excluir esta área?</h2>
+            <div className="holder-double-button">
+              <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(true)} className="button-perigo">Sim</ChronnosButton>
+              <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(false)} className="button-default">Não</ChronnosButton>
+            </div>
+          </div>
+        </>
+      )}
+      <Dock />
     </>
   );
 };

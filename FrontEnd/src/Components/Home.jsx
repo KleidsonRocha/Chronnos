@@ -244,7 +244,7 @@ const CursosUsuario = () => {
         <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
         <div className="layout-map">
           {desejos.slice(0, showMoreDesejos ? desejos.length : 6).map(desejo => (
-            <a key={desejo.ID_DESEJO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${desejo.ID_DESEJO}`}>
+            <a key={desejo.ID_DESEJO} href={`/VisualizarDesejoEspecifico?ID_DESEJO=${desejo.ID_DESEJO}`}>
               <button className="tab-curso" style={{ backgroundColor: desejo.AREA_COR }}>
                 <h1>{desejo.DESEJO_TITULO}</h1>
                 <p>{desejo.AREA_NOME} • {desejo.MATERIA_NOME}</p>

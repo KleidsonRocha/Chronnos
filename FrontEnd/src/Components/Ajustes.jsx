@@ -15,6 +15,8 @@ const Ajustes = () => {
   const [showPopupSenha, setShowPopupSenha] = useState(false);
   const [showPopupSucesso, setShowPopupSucesso] = useState(false)
   const [showPopupExcluir, setshowPopupExcluir] = useState(false);
+  const [showPopupSair, setshowPopupSair] = useState(false);
+
 
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
@@ -28,13 +30,13 @@ const Ajustes = () => {
           const usuarioString = cookieValue.replace(/[()]/g, '');
           const usuarioObjeto = JSON.parse(usuarioString);
           return usuarioObjeto;
-          
+
         }
       }
       return null;
     };
     setUserData(getUsuarioIdFromCookie());
-    
+
   }, []);
 
 
@@ -50,6 +52,34 @@ const Ajustes = () => {
     setShowPopupSenha(false);
     window.location.href = '/Ajustes';
   }
+
+  function handleClosePopupSair() {
+    setshowPopupSair(false);
+    window.location.href = '/Login';
+  }
+
+  const handleClosePopupExcluir = async event => {
+    const formData = new FormData();
+    formData.append('id_aluno', userData.ID_USUARIO);
+    setshowPopupExcluir(false);
+
+    const response = await fetch(RotaBanco + '/usuarios/excluirUsuario', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.status === 200) {
+      // Excluir todos os cookies de sessão
+      document.cookie.split(";").forEach((cookie) => {
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+      });
+
+      // Redirecionar para a página de login
+      window.location.href = "/Login";
+    }
+  };
 
   function ExcluirConta() {
     setshowPopupExcluir(true);
@@ -92,35 +122,22 @@ const Ajustes = () => {
 
     }
   }
-
-
-  const handleClosePopupExcluir = async event => {
-    const formData = new FormData();
-    formData.append('id_aluno', userData.ID_USUARIO);
-    setshowPopupExcluir(false);
   
-    const response = await fetch(RotaBanco + '/usuarios/excluirUsuario', {
-      method: 'POST',
-      body: formData,
-    });
-  
-    if (response.status === 200) {
-      // Excluir todos os cookies de sessão
-      document.cookie.split(";").forEach((cookie) => {
-        const eqPos = cookie.indexOf("=");
-        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-      });
-  
-      // Redirecionar para a página de login
-      window.location.href = "/Login";
+  function DeslogarConta() {
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var nomeCookie = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = nomeCookie + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/"; 
     }
-  };
+    setshowPopupSair(true)
+  }
 
-  const handleCock = () => {
-    alert('Button clicked!');
-  };
-  
+
+
+
+
 
   return (
     <>
@@ -145,8 +162,8 @@ const Ajustes = () => {
         <ChronnosInput id="SenhaNova" className="input-default" placeholder="Digite aqui a sua senha nova" />
         <ChronnosInput id="SenhaNovaIgual" className="input-default" placeholder="Confirme aqui a sua senha nova" />
         <ChronnosButton className="button-default" onClick={EditarConta}>Confirmar as mudanças</ChronnosButton>
-        <ChronnosTitleInput title="Apagar a conta" icon="arrow-red" format="delete" type="button" cmd={{ onClick: ExcluirConta }}
-      />
+        <ChronnosTitleInput title="Apagar a conta" icon="arrow-red" format="delete" type="button" cmd={{ onClick: ExcluirConta }} />
+        <ChronnosTitleInput title="Deslogar" icon="arrow-red" format="delete" type="button" cmd={{ onClick:  DeslogarConta}} />
       </MainMobile>
       {showPopup && (
         <ChronnosPopUp title="Senha digitada difere da atual" btntxt="Retornar" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
@@ -159,6 +176,9 @@ const Ajustes = () => {
       )}
       {showPopupExcluir && (
         <ChronnosPopUp title="Tem certeza que deseja excluir a conta" btntxt="Sim" btntype="submit" cmd={{ onClick: handleClosePopupExcluir }}></ChronnosPopUp>
+      )}
+      {showPopupSair && (
+        <ChronnosPopUp title="Tem certeza que deseja sair da conta?" btntxt="Sim" btntype="submit" cmd={{ onClick: handleClosePopupSair}}></ChronnosPopUp>
       )}
       <Dock />
     </>

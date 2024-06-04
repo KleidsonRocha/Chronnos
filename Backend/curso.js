@@ -90,91 +90,6 @@ router.get('/listarPagamentoEspecifico', (req, res) => {
   });
 });
 
-router.post('/editarCurso', upload.single('imagem'), (req, res) => {
-  const { cursoId, nome, modalidade, anotacoes, valor, area, pagamento, materia, dataIni, dataFini, duracao, media } = req.body;
-  let imagem;
-
-  if (req.file == undefined) {
-    console.log(imagem);
-    imagem = "NULL";
-  } else {
-    imagem = req.file.filename;
-  }
-
-  if (!cursoId || !nome || !modalidade || !valor || !area || !pagamento || !materia || !dataIni || !dataFini || !duracao) {
-    res.status(400).json({ error: 'Todos os campos devem ser preenchidos' });
-    return;
-  }
-
-  const query = `
-    SELECT editarCurso(${cursoId}, "${nome}", '${modalidade}', '${anotacoes}', ${valor}, ${area}, ${materia}, ${pagamento}, '${dataIni}', '${dataFini}', '${duracao}', ${media}, '${imagem}');
-  `;
-
-  console.log(query);
-
-  connection.query(query, (error, results) => {
-    if (error) {
-      console.error('Erro ao atualizar curso:', error);
-      res.status(500).json({ error: 'Erro interno do servidor' + error });
-      return;
-    }
-
-    if (results) {
-      res.json({ cursoId: cursoId });
-    } else {
-      res.status(404).json({ 'Curso não encontrado ou não foi possível atualizar: ': cursoId });
-    }
-  });
-});
-
-router.post('/editarArea', upload.none(), (req, res) => {
-  const { id_area, id_usuario, nome, cor} = req.body;
-
-
-  const query = `SELECT editarArea(${id_area}, ${id_usuario}, "${nome}", "${cor}")  AS novo_id`;
-
-  console.log(query);
-
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Erro ao editar desejo:', err);
-      res.status(500).send('Erro interno do servidor');
-      return;
-    }
-
-    res.status(200).send('')
-  });
-});
-
-router.post('/editarAnotacoes', (req, res) => {
-  const { cursoId, anotacoes } = req.body;
-
-  if (!cursoId) {
-    res.status(400).json({ error: 'Todos os campos devem ser preenchidos' });
-    return;
-  }
-
-  const query = `
-    SELECT editarAnotacoesCurso(${cursoId}, "${anotacoes}");
-  `;
-
-  console.log(query);
-
-  connection.query(query, (error, results) => {
-    if (error) {
-      console.error('Erro ao atualizar curso:', error);
-      res.status(500).json({ error: 'Erro interno do servidor' + error });
-      return;
-    }
-
-    if (results) {
-      res.json({ cursoId: cursoId });
-    } else {
-      res.status(404).json({ 'Curso não encontrado ou não foi possível atualizar: ': cursoId });
-    }
-  });
-});
-
 router.post('/adicionarCurso', upload.single('certificado'), (req, res) => {
   const { nome_curso, modalidade, anotacoes, valor, curso_id_area, curso_id_materia, curso_id_pagamento, data_ini, data_fini, duracao, media, id_aluno } = req.body;
 
@@ -234,6 +149,110 @@ router.post('/adicionarDesejo', (req, res) => {
   });
 });
 
+router.post('/editarCurso', upload.single('imagem'), (req, res) => {
+  const { cursoId, nome, modalidade, anotacoes, valor, area, pagamento, materia, dataIni, dataFini, duracao, media } = req.body;
+  let imagem;
+
+  if (req.file == undefined) {
+    console.log(imagem);
+    imagem = "NULL";
+  } else {
+    imagem = req.file.filename;
+  }
+
+  if (!cursoId || !nome || !modalidade || !valor || !area || !pagamento || !materia || !dataIni || !dataFini || !duracao) {
+    res.status(400).json({ error: 'Todos os campos devem ser preenchidos' });
+    return;
+  }
+
+  const query = `
+    SELECT editarCurso(${cursoId}, "${nome}", '${modalidade}', '${anotacoes}', ${valor}, ${area}, ${materia}, ${pagamento}, '${dataIni}', '${dataFini}', '${duracao}', ${media}, '${imagem}');
+  `;
+
+  console.log(query);
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Erro ao atualizar curso:', error);
+      res.status(500).json({ error: 'Erro interno do servidor' + error });
+      return;
+    }
+
+    if (results) {
+      res.json({ cursoId: cursoId });
+    } else {
+      res.status(404).json({ 'Curso não encontrado ou não foi possível atualizar: ': cursoId });
+    }
+  });
+});
+
+router.post('/editarArea', upload.none(), (req, res) => {
+  const { id_area, id_usuario, nome, cor} = req.body;
+
+
+  const query = `SELECT editarArea(${id_area}, ${id_usuario}, "${nome}", "${cor}")  AS novo_id`;
+
+  console.log(query);
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao editar desejo:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+
+    res.status(200).send('')
+  });
+});
+
+router.post('/editarMateria', upload.none(), (req, res) => {
+  const { materia_id, area_id, nome, usuario_id} = req.body;
+
+
+  const query = `SELECT editarMateria(${materia_id}, ${area_id}, "${nome}", ${usuario_id})  AS novo_id`;
+
+  console.log(query);
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao editar desejo:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+
+    res.status(200).send('')
+  });
+});
+
+router.post('/editarAnotacoes', (req, res) => {
+  const { cursoId, anotacoes } = req.body;
+
+  if (!cursoId) {
+    res.status(400).json({ error: 'Todos os campos devem ser preenchidos' });
+    return;
+  }
+
+  const query = `
+    SELECT editarAnotacoesCurso(${cursoId}, "${anotacoes}");
+  `;
+
+  console.log(query);
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Erro ao atualizar curso:', error);
+      res.status(500).json({ error: 'Erro interno do servidor' + error });
+      return;
+    }
+
+    if (results) {
+      res.json({ cursoId: cursoId });
+    } else {
+      res.status(404).json({ 'Curso não encontrado ou não foi possível atualizar: ': cursoId });
+    }
+  });
+});
+
 router.get('/excluirCurso', (req, res) => {
   const cursoId = req.query.cursoId;
 
@@ -261,10 +280,9 @@ router.get('/excluirArea', (req, res) => {
   const areaId = req.query.areaId;
 
   if (!areaId) {
-    res.status(400).send('ID do curso é obrigatório.');
+    res.status(400).send('ID da rea é obrigatório.');
     return;
   }
-  console.log(areaId);
 
   const query = `SELECT excluirArea(${areaId}) AS curso`;
 
@@ -272,7 +290,31 @@ router.get('/excluirArea', (req, res) => {
   
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Erro ao listar curso específico:', err);
+      console.error('Erro ao excluir area:', err);
+      res.status(500).send('Erro interno do servidor');
+      return;
+    }
+    const curso = JSON.parse(results[0].curso);
+    res.json(curso);
+  });
+});
+
+router.get('/excluirMateria', (req, res) => {
+  const materiaId = req.query.materiaId;
+  console.log(materiaId);
+
+  if (!materiaId) {
+    res.status(400).send('ID do curso é obrigatório.');
+    return;
+  }
+
+  const query = `SELECT excluirMateria(${materiaId}) AS curso`;
+
+  console.log(query);
+  
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao excluir Materia', err);
       res.status(500).send('Erro interno do servidor');
       return;
     }

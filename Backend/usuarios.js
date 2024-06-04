@@ -3,41 +3,77 @@ const router = express.Router();
 const upload = require('./uploadConfig');
 const connection = require('./connection');
 
-router.get('/adicionarUsuario', (req, res) => {
-  const { nome, email, senha } = req.query;
-  const parametrosFaltando = [];
+router.post('/adicionarUsuario', (req, res) => {
+  const { nome, email, senha } = req.body;
 
-  // Verifica se os parâmetros necessários foram fornecidos
-  if (!nome) {
-    parametrosFaltando.push('nome');
-  }
-  if (!email) {
-    parametrosFaltando.push('email');
-  }
-  if (!senha) {
-    parametrosFaltando.push('senha');
-  }
-
-  // Se houver parâmetros faltando, envie uma mensagem de erro com a lista de parâmetros
-  if (parametrosFaltando.length > 0) {
-    const mensagemErro = `Parâmetros faltando: ${parametrosFaltando.join(', ')} são obrigatórios.`;
-    res.status(400).send(mensagemErro);
+  // Verifica se todos os campos obrigatórios foram fornecidos
+  if (!nome || !email || !senha) {
+    res.status(400).send('Todos os campos são obrigatórios.');
     return;
   }
 
-  // Se todos os parâmetros estiverem presentes, prossiga com a criação do usuário
-  const query = `SELECT adicionarUsuario("${nome}", "${email}", "${senha}") AS novo_id`;
+  const query = `SELECT adicionarUsuario('${nome}', '${email}', '${senha}') AS novo_id`;
+
+  console.log(query);
 
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Erro ao chamar a função adicionarUsuario:', err);
+      console.error('Erro ao adicionar usuário:', err);
       res.status(500).send('Erro interno do servidor');
       return;
     }
+
+    // Retorna o ID do usuário recém-cadastrado como resposta
     const novoId = results[0].novo_id;
-    res.send(`ID do novo usuário: ${novoId}`);
+    res.json({ novoId });
   });
 });
+
+router.post('/adicionarArea', (req, res) => {
+  const {idUsuario, nomeArea, Cor} = req.body;
+
+  if (!idUsuario || !nomeArea || !Cor) {
+    res.status(400).send('Todos os campos são obrigatórios.');
+    return;
+  }
+
+  const query = `SELECT adicionarArea(${idUsuario}, '${nomeArea}', '${Cor}') AS novo_id`
+
+  console.log(query);
+
+  connection.query(query, (err, result) => {
+    if(err) {
+      console.log('Erro ao adicioar Area:', err);
+      res.status(500).send('Erro interno de servidor');
+      return
+    }
+
+    const novoId = result[0].novo_id
+    res.json({ novoId });
+  })
+})
+
+router.post('/adicionarMateria', (req, res) => {
+  const {IdArea, nomeMateria, materiausuario} = req.body;
+
+  if(!IdArea || !nomeMateria || !materiausuario) {
+    res.status(400).send('Todos os campos são obrigatórios.');
+    return;
+  }
+
+  const query = `SELECT adicionarMateria(${IdArea}, '${nomeMateria}', ${materiausuario}) AS novo_id`
+
+  connection.query(query, (err, result) => {
+    if(err) {
+      console.log('Erro ao adicioar Materia:', err);
+      res.status(500).send('Erro interno de servidor');
+      return
+    }
+
+    const novoId = result[0].novo_id
+    res.json({ novoId });
+  })
+})
 
 router.get('/listarCursosDoUsuario', (req, res) => {
   const usuarioId = req.query.usuario_id;
@@ -132,110 +168,6 @@ router.get('/listarMateriaUsuario', (req, res) => {
   });
 })
 
-router.post('/adicionarUsuario', (req, res) => {
-  const { nome, email, senha } = req.body;
-
-  // Verifica se todos os campos obrigatórios foram fornecidos
-  if (!nome || !email || !senha) {
-    res.status(400).send('Todos os campos são obrigatórios.');
-    return;
-  }
-
-  const query = `SELECT adicionarUsuario('${nome}', '${email}', '${senha}') AS novo_id`;
-
-  console.log(query);
-
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Erro ao adicionar usuário:', err);
-      res.status(500).send('Erro interno do servidor');
-      return;
-    }
-
-    // Retorna o ID do usuário recém-cadastrado como resposta
-    const novoId = results[0].novo_id;
-    res.json({ novoId });
-  });
-});
-
-router.post('/adicionarArea', (req, res) => {
-  const {idUsuario, nomeArea, Cor} = req.body;
-
-  if (!idUsuario || !nomeArea || !Cor) {
-    res.status(400).send('Todos os campos são obrigatórios.');
-    return;
-  }
-
-  const query = `SELECT adicionarArea(${idUsuario}, '${nomeArea}', '${Cor}') AS novo_id`
-
-  console.log(query);
-
-  connection.query(query, (err, result) => {
-    if(err) {
-      console.log('Erro ao adicioar Area:', err);
-      res.status(500).send('Erro interno de servidor');
-      return
-    }
-
-    const novoId = result[0].novo_id
-    res.json({ novoId });
-  })
-})
-
-router.post('/adicionarMateria', (req, res) => {
-  const {IdArea, nomeMateria, materiausuario} = req.body;
-
-  if(!IdArea || !nomeMateria || !materiausuario) {
-    res.status(400).send('Todos os campos são obrigatórios.');
-    return;
-  }
-
-  const query = `SELECT adicionarMateria(${IdArea}, '${nomeMateria}', ${materiausuario}) AS novo_id`
-
-  connection.query(query, (err, result) => {
-    if(err) {
-      console.log('Erro ao adicioar Materia:', err);
-      res.status(500).send('Erro interno de servidor');
-      return
-    }
-
-    const novoId = result[0].novo_id
-    res.json({ novoId });
-  })
-})
-
-router.get('/verificaUsuario', (req, res) => {
-  const { usuario_email, usuario_senha } = req.query;
-
-  // Verifica se os parâmetros necessários foram fornecidos
-  if (!usuario_email || !usuario_senha) {
-    res.status(400).json({ error: 'O email e a senha são obrigatórios.' });
-    return;
-  }
-
-  // Chama a função do banco de dados para obter o ID do usuário
-  const query = `SELECT obterIdUsuario('${usuario_email}', '${usuario_senha}')`;
-
-  console.log(query);
-
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Erro ao obter ID do usuário:', err);
-      res.status(500).json({ error: 'Erro interno do servidor' });
-      return;
-    }
-
-    const usuarioJSON = JSON.parse(Object.values(results[0])[0]);
-
-    console.log(usuarioJSON);
-    if (usuarioJSON.error) {
-      res.status(404).json({ error: usuarioJSON.error });
-      return;
-    }
-    res.json(usuarioJSON);
-  });
-});
-
 router.post('/editarUsuario', upload.none(), (req, res) => {
   const { id_aluno, nome, email, senha} = req.body;
 
@@ -278,6 +210,37 @@ router.post('/excluirUsuario', upload.none(), (req, res) => {
   });
 });
 
+router.get('/verificaUsuario', (req, res) => {
+  const { usuario_email, usuario_senha } = req.query;
+
+  // Verifica se os parâmetros necessários foram fornecidos
+  if (!usuario_email || !usuario_senha) {
+    res.status(400).json({ error: 'O email e a senha são obrigatórios.' });
+    return;
+  }
+
+  // Chama a função do banco de dados para obter o ID do usuário
+  const query = `SELECT obterIdUsuario('${usuario_email}', '${usuario_senha}')`;
+
+  console.log(query);
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao obter ID do usuário:', err);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+      return;
+    }
+
+    const usuarioJSON = JSON.parse(Object.values(results[0])[0]);
+
+    console.log(usuarioJSON);
+    if (usuarioJSON.error) {
+      res.status(404).json({ error: usuarioJSON.error });
+      return;
+    }
+    res.json(usuarioJSON);
+  });
+});
 
 // Exporte o roteador
 module.exports = router;
