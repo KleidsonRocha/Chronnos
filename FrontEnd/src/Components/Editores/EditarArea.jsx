@@ -6,6 +6,8 @@ import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 import "../../Assets/utility.css";
 import "../../Components/Cadastro/CadastroCurso/styles.css"
+import Dock from '../dock/Dock';
+import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 
 const EditarArea = () => {
     const { RotaBanco } = useGlobalContext();
@@ -73,7 +75,6 @@ const EditarArea = () => {
             <form id="curso-formulario">
                 <div className="layout-vertical">
                     <div className="holder-dados">
-                        <p>NOME</p>
                         <ChronnosInput
                             type="text"
                             id="nome"
@@ -150,7 +151,7 @@ const EditarArea = () => {
 
     return (
         <>
-            <MainMobile className="main-mob">
+            <MainMobile className="form-mob-cent">
                 <h1>Editar um Área</h1>
                 <div>
                     {area && preencherFormulario(area)}
@@ -159,7 +160,7 @@ const EditarArea = () => {
                     {cores.map((cor, index) => (<button style={{ backgroundColor: cor.hex }} className="button-color-picker" key={index} onClick={() => { setCor(cor.hex); corFeedback() }} >{cor.nome}</button>))}
                 </div>
                 <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-                <ChronnosButton id="editar-curso-btn" onClick={showDeleteConfirmation} className="button">Excluir</ChronnosButton>
+                <ChronnosTitleInput title="Remover a área" format="delete" type="button" icon="rem-curso" cmd={{ onClick: showDeleteConfirmation }}>Remover a área</ChronnosTitleInput>
             </MainMobile>
             {showPopup && (
                 <ChronnosPopUp title="Área excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
@@ -169,13 +170,12 @@ const EditarArea = () => {
             )}
             {showConfirmation && (
                 <div className="popup">
-                    <div className="popup-inner">
-                        <h2>Tem certeza que deseja excluir esta área?</h2>
-                        <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(true)} className="button-default">Sim</ChronnosButton>
-                        <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(false)} className="button-default">Não</ChronnosButton>
-                    </div>
+                    <h2>Tem certeza que deseja excluir esta área?</h2>
+                    <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(true)} className="button-default">Sim</ChronnosButton>
+                    <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(false)} className="button-default">Não</ChronnosButton>
                 </div>
             )}
+            <Dock />
         </>
     );
 };
