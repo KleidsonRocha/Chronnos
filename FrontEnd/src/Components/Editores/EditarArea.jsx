@@ -152,7 +152,7 @@ const EditarArea = () => {
     return (
         <>
             <MainMobile className="form-mob-cent">
-                <h1>Editar um Área</h1>
+                <h1>Editar um área</h1>
                 <div>
                     {area && preencherFormulario(area)}
                 </div>
