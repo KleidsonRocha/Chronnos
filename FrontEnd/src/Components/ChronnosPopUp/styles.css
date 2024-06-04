@@ -16,6 +16,15 @@
     top: 0;
     left: 0;
     color: black;
+    text-align: center;
+}
+
+.holder-double-button{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    gap: 1rem;
 }
 
 @media (orientation: landscape) {

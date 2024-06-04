@@ -169,11 +169,16 @@ const EditarArea = () => {
                 <ChronnosPopUp title="Área editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
             )}
             {showConfirmation && (
-                <div className="popup">
-                    <h2>Tem certeza que deseja excluir esta área?</h2>
-                    <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(true)} className="button-default">Sim</ChronnosButton>
-                    <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(false)} className="button-default">Não</ChronnosButton>
-                </div>
+                <>
+                    <ChronnosPopUp btntxt="teste" title="teste" double="true" btntype1="button" btntxt1="botao1" cmd1={{}} btntype2="button" btntxt2="botao2" cmd2={{}}></ChronnosPopUp>
+                    <div className="popup">
+                        <h2>Tem certeza que deseja excluir esta área?</h2>
+                        <div className="holder-double-button">
+                        <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(true)} className="button-perigo">Sim</ChronnosButton>
+                        <ChronnosButton id="editar-curso-btn" onClick={() => confirmarDelete(false)} className="button-default">Não</ChronnosButton>
+                        </div>
+                    </div>
+                </>
             )}
             <Dock />
         </>
