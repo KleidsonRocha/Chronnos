@@ -220,7 +220,7 @@ router.get('/verificaUsuario', (req, res) => {
   }
 
   // Chama a função do banco de dados para obter o ID do usuário
-  const query = `SELECT obterIdUsuario('${usuario_email}', '${usuario_senha}')`;
+  const query = `SELECT verificarLogin('${usuario_email}', '${usuario_senha}')`;
 
   console.log(query);
 

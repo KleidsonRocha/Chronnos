@@ -11,7 +11,6 @@ const storage = multer.diskStorage({
     // Adicionar .pdf ao final do nome original do arquivo
     const originalName = file.originalname // Remove a extensão original
     cb(null, `${originalName}`);
-    console.log(file);
   }
 });
 

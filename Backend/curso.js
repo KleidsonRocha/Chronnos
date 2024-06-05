@@ -93,6 +93,7 @@ router.get('/listarPagamentoEspecifico', (req, res) => {
 router.post('/adicionarCurso', upload.single('certificado'), (req, res) => {
   const { nome_curso, modalidade, anotacoes, valor, curso_id_area, curso_id_materia, curso_id_pagamento, data_ini, data_fini, duracao, media, id_aluno } = req.body;
 
+
   let certificado;
   if (req.file == undefined) {
     certificado = "NULL";
@@ -100,7 +101,8 @@ router.post('/adicionarCurso', upload.single('certificado'), (req, res) => {
     certificado = req.file.filename;
   }
 
-  if (!nome_curso || !modalidade || !valor || !curso_id_area || !curso_id_materia || !curso_id_pagamento || !data_ini || !data_fini || !media || !id_aluno) {
+
+  if (!nome_curso || !modalidade || !valor || !curso_id_area || !curso_id_materia || !curso_id_pagamento || !data_ini || !data_fini || !id_aluno) {
     res.status(400).send('Todos os campos são obrigatórios.');
     return;
   }
@@ -125,7 +127,7 @@ router.post('/adicionarDesejo', (req, res) => {
   const { id_aluno, curso_id_area, curso_id_materia, nome_curso, modalidade, linkCurso } = req.body;
 
   // Verifica se todos os campos obrigatórios foram fornecidos
-  if (!id_aluno || !curso_id_area || !curso_id_materia || !nome_curso || !modalidade || !linkCurso) {
+  if (!id_aluno || !curso_id_area || !curso_id_materia || !nome_curso || !modalidade) {
     res.status(400).send('Todos os campos são obrigatórios.');
     return;
   }
