@@ -194,7 +194,7 @@ const CadastroCurso = () => {
         </form>
       </MainMobile>
       {showPopupSucesso && (
-        <ChronnosPopUp title="Curso criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
+        <ChronnosPopUp title="Curso criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }} conft ="true"></ChronnosPopUp>
       )}
       <Dock></Dock>
     </>
