@@ -13,6 +13,7 @@ const CadastroMateria = () => {
   const [selectedArea, setSelectedArea] = useState('');
   const [Nome, setNome] = useState('');
   const [showPopupSucesso, setShowPopupSucesso] = useState(false)
+  const [showPopupArea, setshowPopupArea] = useState(false)
 
   useEffect(() => {
     const cookieString = document.cookie;
@@ -41,8 +42,7 @@ const CadastroMateria = () => {
         })
         .then(data => {
           if (data === null) {
-            alert('Você não possui áreas cadastradas. Redirecionando para o cadastro de áreas.');
-            window.location.href = '/CadastroArea';
+            setshowPopupArea(true);
           } else {
             setIdUsuario(idUsuarioFromCookie);
             setAreasDoUsuario(data);
@@ -90,6 +90,11 @@ const CadastroMateria = () => {
     window.location.href = '/Home';
   }
 
+  function handleClosePopupArea() {
+    window.location.href = "/CadastroArea";
+    setshowPopupArea(false);
+  }
+
   return (
     <>
       <MainMobile className="form-mob-cent">
@@ -107,6 +112,9 @@ const CadastroMateria = () => {
       </MainMobile>
       {showPopupSucesso && (
         <ChronnosPopUp title="Máteria criada com sucesso!" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
+      )}
+      {showPopupArea && (
+        <ChronnosPopUp title="Você não possui áreas cadastradas" btntxt="Cadastrar área" btntype="submit" cmd={{ onClick: handleClosePopupArea }}></ChronnosPopUp>
       )}
       <Dock></Dock>
     </>
