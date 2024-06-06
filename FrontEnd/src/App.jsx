@@ -22,7 +22,7 @@ import Compartilhar from "./Components/Compartilhar";
 const GlobalContext = createContext();
 
 const App = () => {
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.253:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.90:3000");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,23 +52,23 @@ const App = () => {
     <GlobalContext.Provider value={{ RotaBanco, setGlobalVariable }}>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/Cadastro' element={<Cadastro />} />
         <Route path='/Login' element={<Login />} />
+        <Route path='/Cadastro' element={<Cadastro />} />
+        <Route path='/Anotacoes' element={<Anotacoes />} />
+        <Route path='/Timeline' element={<Timeline />} />
+        <Route path="/Ajustes" element={<Ajustes />} />
+        <Route path="/Compartilhar" element={<Compartilhar />} />
         <Route path='/CadastroArea' element={<CadastroArea />} />
         <Route path='/CadastroMateria' element={<CadastroMateria />} />
         <Route path='/CadastroCurso' element={<CadastroCurso />} />
         <Route path='/CadastroDesejo' element={<CadastroDesejo />} />
-        <Route path='/VisuaizarCursoEspecifico' element={<VisuaizarCursoEspecifico />} />
-        <Route path='/VisualizarDesejoEspecifico' element={<VisualizarDesejoEspecifico />} />
         <Route path='/EditarCurso' element={<EditarCurso />} />
         <Route path='/EditarDesejo' element={<EditarDesejo />} />
         <Route path='/EditarArea' element={<EditarArea />} />
         <Route path='/EditarMateria' element={<EditarMateria />} />
         <Route path='/EditarAnotacoes' element={<EditarAnotacoes />} />       
-        <Route path='/Anotacoes' element={<Anotacoes />} />
-        <Route path='/Timeline' element={<Timeline />} />
-        <Route path="/Ajustes" element={<Ajustes />} />
-        <Route path="/Compartilhar" element={<Compartilhar />} />
+        <Route path='/VisualizarDesejoEspecifico' element={<VisualizarDesejoEspecifico />} />
+        <Route path='/VisuaizarCursoEspecifico' element={<VisuaizarCursoEspecifico />} />
         <Route path='/*' element={<Home />} />
       </Routes>
     </GlobalContext.Provider>

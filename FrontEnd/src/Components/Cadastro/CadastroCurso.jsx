@@ -25,6 +25,8 @@ const CadastroCurso = () => {
   const [media, setMedia] = useState('');
   const [foto, setFoto] = useState(null);
   const [showPopupSucesso, setShowPopupSucesso] = useState(false)
+  const [showPopupArea, setshowPopupArea] = useState(false)
+  const [showPopupMateria, setshowPopupMateria] = useState(false)
 
   useEffect(() => {
     const cookieString = document.cookie;
@@ -55,8 +57,7 @@ const CadastroCurso = () => {
         .then(data => {
           setIdUsuario(idUsuarioFromCookie);
           if (!data || data.length === 0) {
-            alert('Você não possui áreas cadastradas. Redirecionando para o cadastro de áreas.');
-            window.location.href = '/CadastroArea';
+            setshowPopupArea(true);
           } else {
             setAreasDoUsuario(data);
           }
@@ -69,24 +70,21 @@ const CadastroCurso = () => {
         .then(response => {
           if (!response.ok) {
             throw new Error('Erro ao carregar matérias do usuário');
-
           }
-          window
           return response.json();
         })
         .then(data => {
-          setIdUsuario(idUsuarioFromCookie);
-          setMateriasDoUsuario(data);
-          if (!data || data.length === 0) {
-            alert('Você não possui matérias cadastradas. Redirecionando para o cadastro de matérias.');
-            window.location.href = '/CadastroMateria';
-          } else {
+          if(!showPopupArea) {
             setMateriasDoUsuario(data);
+              if (!data || data.length === 0) {
+                setshowPopupMateria(true);
+              }
           }
         })
         .catch(error => {
           console.error('Erro na requisição:', error);
         });
+
     }
   }, []);
 
@@ -144,6 +142,16 @@ const CadastroCurso = () => {
     window.location.href = '/Home';
   }
 
+  function handleClosePopupArea() {
+    window.location.href = "/CadastroArea";
+    setshowPopupArea(false);
+  }
+
+  function handleClosePopupMateria() {
+    window.location.href = "/CadastroMateria";
+    setshowPopupArea(false);
+  }
+
   return (
     <>
       <MainMobile className="form-mob">
@@ -152,7 +160,7 @@ const CadastroCurso = () => {
           <ChronnosInput className="input-default" type="text" placeholder="Nome do curso" value={nomeCurso} onChange={e => setNomeCurso(e.target.value)} ></ChronnosInput>
           <select id="area" value={selectedArea} onChange={handleAreaChange}>
             <option value="">Selecione a área</option>
-            {areasDoUsuario.map(area => (
+            {areasDoUsuario && areasDoUsuario.map(area => (
               <option key={area.ID_AREA} value={area.ID_AREA}>
                 {area.NOME_AREA}
               </option>
@@ -160,7 +168,7 @@ const CadastroCurso = () => {
           </select>
           <select id="materia" value={selectedMateria} onChange={handleMateriaChange}>
             <option value="">Selecione a matéria</option>
-            {materiasDoUsuario.map(materia => (
+            {materiasDoUsuario && materiasDoUsuario.map(materia => (
               <option key={materia.ID_MATERIA} value={materia.ID_MATERIA}>
                 {materia.NOME_MATERIA}
               </option>
@@ -194,7 +202,13 @@ const CadastroCurso = () => {
         </form>
       </MainMobile>
       {showPopupSucesso && (
-        <ChronnosPopUp title="Curso criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }} conft ="true"></ChronnosPopUp>
+        <ChronnosPopUp title="Curso criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }} conft="true"></ChronnosPopUp>
+      )}
+      {showPopupMateria && (
+        <ChronnosPopUp title="Você não possui Matérias cadastradas" btntxt="Cadastrar matéria" btntype="submit" cmd={{ onClick: handleClosePopupMateria }}></ChronnosPopUp>
+      )}
+      {showPopupArea && (
+        <ChronnosPopUp title="Você não possui áreas cadastradas" btntxt="Cadastrar área" btntype="submit" cmd={{ onClick: handleClosePopupArea }}></ChronnosPopUp>
       )}
       <Dock></Dock>
     </>
