@@ -68,7 +68,7 @@ function CadastroUsuario() {
       </form>
       <p className="txt-footer">Já possui uma conta? Faça o Login <a href="/Login">aqui</a>.</p>
       {showPopup && (
-        <ChronnosPopUp title="Conta criada com sucesso!" btntxt="Retornar ao Login" btntype="submit" cmd={{ onClick: handleClosePopup }} conft={true}></ChronnosPopUp>
+        <ChronnosPopUp title="Conta criada com sucesso!" btntxt="Retornar ao Login" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup} conft={true}></ChronnosPopUp>
       )}
     </MainMobile>
   );

@@ -202,10 +202,10 @@ const EditarDesejo = () => {
                 <ChronnosTitleInput title="Apagar o desejo" icon="rem-curso" format="delete" type="button" cmd={{ onClick: excluirDesejo }}/>
             </MainMobile>
             {showPopup && (
-                <ChronnosPopUp title="Desejo excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+                <ChronnosPopUp title="Desejo excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
             )}
             {showPopupEdicao && (
-                <ChronnosPopUp title="Desejo editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+                <ChronnosPopUp title="Desejo editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
             )}
             <Dock/>
         </>

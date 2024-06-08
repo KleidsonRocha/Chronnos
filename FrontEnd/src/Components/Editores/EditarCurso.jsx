@@ -312,10 +312,10 @@ const EditarCurso = () => {
         <ChronnosTitleInput title="Remover o curso" icon="rem-curso" format="delete" type="button" cmd={{ onClick: excluirCurso }} />
       </MainMobile>
       {showPopup && (
-        <ChronnosPopUp title="Curso excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+        <ChronnosPopUp title="Curso excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
       )}
       {showPopupEdicao && (
-        <ChronnosPopUp title="Curso editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+        <ChronnosPopUp title="Curso editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
       )}
       <Dock />
     </>

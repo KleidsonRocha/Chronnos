@@ -112,6 +112,10 @@ const CadastroDesejo = () => {
     window.location.href = '/Home';
   }
 
+  function handleClosePopupSucessoClose() {
+    setShowPopupSucesso(false);
+  }
+
   return (
     <>
       <MainMobile className="form-mob-cent">
@@ -140,7 +144,7 @@ const CadastroDesejo = () => {
         </form>
       </MainMobile>
       {showPopupSucesso && (
-        <ChronnosPopUp title="Desejo criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
+        <ChronnosPopUp title="Desejo criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }} close={handleClosePopupSucessoClose}></ChronnosPopUp>
       )}
       <Dock />
     </>

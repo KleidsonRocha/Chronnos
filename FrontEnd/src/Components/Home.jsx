@@ -252,7 +252,7 @@ const CursosUsuario = () => {
             </a>
           ))}
         </div>
-        {!showMoreDesejos && desejos.length > 5 && (<ChronnosButton className="small" onClick={handleShowMoreDesejos}>Ver mais</ChronnosButton>)}
+        {!showMoreDesejos && desejos.length > 5 && (<ChronnosButton className="button-tiny" onClick={handleShowMoreDesejos}>Mostrar mais</ChronnosButton>)}
 
       </MainMobile>
       <Dock />

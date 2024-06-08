@@ -58,6 +58,10 @@ const CadastroArea = () => {
     window.location.href = '/Home';
   }
 
+  function handleClosePopupClose() {
+    setShowPopupSucesso(false);
+  }
+
   const cores = [
     { nome: 'Azul Neptuno', hex: '#0B2943' },
     { nome: 'Céu Mercúrio', hex: '#0091C4' },
@@ -93,7 +97,7 @@ const CadastroArea = () => {
         <ChronnosButton className="button-default" onClick={handleSubmit}>Adicionar Área</ChronnosButton>
       </MainMobile>
       {showPopupSucesso && (
-        <ChronnosPopUp title="Área criada com sucesso!" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
+        <ChronnosPopUp title="Área criada com sucesso!" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }} close={handleClosePopupClose}></ChronnosPopUp>
       )}
       <Dock/>
     </>

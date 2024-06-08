@@ -162,19 +162,19 @@ const Ajustes = () => {
         <ChronnosTitleInput title="Apagar a conta" icon="rem-conta" format="delete" type="button" cmd={{ onClick: ExcluirConta }} />
       </MainMobile>
       {showPopup && (
-        <ChronnosPopUp title="Senha digitada difere da atual" btntxt="Retornar" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+        <ChronnosPopUp title="Senha digitada difere da atual" btntxt="Retornar" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
       )}
       {showPopupSenha && (
-        <ChronnosPopUp title="Senhas novas não conferem" btntxt="Retornar" btntype="submit" cmd={{ onClick: handleClosePopupSenha }}></ChronnosPopUp>
+        <ChronnosPopUp title="Senhas novas não conferem" btntxt="Retornar" btntype="submit" cmd={{ onClick: handleClosePopupSenha }} close={handleClosePopupSenha}></ChronnosPopUp>
       )}
       {showPopupSucesso && (
-        <ChronnosPopUp title="Ajustes realizados com sucesso!" btntxt="OK" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }}></ChronnosPopUp>
+        <ChronnosPopUp title="Ajustes realizados com sucesso!" btntxt="OK" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }} close={handleClosePopupSucesso}></ChronnosPopUp>
       )}
       {showPopupExcluir && (
-        <ChronnosPopUp title="Tem certeza que deseja excluir a conta" btntxt="Sim" btntype="submit" cmd={{ onClick: handleClosePopupExcluir }}></ChronnosPopUp>
+        <ChronnosPopUp title="Tem certeza que deseja excluir a conta" btntxt="Sim" btntype="submit" cmd={{ onClick: handleClosePopupExcluir }} close={handleClosePopupExcluir}></ChronnosPopUp>
       )}
       {showPopupSair && (
-        <ChronnosPopUp title="Tem certeza que deseja sair da conta?" btntxt="Sim" btntype="submit" cmd={{ onClick: handleClosePopupSair}}></ChronnosPopUp>
+        <ChronnosPopUp title="Tem certeza que deseja sair da conta?" btntxt="Sim" btntype="submit" cmd={{ onClick: handleClosePopupSair}} close={handleClosePopupSair}></ChronnosPopUp>
       )}
       <Dock />
     </>

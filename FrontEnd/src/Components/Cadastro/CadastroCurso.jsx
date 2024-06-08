@@ -152,6 +152,18 @@ const CadastroCurso = () => {
     setshowPopupArea(false);
   }
 
+  function handleClosePopupSucessoClose() {
+    setShowPopupSucesso(false);
+  }
+
+  function handleClosePopupAreaClose() {
+    window.location.href = "/CadastroArea";
+  }
+
+  function handleClosePopupMateriaClose() {
+    window.location.href = "/CadastroMateria";
+  }
+
   return (
     <>
       <MainMobile className="form-mob">
@@ -202,13 +214,13 @@ const CadastroCurso = () => {
         </form>
       </MainMobile>
       {showPopupSucesso && (
-        <ChronnosPopUp title="Curso criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }} conft="true"></ChronnosPopUp>
+        <ChronnosPopUp title="Curso criado com sucesso" btntxt="Voltar a home" btntype="submit" cmd={{ onClick: handleClosePopupSucesso }} close={handleClosePopupSucessoClose} conft="true"></ChronnosPopUp>
       )}
       {showPopupMateria && (
-        <ChronnosPopUp title="Você não possui Matérias cadastradas" btntxt="Cadastrar matéria" btntype="submit" cmd={{ onClick: handleClosePopupMateria }}></ChronnosPopUp>
+        <ChronnosPopUp title="Você não possui Matérias cadastradas" btntxt="Cadastrar matéria" btntype="submit" cmd={{ onClick: handleClosePopupMateria }} close={handleClosePopupMateriaClose}></ChronnosPopUp>
       )}
       {showPopupArea && (
-        <ChronnosPopUp title="Você não possui áreas cadastradas" btntxt="Cadastrar área" btntype="submit" cmd={{ onClick: handleClosePopupArea }}></ChronnosPopUp>
+        <ChronnosPopUp title="Você não possui áreas cadastradas" btntxt="Cadastrar área" btntype="submit" cmd={{ onClick: handleClosePopupArea }} close={handleClosePopupAreaClose}></ChronnosPopUp>
       )}
       <Dock></Dock>
     </>

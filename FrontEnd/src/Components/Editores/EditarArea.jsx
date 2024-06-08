@@ -163,10 +163,10 @@ const EditarArea = () => {
                 <ChronnosTitleInput title="Remover a área" format="delete" type="button" icon="rem-curso" cmd={{ onClick: showDeleteConfirmation }}>Remover a área</ChronnosTitleInput>
             </MainMobile>
             {showPopup && (
-                <ChronnosPopUp title="Área excluida com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+                <ChronnosPopUp title="Área excluida com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
             )}
             {showPopupEdicao && (
-                <ChronnosPopUp title="Área editada com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+                <ChronnosPopUp title="Área editada com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
             )}
             {showConfirmation && (
                 <>
