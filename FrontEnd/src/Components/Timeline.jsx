@@ -104,7 +104,7 @@ const Timeline = () => {
       renderizarGrafico();
     }
   }, [cursos]);
-  
+
 
   const cursosOrdenados = cursos.sort((cursoA, cursoB) => {
     const dataA = new Date(cursoA.DATA_FINI);
@@ -158,21 +158,21 @@ const Timeline = () => {
   function CompartilharPefil() {
     const baseUrl = window.location.origin;
     const link = `${baseUrl}/Compartilhar?USUARIO_ID=${usuario.ID_USUARIO}&EMAIL=${usuario.EMAIL}&NOME=${usuario.NOME}`;
-  
 
-      const textArea = document.createElement('textarea');
-      textArea.value = link;
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        setShowPopup(true)
 
-      } catch (err) {
-        console.error('Erro ao copiar o link: ', err);
-      }
-      document.body.removeChild(textArea);
-    
+    const textArea = document.createElement('textarea');
+    textArea.value = link;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      setShowPopup(true)
+
+    } catch (err) {
+      console.error('Erro ao copiar o link: ', err);
+    }
+    document.body.removeChild(textArea);
+
   }
 
   function handleClosePopup() {
@@ -182,7 +182,7 @@ const Timeline = () => {
   return (
     <>
       <MainMobile className={"main-mob"}>
-        <ChronnosTitleInput title="Timeline" format="bold" type="button" icon="comp" cmd={{ onClick: CompartilharPefil}}/>
+        <ChronnosTitleInput title="Timeline" format="bold" type="button" icon="comp" cmd={{ onClick: CompartilharPefil }} />
         <p className='txt-instrucao' style={{ textAlign: 'start' }}>Linha do tempo e histórico de cursos</p>
         <div className="holder-timeline-graf">
           <div className="frame-timeline">
@@ -196,7 +196,14 @@ const Timeline = () => {
             ))}
           </div>
           <div className="frame-grafico">
-            <canvas id="graficoPizza"></canvas>
+            <select name="Percentual de áreas por cursos">
+              <option>Percentual de áreas por cursos</option>
+              <option>Valor individual por cursos</option>
+              <option>Curso com maior duração</option>
+            </select>
+            <div className="canvas-graf">
+              <canvas id="graficoPizza"></canvas>
+            </div>
           </div>
         </div>
       </MainMobile>
