@@ -45,11 +45,12 @@ function Login() {
 
   return (
     <MainMobile className={"form-mob-cent"}>
-      <h1 className="txt-titulo">Seja bem vindo ao Chronnos!</h1>
+      <h1 className="txt-titulo">Chronnos</h1>
+      <p className='txt-instrucao'>Sua carteira digital de cursos e certificados.</p>
       {error && <p className="txt-error">{error}</p>}
       <ChronnosInput type="email" id="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} className="input-default"></ChronnosInput>
       <ChronnosInput type="password" id="senha" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} className="input-default"></ChronnosInput>
-      <ChronnosButton onClick={handleLogin} className={btnLoginClass}>Efetuar o Login</ChronnosButton>
+      <ChronnosButton onClick={handleLogin} className={btnLoginClass}>Efetuar o login</ChronnosButton>
       <p className="txt-footer">Ainda não possui uma conta? Crie <a href="/Cadastro">aqui</a>.</p>
     </MainMobile>
   );

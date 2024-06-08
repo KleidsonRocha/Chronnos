@@ -22,7 +22,7 @@ import Compartilhar from "./Components/Compartilhar";
 const GlobalContext = createContext();
 
 const App = () => {
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.90:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.132:3000");
   const navigate = useNavigate();
 
   useEffect(() => {

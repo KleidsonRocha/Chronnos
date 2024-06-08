@@ -127,6 +127,7 @@ const Anotacoes = () => {
     <>
       <MainMobile className={"form-mob"}>
         <h1 className="titulo1">Anotações</h1>
+        <p className='txt-instrucao' style={{ textAlign: 'start' }}>Anotações e lembretes sobre cursos</p>
         {cursos.slice(0, showMoreCursos ? cursos.length : 5).map(curso => (
           <a key={curso.ID_CURSO} href={`/EditarAnotacoes?ID_CURSO=${curso.ID_CURSO}`}>
             <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
