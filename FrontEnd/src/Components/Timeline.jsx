@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../Assets/utility.css";
-import "../Components/timeline/styles.css"
+import "../Components/timeline/styles.css";
 import MainMobile from './layouts/MainMobile/MainMobile';
 import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
@@ -8,16 +8,15 @@ import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitl
 import Chart from 'chart.js/auto';
 import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
 import ChronnosPopUp from '../Components/ChronnosPopUp/ChronnosPopUp';
-// Definição do objeto Curso
-
 
 const Timeline = () => {
   const { RotaBanco } = useGlobalContext();
   const [cursos, setCursos] = useState([]);
-  const [usuario, setUsuario] = useState(null);;
-  const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
-  useEffect(() => {
+  const [usuario, setUsuario] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [chartType, setChartType] = useState("Total de cursos por áreas");
 
+  useEffect(() => {
     const getUsuarioIdFromCookie = () => {
       const cookieString = document.cookie;
       const cookies = cookieString.split('; ');
@@ -29,7 +28,6 @@ const Timeline = () => {
           const usuarioString = cookieValue.replace(/[()]/g, '');
           const usuarioObjeto = JSON.parse(usuarioString);
           return usuarioObjeto;
-
         }
       }
       return null;
@@ -75,13 +73,10 @@ const Timeline = () => {
             .catch(error => ({ ...curso, PAGAMENTO_NOME: 'Erro ao obter detalhes de pagamento' }))
         );
 
-
-        // Esperar todas as promessas de área e matéria serem resolvidas ou rejeitadas
         const areasResultados = await Promise.allSettled(areasPromises);
         const materiasResultados = await Promise.allSettled(materiasPromises);
         const pagamentoResultados = await Promise.allSettled(pagamentoPromises);
 
-        // Consolidar os resultados
         const cursosCompleto = cursos.map((curso, index) => ({
           ...curso,
           AREA_NOME: areasResultados[index].status === 'fulfilled' ? areasResultados[index].value.AREA_NOME : areasResultados[index].reason,
@@ -103,8 +98,11 @@ const Timeline = () => {
     if (cursos.length > 0) {
       renderizarGrafico();
     }
-  }, [cursos]);
+  }, [cursos, chartType]);
 
+  const handleSelectChange = (event) => {
+    setChartType(event.target.value);
+  };
 
   const cursosOrdenados = cursos.sort((cursoA, cursoB) => {
     const dataA = new Date(cursoA.DATA_FINI);
@@ -125,40 +123,109 @@ const Timeline = () => {
   };
 
   const renderizarGrafico = () => {
-    const ctx = document.getElementById('graficoPizza');
-    const valores = cursos.map(curso => curso.VALOR);
-    const nomes = cursos.map(curso => curso.NOME);
-    const cores = cursos.map(curso => curso.AREA_COR);
-
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: nomes,
-        datasets: [{
-          label: 'Valor por Cursos',
-          data: valores,
-          backgroundColor: cores,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Valor por Cursos'
+    const ctx = document.getElementById('graficoPizza').getContext('2d');
+    if (window.myChart) {
+      window.myChart.destroy();
+    }
+    let chartData = {};
+    let chartOptions = {};
+    switch (chartType) {
+      case "Total de cursos por áreas":
+        const areaCount = cursos.reduce((acc, curso) => {
+          acc[curso.AREA_NOME] = (acc[curso.AREA_NOME] || 0) + 1;
+          return acc;
+        }, {});
+        chartData = {
+          labels: Object.keys(areaCount),
+          datasets: [{
+            label: 'Cursos pertencentes à área',
+            data: Object.values(areaCount),
+            backgroundColor: cursos.map(curso => curso.AREA_COR),
+          }]
+        };
+        chartOptions = {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                  size: 16,
+                  family: 'Inter',
+                  style: 'normal',
+                  weight: 'normal',
+                },
+                color: '#000000',
+              }
+            },
+            title: {
+              display: true,
+              text: 'Total de cursos por áreas',
+              font: {
+                size: 20,
+                family: 'Inter',
+                style: 'normal',
+                weight: 'bold'
+              },
+              color: '#000000',
+              align: 'left',
+            }
           }
-        }
-      }
+        };
+        break;
+      case "Valor individual por curso":
+        chartData = {
+          labels: cursos.map(curso => curso.NOME),
+          datasets: [{
+            label: 'Valor deste curso',
+            data: cursos.map(curso => curso.VALOR),
+            backgroundColor: cursos.map(curso => curso.AREA_COR),
+          }]
+        };
+        chartOptions = {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                  size: 16,
+                  family: 'Inter',
+                  style: 'normal',
+                  weight: 'normal'
+                },
+                color: '#000000',
+              }
+            },
+            title: {
+              display: true,
+              text: 'Valor individual por curso',
+              font: {
+                size: 20,
+                family: 'Inter',
+                style: 'normal',
+                weight: 'bold'
+              },
+              color: '#000000',
+              align: 'left',
+            }
+          }
+        };
+        break;
+      default:
+        break;
+    }
+    window.myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: chartData,
+      options: chartOptions,
     });
   };
+
 
   function CompartilharPefil() {
     const baseUrl = window.location.origin;
     const link = `${baseUrl}/Compartilhar?USUARIO_ID=${usuario.ID_USUARIO}&EMAIL=${usuario.EMAIL}&NOME=${usuario.NOME}`;
-
 
     const textArea = document.createElement('textarea');
     textArea.value = link;
@@ -167,16 +234,14 @@ const Timeline = () => {
     try {
       document.execCommand('copy');
       setShowPopup(true)
-
     } catch (err) {
       console.error('Erro ao copiar o link: ', err);
     }
     document.body.removeChild(textArea);
-
   }
 
   function handleClosePopup() {
-    setShowPopup(false)
+    setShowPopup(false);
   }
 
   return (
@@ -187,8 +252,8 @@ const Timeline = () => {
         <div className="holder-timeline-graf">
           <div className="frame-timeline">
             {cursosOrdenados.map(curso => (
-              <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
-                <button key={curso.ID_CURSO} className="tab-timline" style={{ borderLeft: `2px solid ${curso.AREA_COR}` }}>
+              <a href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`} key={curso.ID_CURSO}>
+                <button className="tab-timline" style={{ borderLeft: `2px solid ${curso.AREA_COR}` }}>
                   <h1>{curso.NOME}</h1>
                   <p>{formatarData(curso.DATA_FINI)}</p>
                 </button>
@@ -196,10 +261,9 @@ const Timeline = () => {
             ))}
           </div>
           <div className="frame-grafico">
-            <select name="Percentual de áreas por cursos">
-              <option>Percentual de áreas por cursos</option>
-              <option>Valor individual por cursos</option>
-              <option>Curso com maior duração</option>
+            <select name="Total de cursos por áreas" onChange={handleSelectChange}>
+              <option>Total de cursos por áreas</option>
+              <option>Valor individual por curso</option>
             </select>
             <div className="canvas-graf">
               <canvas id="graficoPizza"></canvas>
@@ -208,7 +272,7 @@ const Timeline = () => {
         </div>
       </MainMobile>
       {showPopup && (
-        <ChronnosPopUp title="Timeline Copiada para a área de transferencia" btntxt="OK" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
+        <ChronnosPopUp title="Link da Timeline copiado para a área de transferencia" btntxt="OK" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
       )}
       <Dock></Dock>
     </>
