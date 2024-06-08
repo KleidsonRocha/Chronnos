@@ -201,7 +201,7 @@ const Timeline = () => {
         </div>
       </MainMobile>
       {showPopup && (
-        <ChronnosPopUp title="Timeline Copiada para a área de transferencia" btntxt="OK" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+        <ChronnosPopUp title="Timeline Copiada para a área de transferencia" btntxt="OK" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
       )}
       <Dock></Dock>
     </>

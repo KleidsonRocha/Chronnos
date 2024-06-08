@@ -27,6 +27,24 @@
     gap: 1rem;
 }
 
+.close-popup-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    padding: 0;
+    top: 1rem;
+    left: 1rem;
+    width: auto;
+    height: auto;
+    border: none;
+    background-color: transparent;
+    &:hover{
+        transform: scale(1.25);
+        cursor: pointer;
+    }
+}
+
 @media (orientation: landscape) {
     .popup{
         padding: 2rem 35vw;
