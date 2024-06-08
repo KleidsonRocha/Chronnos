@@ -206,7 +206,7 @@ const CursosUsuario = () => {
   return (
     <>
       <MainMobile className={"main-mob"}>
-        <ChronnosTitleInput title="Cursos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroCurso" }}></ChronnosTitleInput>
+        <ChronnosTitleInput title="Lista de cursos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroCurso" }}></ChronnosTitleInput>
         <div className="layout-map">
           {cursos.slice(0, showMoreCursos ? cursos.length : 24).map(curso => (
             <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
@@ -241,7 +241,7 @@ const CursosUsuario = () => {
           ))}
         </div>
 
-        <ChronnosTitleInput title="Desejos" format="regular" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
+        <ChronnosTitleInput title="Lista de desejos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroDesejo" }}></ChronnosTitleInput>
         <div className="layout-map">
           {desejos.slice(0, showMoreDesejos ? desejos.length : 6).map(desejo => (
             <a key={desejo.ID_DESEJO} href={`/VisualizarDesejoEspecifico?ID_DESEJO=${desejo.ID_DESEJO}`}>

@@ -183,6 +183,7 @@ const Timeline = () => {
     <>
       <MainMobile className={"main-mob"}>
         <ChronnosTitleInput title="Timeline" format="bold"></ChronnosTitleInput>
+        <p className='txt-instrucao' style={{ textAlign: 'start' }}>Linha do tempo e histórico de cursos</p>
         <ChronnosButton icon="comp" onClick={ CompartilharPefil }  className="button-default">Compartilhar TimeLine</ChronnosButton>
         <div className="holder-timeline-graf">
           <div className="frame-timeline">
@@ -201,7 +202,7 @@ const Timeline = () => {
         </div>
       </MainMobile>
       {showPopup && (
-        <ChronnosPopUp title="Timeline Copiada" btntxt="OK" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
+        <ChronnosPopUp title="Timeline Copiada para a área de transferencia" btntxt="OK" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
       )}
       <Dock></Dock>
     </>
