@@ -182,8 +182,7 @@ const Timeline = () => {
   return (
     <>
       <MainMobile className={"main-mob"}>
-        <ChronnosTitleInput title="Timeline" format="bold"></ChronnosTitleInput>
-        <ChronnosButton icon="comp" onClick={ CompartilharPefil }  className="button-default">Compartilhar TimeLine</ChronnosButton>
+        <ChronnosTitleInput title="Timeline" format="bold" type="button" icon="comp" cmd={{ onClick: CompartilharPefil}}/>
         <div className="holder-timeline-graf">
           <div className="frame-timeline">
             {cursosOrdenados.map(curso => (
