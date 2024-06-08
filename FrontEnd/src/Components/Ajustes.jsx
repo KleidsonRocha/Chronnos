@@ -158,8 +158,8 @@ const Ajustes = () => {
         <ChronnosInput id="SenhaNova" className="input-default" placeholder="Digite aqui a sua senha nova" />
         <ChronnosInput id="SenhaNovaIgual" className="input-default" placeholder="Confirme aqui a sua senha nova" />
         <ChronnosButton className="button-default" onClick={EditarConta}>Confirmar as mudanças</ChronnosButton>
-        <ChronnosTitleInput title="Apagar a conta" icon="arrow-red" format="delete" type="button" cmd={{ onClick: ExcluirConta }} />
-        <ChronnosTitleInput title="Deslogar" icon="arrow-red" format="delete" type="button" cmd={{ onClick:  DeslogarConta}} />
+        <ChronnosTitleInput title="Sair da sessão atual" icon="logout" format="delete" type="button" cmd={{ onClick:  DeslogarConta}} />
+        <ChronnosTitleInput title="Apagar a conta" icon="rem-conta" format="delete" type="button" cmd={{ onClick: ExcluirConta }} />
       </MainMobile>
       {showPopup && (
         <ChronnosPopUp title="Senha digitada difere da atual" btntxt="Retornar" btntype="submit" cmd={{ onClick: handleClosePopup }}></ChronnosPopUp>
