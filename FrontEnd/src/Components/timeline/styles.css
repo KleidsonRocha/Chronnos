@@ -75,6 +75,71 @@
     border-radius: 1rem;
 }
 
+.dock-comp{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+
+    border-radius: 2rem 2rem 0 0;
+    border-top: solid 1px #ffffff;
+    background-color: #ffffffbf;
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+
+    h1{
+        font-size: 1.25rem;
+        letter-spacing: -0.05em;
+        font-weight: 400;
+        color: #000000;
+    }
+    h2{
+        font-size: 0.75rem;
+        letter-spacing: -0.05em;
+        color: #808080;
+    }
+    button{
+        display: flex;
+        width: auto;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background-color: transparent;
+        &:hover{
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+    }
+}
+
+.nome-info-holder{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    gap: 0.5rem;
+}
+
+.only-desk{
+    display: none;
+}
+
+.only-mob{
+    display: flex;
+    width: auto;
+    height: auto;
+    padding-top: 1rem;
+}
+
 @media (orientation: landscape) {
     .holder-timeline-graf {
         flex-direction: row;
@@ -106,5 +171,15 @@
         box-sizing: border-box;
         background-color: #f5f5f5;
         border-radius: 1rem;
+    }
+
+    .only-desk{
+        display: flex;
+        width: auto;
+        height: auto;
+    }
+
+    .only-mob{
+        display: none;
     }
 }
