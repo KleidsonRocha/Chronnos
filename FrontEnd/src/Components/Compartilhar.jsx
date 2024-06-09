@@ -11,6 +11,7 @@ import ChronnosPopUp from './ChronnosPopUp/ChronnosPopUp';
 const Compartilhar = () => {
   const [cursos, setCursos] = useState([]);
   const [nome, setNome] = useState(null);
+  const [nomeExib, setNomeExib] = useState(null);
   const [email, setEmail] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -20,6 +21,7 @@ const Compartilhar = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const usuarioId = urlParams.get('USUARIO_ID');
     setNome("Timeline de " + urlParams.get('NOME'));
+    setNomeExib(urlParams.get('NOME'));
     setEmail("Email para contato: " + urlParams.get('EMAIL'));
 
     const fetchCursosDoUsuario = async () => {
@@ -217,7 +219,7 @@ const Compartilhar = () => {
       <div className="dock-comp">
         <div className="nome-info-holder">
           <h2>Visualização de timeline compartilhada</h2>
-          <h1>{nome}</h1>
+          <h1>{nomeExib}</h1>
         </div>
         <button onClick={CompartilharPerfil}>
           <svg width="1.5rem" height="1.68rem" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">

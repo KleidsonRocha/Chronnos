@@ -75,12 +75,13 @@
     border-radius: 1rem;
 }
 
-.dock-comp{
+.dock-comp {
     display: flex;
     flex-direction: row;
     height: auto;
     width: 100%;
     padding: 1rem;
+    gap: 1rem;
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
@@ -94,18 +95,20 @@
     backdrop-filter: blur(1rem);
     -webkit-backdrop-filter: blur(1rem);
 
-    h1{
+    h1 {
         font-size: 1.25rem;
         letter-spacing: -0.05em;
         font-weight: 400;
         color: #000000;
     }
-    h2{
+
+    h2 {
         font-size: 0.75rem;
         letter-spacing: -0.05em;
         color: #808080;
     }
-    button{
+
+    button {
         display: flex;
         width: auto;
         height: auto;
@@ -113,14 +116,15 @@
         align-items: center;
         border: none;
         background-color: transparent;
-        &:hover{
+
+        &:hover {
             transform: scale(1.2);
             cursor: pointer;
         }
     }
 }
 
-.nome-info-holder{
+.nome-info-holder {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -129,11 +133,11 @@
     gap: 0.5rem;
 }
 
-.only-desk{
+.only-desk {
     display: none;
 }
 
-.only-mob{
+.only-mob {
     display: flex;
     width: auto;
     height: auto;
@@ -173,13 +177,57 @@
         border-radius: 1rem;
     }
 
-    .only-desk{
+    .dock-comp {
+        width: auto;
+        padding: 1rem 1.25rem;
+        position: fixed;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 2.5rem;
+        z-index: 10;
+
+        border-radius: 2rem;
+        border: solid 1px #ffffff;
+        background-color: #ffffff40;
+        box-shadow: 0px 0.75rem 2rem #80808020;
+
+        h1 {
+            font-size: 1.5rem;
+            letter-spacing: -0.05em;
+            font-weight: 400;
+            color: #000000;
+        }
+
+        h2 {
+            font-size: 1rem;
+            letter-spacing: -0.05em;
+            color: #808080;
+        }
+
+        button {
+            display: flex;
+            width: auto;
+            height: auto;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            background-color: transparent;
+
+            &:hover {
+                transform: scale(1.1);
+                cursor: pointer;
+            }
+        }
+    }
+
+    .only-desk {
         display: flex;
         width: auto;
         height: auto;
     }
 
-    .only-mob{
+    .only-mob {
         display: none;
     }
 }
