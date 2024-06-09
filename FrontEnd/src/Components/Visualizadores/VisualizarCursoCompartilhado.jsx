@@ -4,6 +4,7 @@ import MainMobile from '../layouts/MainMobile/MainMobile';
 import "./CursoEspecifico/styles.css"
 import ChronnosTitleInput from '../inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 import Dock from '../dock/Dock';
+import "../timeline/styles.css"
 
 
 const VisualizarCursoCompartilhado = () => {
@@ -85,6 +86,7 @@ const VisualizarCursoCompartilhado = () => {
     <>
       {cursosCompleto.map(curso => (
         <MainMobile className="form-mob">
+          <p className='txt-instrucao' style={{ textAlign: 'start' }}>Você está visualizando um curso a partir de uma Timeline compartilhada</p>
           <div key={curso.ID_CURSO} className="header-curso" style={{ backgroundColor: curso.AREA_COR }}>
             <ChronnosTitleInput title={curso.NOME} format="bold" icon="edit"></ChronnosTitleInput>
             <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
@@ -112,10 +114,12 @@ const VisualizarCursoCompartilhado = () => {
           ) : (
             <img src={RotaBanco + `/Images/${curso.ARQUIVO}`} width="100%" height="100%" />
           )}
-          
+          <ChronnosTitleInput title="Voltar à Timeline" format="regular" icon="arrow" type="a" cmd={{ onClick: () => window.history.back() }}></ChronnosTitleInput>
         </MainMobile>
       ))}
-      <Dock/>
+      <div className="only-desk">
+        <Dock />
+      </div>
     </>
   );
 }
