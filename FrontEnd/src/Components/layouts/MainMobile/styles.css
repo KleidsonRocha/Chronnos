@@ -1,4 +1,5 @@
-.main-mob, .form-mob {
+.main-mob,
+.form-mob {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -13,7 +14,9 @@
     }
 }
 
-.main-mob-cent, .form-mob-cent {
+.main-mob-cent,
+.form-mob-cent,
+.login {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -34,16 +37,61 @@ h2 {
     line-height: 90%;
 }
 
+.login {
+    position: absolute;
+    background-color: #ffffff01;
+    backdrop-filter: blur(0.5rem);
+    -webkit-backdrop-filter: blur(0.5rem);
+    z-index: 5;
+}
+
+@keyframes troca-cor {
+    0% {
+        color: #ffffff;
+    }
+
+    85% {
+        color: #ffffff;
+    }
+
+    100% {
+        color: inherit;
+    }
+}
+
+.anim-troca-cor{
+    h1 {
+        color: #000000;
+    }
+    
+    p,
+    a {
+        color: #cccccc;
+    }
+    
+    h1,
+    p,
+    a {
+        animation: troca-cor 5s forwards;
+    }
+}
+
 @media (orientation: landscape) {
-    .main-mob, .main-mob-cent {
+
+    .main-mob,
+    .main-mob-cent {
         padding: 2rem 15vw;
+
         >*:last-child {
             margin-bottom: 0;
         }
     }
 
-    .form-mob, .form-mob-cent {
+    .form-mob,
+    .form-mob-cent,
+    .login {
         padding: 2rem 30vw;
+
         >*:last-child {
             margin-bottom: 0;
         }
