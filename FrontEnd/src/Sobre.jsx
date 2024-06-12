@@ -13,16 +13,18 @@ const Sobre = () => {
             <div className="navbar">
                 <div className="navbar-group">
                     <a href="#header"><img src={homeButton} /></a>
-                    <a href="#introducao">Introdução</a>
-                    <a href="#como-funciona">Como funciona?</a>
-                    <a href="#recursos">Recursos</a>
+                    <div className="only-desk-navbar-group">
+                        <a href="#introducao">Introdução</a>
+                        <a href="#como-funciona">Como funciona?</a>
+                        <a href="#recursos">Recursos</a>
+                    </div>
                 </div>
                 <div className="navbar-group">
                     <a href="/Login">Login</a>
                     <a href="/Cadastro">Cadastre-se</a>
                 </div>
             </div>
-            <div className="frame" id="header">
+            <div className="header" id="header">
                 <div className="texto">
                     <h1>
                         Chronnos
@@ -34,7 +36,7 @@ const Sobre = () => {
             </div>
             <div className="frame" id="introducao">
                 <div className="organizar">
-                    <img src={organizar}/>
+                    <img src={organizar} />
                 </div>
                 <div className="texto">
                     <h1>
@@ -63,7 +65,7 @@ const Sobre = () => {
                         Com as informações, anexe o certificado, e pronto, o Chronnos lembrará de tudo.
                     </p>
                 </div>
-                <img src={funcionadevframe}/>
+                <img src={funcionadevframe} className="funciona" />
             </div>
             <div className="frame" id="recursos">
                 <div className="recursos">
