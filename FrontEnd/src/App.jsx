@@ -9,6 +9,7 @@ import CadastroCurso from "./Components/Cadastro/CadastroCurso";
 import CadastroDesejo from "./Components/Cadastro/CadastroDesejo";
 import VisuaizarCursoEspecifico from "./Components/Visualizadores/VisualizarCursoEspecifico"
 import VisualizarDesejoEspecifico from "./Components/Visualizadores/VisualizarDesejoEspecifico"
+import VisualizarCursoCompartilhado from "./Components/Visualizadores/VisualizarCursoCompartilhado";
 import EditarCurso from "./Components/Editores/EditarCurso"
 import EditarDesejo from "./Components/Editores/EditarDesejo"
 import EditarAnotacoes from "./Components/Editores/EditarAnotacoes"
@@ -18,11 +19,12 @@ import Anotacoes from "./Components/Anotacoes"
 import Timeline from "./Components/Timeline"
 import Ajustes from "./Components/Ajustes"
 import Compartilhar from "./Components/Compartilhar";
+import Sobre from "./Sobre";
 
 const GlobalContext = createContext();
 
 const App = () => {
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.10.35:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.12.34:3000");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const App = () => {
 
       // Se o usuário não estiver logado e tentar acessar uma rota diferente de Cadastro e Login, redireciona para o Login
       const currentPath = window.location.pathname;
-      if (currentPath !== '/Cadastro' && currentPath !== '/Login') {
+      if (currentPath !== '/Cadastro' && currentPath !== '/Login' && currentPath !== '/Sobre') {
         navigate('/Login');
       }
     };
@@ -69,6 +71,8 @@ const App = () => {
         <Route path='/EditarAnotacoes' element={<EditarAnotacoes />} />       
         <Route path='/VisualizarDesejoEspecifico' element={<VisualizarDesejoEspecifico />} />
         <Route path='/VisuaizarCursoEspecifico' element={<VisuaizarCursoEspecifico />} />
+        <Route path='/VisualizarCursoCompartilhado' element={<VisualizarCursoCompartilhado />} />
+        <Route path='/Sobre' element={<Sobre />} />
         <Route path='/*' element={<Home />} />
       </Routes>
     </GlobalContext.Provider>
