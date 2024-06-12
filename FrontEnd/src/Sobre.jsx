@@ -12,16 +12,17 @@ const Sobre = () => {
         <>
             <div className="navbar">
                 <div className="navbar-group">
-                    <a><img src={homeButton} /></a>
-                    <a>Como funciona?</a>
-                    <a>Recursos</a>
+                    <a href="#header"><img src={homeButton} /></a>
+                    <a href="#introducao">Introdução</a>
+                    <a href="#como-funciona">Como funciona?</a>
+                    <a href="#recursos">Recursos</a>
                 </div>
                 <div className="navbar-group">
-                    <a>Login</a>
-                    <a>Cadastre-se</a>
+                    <a href="/Login">Login</a>
+                    <a href="/Cadastro">Cadastre-se</a>
                 </div>
             </div>
-            <div className="frame">
+            <div className="frame" id="header">
                 <div className="texto">
                     <h1>
                         Chronnos
@@ -31,7 +32,7 @@ const Sobre = () => {
                     </h2>
                 </div>
             </div>
-            <div className="frame">
+            <div className="frame" id="introducao">
                 <div className="organizar">
                     <img src={organizar}/>
                 </div>
@@ -47,7 +48,7 @@ const Sobre = () => {
                     </p>
                 </div>
             </div>
-            <div className="frame">
+            <div className="frame" id="como-funciona">
                 <div className="texto">
                     <h1>
                         Como funciona?
@@ -64,7 +65,7 @@ const Sobre = () => {
                 </div>
                 <img src={funcionadevframe}/>
             </div>
-            <div className="frame">
+            <div className="frame" id="recursos">
                 <div className="recursos">
                     <img src={recursosdevframe} />
                     <img src={recursosdevframe} />

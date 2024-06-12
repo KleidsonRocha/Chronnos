@@ -5,6 +5,10 @@ body {
     margin: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 * {
     font-family: 'Inter', sans-serif;
     letter-spacing: -0.05rem;
