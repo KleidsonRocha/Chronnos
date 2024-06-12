@@ -46,6 +46,7 @@ const VisualizarCursoEspecifico = () => {
             .then(response => response.ok ? response.json() : tratamentoErro('Erro ao obter os detalhes do pagamento'))
             .then(pagamentoData => {
               const pagamento = JSON.parse(pagamentoData[0].pagamento);
+              console.log(pagamento);
               return { ...curso, PAGAMENTO_NOME: pagamento.TIPO };
             })
             .catch(error => tratamentoErro('Erro ao obter detalhes de pagamento'))

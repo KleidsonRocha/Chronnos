@@ -13,6 +13,8 @@ const EditarCurso = () => {
   const { RotaBanco } = useGlobalContext();
   const [curso, setCurso] = useState(null);
   const [areasDoUsuario, setAreasDoUsuario] = useState([]);
+  const [materiasDoUsuario, setMateriasDoUsuario] = useState([]);
+  const [pagamento, setPagamento] = useState([]);
   const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
   const [showPopupEdicao, setShowPopupEdicao] = useState(false); // Estado para controlar a exibição do pop-up
   const [nomeArq, setNomeArq] = useState('');
@@ -53,8 +55,9 @@ const EditarCurso = () => {
     };
 
     const usuarioData = getUsuarioIdFromCookie();
-
     const urlArea = RotaBanco + `/usuarios/listarAreasUsuario?usuario_id=${usuarioData.ID_USUARIO}`;
+    const urlMateria = `${RotaBanco}/usuarios/listarMateriaUsuario?usuario_id=${usuarioData.ID_USUARIO}`;
+
     fetch(urlArea)
       .then(response => {
         if (!response.ok) {
@@ -65,6 +68,18 @@ const EditarCurso = () => {
       .then(data => {
         setAreasDoUsuario(data);
       });
+
+    fetch(urlMateria)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao carregar máteria do usuário');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setMateriasDoUsuario(data);
+      });
+
   }, [RotaBanco]);
 
   function preencherFormulario(curso) {
@@ -94,23 +109,25 @@ const EditarCurso = () => {
           </div>
           <div className="holder-dados">
             <p>Materia</p>
-            <ChronnosInput
-              type="text"
-              id="materia"
-              value={curso.MATERIA}
-              className="input-default"
-              onChange={(e) => handleInputChange(e, 'MATERIA')}
-            />
+            <select id="materia" value={curso.MATERIA} onChange={(e) => handleInputChange(e, 'MATERIA')}>
+              <option value="">Selecione a nova área</option>
+              {materiasDoUsuario.map(materia => (
+                <option key={materia.ID_MATERIA} value={materia.ID_MATERIA}>
+                  {materia.NOME_MATERIA}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="holder-dados">
             <p>Formato de pagamento</p>
-            <ChronnosInput
-              type="text"
-              id="pagamento"
-              value={curso.PAGAMENTO}
-              className="input-default"
-              onChange={(e) => handleInputChange(e, 'PAGAMENTO')}
-            />
+            <select value={curso.PAGAMENTO} onChange={e => handleInputChange(e, 'PAGAMENTO')}>
+              <option value="">Selecione a forma de pagamento</option>
+              <option value="3">Pix</option>
+              <option value="4">Cartão de Credito</option>
+              <option value="6">Cartão de Débito</option>
+              <option value="5">Boleto</option>
+              <option value="7">Dinheiro</option>
+            </select>
           </div>
           <div className="holder-dados">
             <p>Valor</p>
@@ -203,9 +220,13 @@ const EditarCurso = () => {
     );
   }
 
-
   function handleInputChange(event, field) {
     const value = event.target.value;
+
+    if(field === "PAGAMENTO") {
+      setPagamento(value)
+    }
+
     setCurso(prevState => ({
       ...prevState,
       [field]: value
@@ -248,6 +269,11 @@ const EditarCurso = () => {
     }
   }
 
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    window.location.href = '/Home';
+  };
+
   function salvarAlteracoes() {
     // Criação do formulário para passar como body da requisição do fetch 
     const formData = new FormData();
@@ -257,7 +283,7 @@ const EditarCurso = () => {
     formData.append('anotacoes', document.getElementById('anotacoes').value);
     formData.append('valor', document.getElementById('valor').value);
     formData.append('area', document.getElementById('area').value);
-    formData.append('pagamento', document.getElementById('pagamento').value);
+    formData.append('pagamento', pagamento);
     formData.append('materia', document.getElementById('materia').value);
     formData.append('dataIni', document.getElementById('data_ini').value);
     formData.append('dataFini', document.getElementById('data_fini').value);
@@ -308,11 +334,6 @@ const EditarCurso = () => {
         setShowPopup(true);
       })
   }
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    window.location.href = '/Home';
-  };
-
 
   return (
     <>

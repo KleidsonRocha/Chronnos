@@ -19,7 +19,6 @@ const EditarMateria = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [userData, setUserData] = useState(null);
 
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const desejoid = urlParams.get('ID_MATERIA');
@@ -34,8 +33,8 @@ const EditarMateria = () => {
         return response.json();
       })
       .then(materiaData => {
-        setMateria(materiaData)
-        setSelectedArea(materiaData.MATERIA_AREA)
+        setMateria(materiaData);
+        setSelectedArea(materiaData.MATERIA_AREA);
       });
 
     const getUsuarioIdFromCookie = () => {
@@ -77,13 +76,13 @@ const EditarMateria = () => {
     }
   }, [RotaBanco]);
 
-  
-  function showDeleteConfirmation() {
-    setShowConfirmation(true);
-  }
-
-  function handleInputChange(event, field) {
+  function handleChange(event, field) {
     const value = event.target.value;
+  
+    if (field === 'MATERIA_AREA') {
+      setSelectedArea(value);
+    }
+  
     setMateria(prevState => ({
       ...prevState,
       [field]: value
@@ -92,9 +91,31 @@ const EditarMateria = () => {
 
   const handleClosePopup = () => {
     setShowPopup(false);
-    setShowPopupEdicao(false)
+    setShowPopupEdicao(false);
     window.location.href = '/Home';
   };
+
+  function showDeleteConfirmation() {
+    setShowConfirmation(true);
+  }
+
+  function confirmarDelete(confirmacao) {
+    if (confirmacao) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const materiaId = urlParams.get('ID_MATERIA');
+
+      const url = RotaBanco + `/curso/excluirMateria?materiaId=${materiaId}`;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro ao excluir área');
+          }
+          setShowPopup(true);
+        });
+    }
+    setShowConfirmation(false);
+  }
 
   function preencherFormulario(materia) {
     return (
@@ -106,19 +127,17 @@ const EditarMateria = () => {
               id="nome"
               value={materia.NOME_MATERIA}
               className="input-default"
-              onChange={(e) => handleInputChange(e, 'NOME_MATERIA')}
+              onChange={(e) => handleChange(e, 'NOME_MATERIA')}
             />
           </div>
-          <select id="area" value={selectedArea} onChange={(e) => handleInputChange(e, 'ID_AREA')}>
-          <option value="">Selecione a nova área</option>
-          {areasDoUsuario.map(area => (
-            <option key={area.ID_AREA} value={area.ID_AREA}>
-              
-              {area.NOME_AREA}
-            </option>
-          ))}
-        </select>
-
+          <select id="area" value={selectedArea} onChange={(e) => handleChange(e, 'MATERIA_AREA')}>
+            <option value="">Selecione a nova área</option>
+            {areasDoUsuario.map(area => (
+              <option key={area.ID_AREA} value={area.ID_AREA}>
+                {area.NOME_AREA}
+              </option>
+            ))}
+          </select>
         </div>
       </form>
     );
@@ -127,39 +146,23 @@ const EditarMateria = () => {
   const salvarAlteracoes = async event => {
     const formData = new FormData();
     formData.append('materia_id', materia.ID_MATERIA);
-    formData.append('area_id', materia.ID_AREA);
+    formData.append('area_id', selectedArea);
     formData.append('nome', materia.NOME_MATERIA);
     formData.append('usuario_id', userData.ID_USUARIO);
 
-    //fazer rota para o banco para editar materia
+    console.log(materia);
+    // fazer rota para o banco para editar materia
     const response = await fetch(RotaBanco + '/curso/editarMateria', {
       method: 'POST',
       body: formData,
-    })
-    if (response.status == 200) {
+    });
+
+    if (response.status === 200) {
       setShowPopupEdicao(true);
     }
-
-  }
-
-  function confirmarDelete(confirmacao) {
-    if (confirmacao) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const materiaId = urlParams.get('ID_MATERIA');
-
-      const url = RotaBanco + `/curso/excluirMateria?materiaId=${materiaId}`;
+  };
 
 
-      fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro ao excluir area');
-          }
-          setShowPopup(true);
-        })
-    }
-    setShowConfirmation(false);
-  }
 
   return (
     <>
@@ -175,7 +178,7 @@ const EditarMateria = () => {
         <ChronnosPopUp title="Área excluida com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
       )}
       {showPopupEdicao && (
-        <ChronnosPopUp title="Área editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
+        <ChronnosPopUp title="Área editada com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
       )}
       {showConfirmation && (
         <>
