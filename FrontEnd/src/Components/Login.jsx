@@ -53,6 +53,7 @@ function Login() {
         </div>
         <div className="anim-troca-cor">
           <p className='txt-instrucao'>Sua carteira digital de cursos e certificados.</p>
+
         </div>
         {error && <p className="txt-error">{error}</p>}
         <ChronnosInput type="email" id="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} className="input-default"></ChronnosInput>
@@ -60,6 +61,7 @@ function Login() {
         <ChronnosButton onClick={handleLogin} className={btnLoginClass}>Efetuar o login</ChronnosButton>
         <div className="anim-troca-cor">
           <p className="txt-footer">Ainda não possui uma conta? Crie <a href="/Cadastro">aqui</a>.</p>
+          <p className='txt-footer'>Quer conhecer mais?<a href="/Sobre">Clique aqui</a>.</p>
         </div>
       </MainMobile>
       <div className="background-animation">
