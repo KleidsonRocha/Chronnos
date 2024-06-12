@@ -162,8 +162,6 @@ const EditarMateria = () => {
     }
   };
 
-
-
   return (
     <>
       <MainMobile className="form-mob-cent">
