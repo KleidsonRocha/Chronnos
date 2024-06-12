@@ -191,12 +191,10 @@ const Compartilhar = () => {
         <div className="holder-timeline-graf">
           <div className="frame-timeline">
             {cursosOrdenados.map(curso => (
-              <a href={`/VisualizarCursoCompartilhado?ID_CURSO=${curso.ID_CURSO}`} key={curso.ID_CURSO}>
                 <button className="tab-timline" style={{ borderLeft: `2px solid ${curso.AREA_COR}` }}>
                   <h1>{curso.NOME}</h1>
                   <p>{formatarData(curso.DATA_FINI)}</p>
                 </button>
-              </a>
             ))}
           </div>
           <div className="frame-grafico">
