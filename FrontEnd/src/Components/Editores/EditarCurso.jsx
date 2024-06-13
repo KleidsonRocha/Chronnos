@@ -290,8 +290,6 @@ const EditarCurso = () => {
     formData.append('duracao', document.getElementById('duracao').value || "");
     formData.append('media', document.getElementById('media').value || "");
   
-    console.log([...formData.entries()]);
-
     const imagemInput = document.getElementById('imagem');
     const imagemFile = imagemInput.files[0];
     if (imagemFile) {
