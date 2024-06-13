@@ -3,12 +3,13 @@ import { useGlobalContext } from '../../App';
 import MainMobile from '../layouts/MainMobile/MainMobile';
 import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 import ChronnosButton from '../inputs-buttons/ChronnosButton/ChronnosButton';
+import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 import Dock from '../dock/Dock';
-import { useHref } from 'react-router-dom';
 
 const EditarAnotacoes = () => {
     const { RotaBanco } = useGlobalContext();
     const [curso, setCurso] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -39,7 +40,7 @@ const EditarAnotacoes = () => {
         }));
     }
 
-    function salvarAlteracoes() {
+    const salvarAlteracoes = async event => {
         const dados = {
             cursoId: curso.ID_CURSO,
             anotacoes: curso.ANOTACOES,
@@ -52,13 +53,21 @@ const EditarAnotacoes = () => {
             },
             body: JSON.stringify(dados),
         })
-            .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                window.location.href = '/Home';
             })
             .catch((error) => {
                 console.error('Error:', error);
+                window.location.href = '/Home';
             });
+            setShowPopup(true)
+
+    }
+
+    function handleClosePopup() {
+        setShowPopup(false);
+        window.location.href='/Home';
     }
 
     return (
@@ -74,9 +83,13 @@ const EditarAnotacoes = () => {
                     </form>
                 )}
             </MainMobile>
+            {showPopup && (
+                <ChronnosPopUp title="Área excluida com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
+            )}
             <Dock />
         </>
     );
 };
+
 
 export default EditarAnotacoes;

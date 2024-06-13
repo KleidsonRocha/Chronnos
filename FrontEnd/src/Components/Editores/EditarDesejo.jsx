@@ -11,6 +11,8 @@ import Dock from '../dock/Dock';
 
 const EditarDesejo = () => {
     const { RotaBanco } = useGlobalContext();
+    const [areasDoUsuario, setAreasDoUsuario] = useState([]);
+    const [materiasDoUsuario, setMateriasDoUsuario] = useState([]);
     const [desejoCompleto, setDesejoCompleto] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [showPopupEdicao, setShowPopupEdicao] = useState(false);
@@ -74,6 +76,33 @@ const EditarDesejo = () => {
                     });
             });
         setUserData(getUsuarioIdFromCookie());
+
+        const usuarioData = getUsuarioIdFromCookie();
+        const urlArea = RotaBanco + `/usuarios/listarAreasUsuario?usuario_id=${usuarioData.ID_USUARIO}`;
+        const urlMateria = `${RotaBanco}/usuarios/listarMateriaUsuario?usuario_id=${usuarioData.ID_USUARIO}`;
+
+        fetch(urlArea)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar áreas do usuário');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                setAreasDoUsuario(data);
+            });
+
+        fetch(urlMateria)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar máteria do usuário');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setMateriasDoUsuario(data);
+            });
     }, [RotaBanco]);
 
 
@@ -81,7 +110,7 @@ const EditarDesejo = () => {
         return (
             <form id="curso-formulario">
                 <div className="layout-vertical">
-                <div className="holder-dados">
+                    <div className="holder-dados">
                         <p>NOME</p>
                         <ChronnosInput
                             type="text"
@@ -90,26 +119,28 @@ const EditarDesejo = () => {
                             className="input-default"
                             onChange={(e) => handleInputChange(e, 'NOME')}
                         />
+                    </div>  
+                    <div className="holder-dados">
+                        <p>Área</p>
+                        <select type="text" id="desejo_id_area" value={desejo.DESEJO_ID_AREA} className="input-default" onChange={(e) => handleInputChange(e, 'DESEJO_ID_AREA')}>
+                            <option value="">Selecione a nova área</option>
+                            {areasDoUsuario.map(area => (
+                                <option key={area.ID_AREA} value={area.ID_AREA}>
+                                    {area.NOME_AREA}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="holder-dados">
-                        <p>DESEJO_ID_AREA</p>
-                        <ChronnosInput
-                            type="text"
-                            id="desejo_id_area"
-                            value={desejo.DESEJO_ID_AREA}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'DESEJO_ID_AREA')}
-                        />
-                    </div>
-                    <div className="holder-dados">
-                        <p>DESEJO_ID_MATERIA</p>
-                        <ChronnosInput
-                            type="text"
-                            id="desejo_id_materia"
-                            value={desejo.DESEJO_ID_MATERIA}
-                            className="input-default"
-                            onChange={(e) => handleInputChange(e, 'DESEJO_ID_MATERIA')}
-                        />
+                        <p>Materia</p>
+                        <select type="text" id="desejo_id_materia" value={desejo.DESEJO_ID_MATERIA} className="input-default" onChange={(e) => handleInputChange(e, 'DESEJO_ID_MATERIA')}>
+                            <option value="">Selecione a nova área</option>
+                            {materiasDoUsuario.map(materia => (
+                                <option key={materia.DESEJO_ID_MATERIA} value={materia.ID_MATERIA}>
+                                    {materia.NOME_MATERIA}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="holder-dados">
@@ -199,7 +230,7 @@ const EditarDesejo = () => {
                     {desejoCompleto && preencherFormulario(desejoCompleto)}
                 </div>
                 <ChronnosButton id="editar-curso-btn" onClick={salvarAlteracoes} className="button-default">Salvar as edições</ChronnosButton>
-                <ChronnosTitleInput title="Apagar o desejo" icon="rem-curso" format="delete" type="button" cmd={{ onClick: excluirDesejo }}/>
+                <ChronnosTitleInput title="Apagar o desejo" icon="rem-curso" format="delete" type="button" cmd={{ onClick: excluirDesejo }} />
             </MainMobile>
             {showPopup && (
                 <ChronnosPopUp title="Desejo excluido com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
@@ -207,7 +238,7 @@ const EditarDesejo = () => {
             {showPopupEdicao && (
                 <ChronnosPopUp title="Desejo editado com sucesso!" btntxt="Retornar a Home" btntype="submit" cmd={{ onClick: handleClosePopup }} close={handleClosePopup}></ChronnosPopUp>
             )}
-            <Dock/>
+            <Dock />
         </>
     );
 };

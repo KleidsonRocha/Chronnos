@@ -165,7 +165,7 @@ const EditarMateria = () => {
   return (
     <>
       <MainMobile className="form-mob-cent">
-        <h1>Editar um Matéria</h1>
+        <h1>Editar uma Matéria</h1>
         <div>
           {materia && preencherFormulario(materia)}
         </div>

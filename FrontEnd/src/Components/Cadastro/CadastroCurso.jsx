@@ -6,6 +6,7 @@ import ChronnosInput from '../inputs-buttons/ChronnosInput/ChronnosInput';
 import "./CadastroCurso/styles.css";
 import ChronnosPopUp from '../ChronnosPopUp/ChronnosPopUp';
 import Dock from '../dock/Dock';
+import InputMask from 'react-input-mask'; // Importação da biblioteca
 
 const CadastroCurso = () => {
   const { RotaBanco } = useGlobalContext();
@@ -107,6 +108,8 @@ const CadastroCurso = () => {
 
   const handleSubmit = async event => {
     event.preventDefault()
+    let partes = duracao.split(':');
+    let resultado = partes.join('');
 
     const formData = new FormData();
     formData.append('id_aluno', idUsuario);
@@ -119,7 +122,7 @@ const CadastroCurso = () => {
     formData.append('curso_id_pagamento', cursoIdPagamento);
     formData.append('data_ini', dataIni);
     formData.append('data_fini', dataFini);
-    formData.append('duracao', duracao);
+    formData.append('duracao', resultado);
     formData.append('media', media);
     if (foto) {
       formData.append('certificado', foto);
@@ -195,8 +198,9 @@ const CadastroCurso = () => {
             <option value="6">Cartão de Débito</option>
             <option value="5">Boleto</option>
             <option value="7">Dinheiro</option>
+            <option value="8">Grátis</option>
           </select>
-          <ChronnosInput className="input-default" type="text" placeholder="Valor" value={valor} onChange={e => setValor(e.target.value)} ></ChronnosInput>
+          <ChronnosInput className="input-default" type="number" placeholder="Valor" value={valor} onChange={e => setValor(e.target.value)} ></ChronnosInput>
           <ChronnosInput className="input-default" type="text" placeholder="Modalidade" value={modalidade} onChange={e => setModalidade(e.target.value)} ></ChronnosInput>
           <ChronnosInput className="input-default" type="number" placeholder="Média" value={media} onChange={e => setMedia(e.target.value)} ></ChronnosInput>
           <ChronnosInput className="input-default" type="text" placeholder="Anotações" value={anotacoes} onChange={e => setAnotacoes(e.target.value)} ></ChronnosInput>
@@ -210,7 +214,7 @@ const CadastroCurso = () => {
               <input type="date" placeholder="Data de término" value={dataFini} onChange={e => setDataFini(e.target.value)} className="picker-data" />
             </div>
           </div>
-          <ChronnosInput className="input-default" type="text" placeholder="Duração" value={duracao} onChange={e => setDuracao(e.target.value)} ></ChronnosInput>
+          <InputMask type="text" placeholder="Duração" mask="99:99:99" value={duracao} onChange={e => setDuracao(e.target.value)} className="input-default" />
           <input id="imagem" name="imagem" type="file" onChange={handleFileChange} />
           <label for="imagem" className="upload-arquivo-button">
             <div className="icones-upload">
