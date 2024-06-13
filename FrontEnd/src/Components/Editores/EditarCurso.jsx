@@ -15,8 +15,8 @@ const EditarCurso = () => {
   const [areasDoUsuario, setAreasDoUsuario] = useState([]);
   const [materiasDoUsuario, setMateriasDoUsuario] = useState([]);
   const [pagamento, setPagamento] = useState([]);
-  const [showPopup, setShowPopup] = useState(false); // Estado para controlar a exibição do pop-up
-  const [showPopupEdicao, setShowPopupEdicao] = useState(false); // Estado para controlar a exibição do pop-up
+  const [showPopup, setShowPopup] = useState(false); 
+  const [showPopupEdicao, setShowPopupEdicao] = useState(false);
   const [nomeArq, setNomeArq] = useState('');
 
   useEffect(() => {
@@ -33,6 +33,7 @@ const EditarCurso = () => {
       })
       .then(cursoData => {
         setCurso(cursoData);
+        setPagamento(cursoData.PAGAMENTO)
       })
       .catch(error => {
         console.error('Erro:', error);
@@ -275,48 +276,40 @@ const EditarCurso = () => {
   };
 
   function salvarAlteracoes() {
-    // Criação do formulário para passar como body da requisição do fetch 
     const formData = new FormData();
     formData.append('cursoId', curso.ID_CURSO);
-    formData.append('nome', document.getElementById('nome').value);
-    formData.append('modalidade', document.getElementById('modalidade').value);
-    formData.append('anotacoes', document.getElementById('anotacoes').value);
-    formData.append('valor', document.getElementById('valor').value);
-    formData.append('area', document.getElementById('area').value);
-    formData.append('pagamento', pagamento);
-    formData.append('materia', document.getElementById('materia').value);
-    formData.append('dataIni', document.getElementById('data_ini').value);
-    formData.append('dataFini', document.getElementById('data_fini').value);
-    formData.append('duracao', document.getElementById('duracao').value);
-    formData.append('media', document.getElementById('media').value);
-
-    const orgimg = document.getElementById('orgimg').src;
-    const parts = orgimg.split('/');
-    const img = parts[parts.length - 1];
-    formData.append('imagem', img)
-
+    formData.append('nome', document.getElementById('nome').value || "");
+    formData.append('modalidade', document.getElementById('modalidade').value || "");
+    formData.append('anotacoes', document.getElementById('anotacoes').value || "");
+    formData.append('valor', document.getElementById('valor').value || "");
+    formData.append('area', document.getElementById('area').value || "");
+    formData.append('pagamento', pagamento || "");
+    formData.append('materia', document.getElementById('materia').value || "");
+    formData.append('dataIni', document.getElementById('data_ini').value || "");
+    formData.append('dataFini', document.getElementById('data_fini').value || "");
+    formData.append('duracao', document.getElementById('duracao').value || "");
+    formData.append('media', document.getElementById('media').value || "");
+  
     const imagemInput = document.getElementById('imagem');
     const imagemFile = imagemInput.files[0];
-    if (imagemFile == null && img == null) {
-      formData.append('imagem', null);
-    } else {
+    if (imagemFile) {
       formData.append('imagem', imagemFile);
+    } else {
+      formData.append('imagem', "NULL");
     }
-
-
-
+  
     fetch(RotaBanco + '/curso/editarCurso', {
       method: 'POST',
       body: formData,
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        setShowPopupEdicao(true);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      setShowPopupEdicao(true);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   }
 
   function excluirCurso() {
