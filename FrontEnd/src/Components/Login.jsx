@@ -60,8 +60,8 @@ function Login() {
         <ChronnosInput type="password" id="senha" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} className="input-default"></ChronnosInput>
         <ChronnosButton onClick={handleLogin} className={btnLoginClass}>Efetuar o login</ChronnosButton>
         <div className="anim-troca-cor">
-          <p className="txt-footer">Ainda não possui uma conta?<a href="/Cadastro">Crie aqui</a>.</p>
-          <p className='txt-footer'>Quer conhecer mais?<a href="/Sobre">Clique aqui</a>.</p>
+          <p className="txt-footer">Ainda não possui uma conta? <a href="/Cadastro" className='anim-troca-cor'>Crie aqui</a>.</p>
+          <p className='txt-footer'>Quer conhecer mais? <a href="/Sobre" className='anim-troca-cor'>Clique aqui</a>.</p>
         </div>
       </MainMobile>
       <div className="background-animation">

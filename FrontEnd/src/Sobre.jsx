@@ -5,6 +5,7 @@ import homeButton from "./Components/inputs-buttons/home-button/chronnos-home-bu
 import organizar from "./Components/Sobre/images/organizar/organizar.png";
 import funcionadevframe from "./Components/Sobre/images/funciona/funciona.png";
 import recursosdevframe from "./Components/Sobre/images/recursos/timeline-comp.png"
+import recursostimelinedevframe from "./Components/Sobre/images/recursos/timeline.png"
 
 
 const Sobre = () => {
@@ -70,7 +71,7 @@ const Sobre = () => {
             <div className="frame" id="recursos">
                 <div className="recursos">
                     <img src={recursosdevframe} />
-                    <img src={recursosdevframe} />
+                    <img src={recursostimelinedevframe} />
                 </div>
                 <div className="texto">
                     <h1>
