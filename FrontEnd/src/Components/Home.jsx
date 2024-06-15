@@ -6,6 +6,8 @@ import Dock from './dock/Dock';
 import { useGlobalContext } from '../App';
 import ChronnosTitleInput from './inputs-buttons/ChronnosTitleInput/ChronnosTitleInput';
 import ChronnosButton from './inputs-buttons/ChronnosButton/ChronnosButton';
+import ChronnosInput from './inputs-buttons/ChronnosInput/ChronnosInput';
+
 
 const CursosUsuario = () => {
   const { RotaBanco } = useGlobalContext();
@@ -15,6 +17,8 @@ const CursosUsuario = () => {
   const [materias, setMateriasDoUsuario] = useState([]);
   const [showMoreCursos, setShowMoreCursos] = useState(false);
   const [showMoreDesejos, setShowMoreDesejos] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
@@ -203,19 +207,33 @@ const CursosUsuario = () => {
     setShowMoreDesejos(true);
   };
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredCursos = cursos.filter(curso =>
+    curso.NOME.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    curso.AREA_NOME.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    curso.MATERIA_NOME.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
       <MainMobile className={"main-mob"}>
         <ChronnosTitleInput title="Lista de cursos" format="bold" icon="add" type="a" cmd={{ href: "/CadastroCurso" }}></ChronnosTitleInput>
-        <div className="layout-map">
-          {cursos.slice(0, showMoreCursos ? cursos.length : 24).map(curso => (
-            <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
-              <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
-                <h1>{curso.NOME}</h1>
-                <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
-              </button>
-            </a>
-          ))}
+        <ChronnosInput type="text" placeholder="Buscar curso" className="input-default" value={searchTerm} onChange={handleSearch}/><br />
+        <div>
+          <div className="layout-map">
+            {filteredCursos.slice(0, showMoreCursos ? filteredCursos.length : 24).map(curso => (
+              <a key={curso.ID_CURSO} href={`/VisuaizarCursoEspecifico?ID_CURSO=${curso.ID_CURSO}`}>
+                <button className="tab-curso" style={{ backgroundColor: curso.AREA_COR }}>
+                  <h1>{curso.NOME}</h1>
+                  <p>{curso.AREA_NOME} • {curso.MATERIA_NOME}</p>
+                </button>
+              </a>
+            ))}
+          </div>
+
         </div>
         {cursos.length > 6 && !showMoreCursos && <ChronnosButton className="button-tiny" onClick={handleShowMoreCursos}>Mostrar mais</ChronnosButton>}
 
