@@ -24,7 +24,7 @@ import Sobre from "./Sobre";
 const GlobalContext = createContext();
 
 const App = () => {
-  const [RotaBanco, setGlobalVariable] = useState("http://192.168.192.242:3000");
+  const [RotaBanco, setGlobalVariable] = useState("http://10.42.0.60:3000");
   const navigate = useNavigate();
 
   useEffect(() => {
