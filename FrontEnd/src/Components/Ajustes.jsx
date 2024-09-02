@@ -85,6 +85,16 @@ const Ajustes = () => {
     setshowPopupExcluir(true);
   }
 
+  const ExportarDados = async event => {
+    console.log("Vai exportar");
+
+    //Definir rota no backend onde ele consulta a view e passa o usuario para com a resposta exportar os dados e pedir se usuario querer baixar
+    const response = await fetch(RotaBanco + '/usuarios/editarUsuario', {
+      method: 'POST',
+      body: formData,
+    })
+  }
+
   const EditarConta = async event => {
     let nome = document.getElementById('Nome').value;
     let email = document.getElementById('Email').value;
@@ -158,6 +168,7 @@ const Ajustes = () => {
         <ChronnosInput id="SenhaNova" className="input-default" placeholder="Digite aqui a sua senha nova" />
         <ChronnosInput id="SenhaNovaIgual" className="input-default" placeholder="Confirme aqui a sua senha nova" />
         <ChronnosButton className="button-default" onClick={EditarConta}>Confirmar as mudanças</ChronnosButton>
+        <ChronnosButton className="button-default" onClick={ExportarDados}>Exportar Dados da Conta</ChronnosButton>
         <ChronnosTitleInput title="Sair da sessão atual" icon="logout" format="delete" type="button" cmd={{ onClick:  DeslogarConta}} />
         <ChronnosTitleInput title="Apagar a conta" icon="rem-conta" format="delete" type="button" cmd={{ onClick: ExcluirConta }} />
       </MainMobile>

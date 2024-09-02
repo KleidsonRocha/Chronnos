@@ -21,11 +21,11 @@ import Ajustes from "./Components/Ajustes"
 import Compartilhar from "./Components/Compartilhar";
 import Sobre from "./Sobre";
 
-const GlobalContext = createContext();
+const GlobalContext = createContext(); 
 
 const App = () => {
-  const [RotaBanco, setGlobalVariable] = useState("http://10.42.0.60:3000");
-  const navigate = useNavigate();
+  const [RotaBanco, setGlobalVariable] = useState("http://192.168.193.118:3000");
+  const navigate = useNavigate();  
 
   useEffect(() => {
     const getUsuarioIdFromCookie = () => {
