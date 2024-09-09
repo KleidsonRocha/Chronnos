@@ -190,23 +190,52 @@ router.post('/editarUsuario', upload.none(), (req, res) => {
 });
 
 router.post('/excluirUsuario', upload.none(), (req, res) => {
-  const { id_aluno} = req.body;
+  const { id_aluno } = req.body;
 
-
-  // Cria a query para adicionar o desejo
-  const query = `SELECT excluirUsuario(${id_aluno}) AS novo_id`;
-
-  console.log(query); // Log da query para debug
+  // Chama a procedure com os parâmetros de entrada e saída
+  const query = `
+    CALL excluirUsuario(
+      ?, 
+      @rows_deleted_curso_has_usuario, 
+      @rows_deleted_usuario, 
+      @rows_deleted_usuario_has_desejo, 
+      @rows_deleted_desejo, 
+      @rows_deleted_curso, 
+      @rows_deleted_area, 
+      @rows_deleted_materia
+    );
+  `;
 
   // Executa a query no banco de dados
-  connection.query(query, (err, results) => {
+  connection.query(query, [id_aluno], (err) => {
     if (err) {
       console.error('Erro ao excluir usuario:', err);
       res.status(500).send('Erro interno do servidor');
       return;
     }
 
-    res.status(200).send('')
+    // Após a execução da procedure, recupera os resultados dos parâmetros de saída
+    const resultQuery = `
+      SELECT 
+        @rows_deleted_curso_has_usuario AS rows_deleted_curso_has_usuario,
+        @rows_deleted_usuario AS rows_deleted_usuario,
+        @rows_deleted_usuario_has_desejo AS rows_deleted_usuario_has_desejo,
+        @rows_deleted_desejo AS rows_deleted_desejo,
+        @rows_deleted_curso AS rows_deleted_curso,
+        @rows_deleted_area AS rows_deleted_area,
+        @rows_deleted_materia AS rows_deleted_materia;
+    `;
+
+    connection.query(resultQuery, (err, results) => {
+      if (err) {
+        console.error('Erro ao recuperar resultados da exclusão:', err);
+        res.status(500).send('Erro ao obter resultados');
+        return;
+      }
+
+      // Retorna os resultados da exclusão para o frontend
+      res.status(200).json(results[0]);
+    });
   });
 });
 
@@ -241,6 +270,29 @@ router.get('/verificaUsuario', (req, res) => {
     res.json(usuarioJSON);
   });
 });
+
+router.get('/exportarUsuario', (req, res) => {
+  const { idUsuario } = req.query;
+
+  // Verifica se os parâmetros necessários foram fornecidos
+  if (!idUsuario) {
+    res.status(400).json({ error: 'O Id de usuario é obrigatorio' });
+    return;
+  }
+
+  const query = `SELECT * FROM cursos_completos WHERE CURSO_ID_CURSO IN ( SELECT CURSO_ID_CURSO FROM curso_has_usuario WHERE USUARIO_ID_USUARIO = ${idUsuario});`;
+
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error(err); // Log do erro para depuração
+      return res.status(500).json({ error: 'Erro ao consultar o banco de dados' });
+    }
+    res.json(results); // Envia os resultados como resposta
+  });
+});
+
+
 
 // Exporte o roteador
 module.exports = router;

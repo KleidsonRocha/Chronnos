@@ -39,7 +39,6 @@ const Ajustes = () => {
 
   }, []);
 
-
   function handleClosePopup() {
     setShowPopup(false);
   }
@@ -63,6 +62,7 @@ const Ajustes = () => {
     formData.append('id_aluno', userData.ID_USUARIO);
     setshowPopupExcluir(false);
 
+    // Faz a requisição para a nova rota que agora chama a procedure
     const response = await fetch(RotaBanco + '/usuarios/excluirUsuario', {
       method: 'POST',
       body: formData,
@@ -78,6 +78,9 @@ const Ajustes = () => {
 
       // Redirecionar para a página de login
       window.location.href = "/Login";
+    } else {
+      // Tratar erros (se houver)
+      console.error('Erro ao excluir o usuário:', response.statusText);
     }
   };
 
@@ -86,14 +89,43 @@ const Ajustes = () => {
   }
 
   const ExportarDados = async event => {
-    console.log("Vai exportar");
-
-    //Definir rota no backend onde ele consulta a view e passa o usuario para com a resposta exportar os dados e pedir se usuario querer baixar
-    const response = await fetch(RotaBanco + '/usuarios/editarUsuario', {
-      method: 'POST',
-      body: formData,
-    })
-  }
+    const formData = new FormData();
+    formData.append('id_usuario', userData.ID_USUARIO);
+  
+    // Faz a requisição para exportar os dados do usuário
+    const response = await fetch(RotaBanco + `/usuarios/exportarUsuario?idUsuario=${userData.ID_USUARIO}`);
+  
+    // Tratar a resposta
+    if (response.ok) {
+      // Recebe os dados da resposta
+      const dados = await response.json();
+      console.log("Dados exportados com sucesso", dados);
+  
+      // Cria um Blob com os dados em formato JSON
+      const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  
+      // Cria uma URL para o Blob
+      const url = URL.createObjectURL(blob);
+  
+      // Cria um link temporário para download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dados_usuario_${userData.NOME}.json`; // Nome do arquivo
+      document.body.appendChild(a);
+      a.click();
+  
+      // Remove o link temporário
+      a.remove();
+  
+      // Libera o objeto URL após o download
+      URL.revokeObjectURL(url);
+  
+    } else {
+      console.error("Erro ao exportar os dados");
+    }
+  };
+  
+  
 
   const EditarConta = async event => {
     let nome = document.getElementById('Nome').value;
